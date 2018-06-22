@@ -1,0 +1,115 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans,
+    Ubuntu, Cantarell, Helvetica Neue, sans-serif;
+}
+
+.custom-modal {
+  max-width: 1000px !important;
+  width: 1000px;
+}
+
+
+.container {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.oldrow {
+  display: flex;
+  justify-content: center;
+}
+
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.nav-link.active {
+  font-weight: bolder;
+}
+
+.tabpanel {
+  margin: 10px
+}
+
+.tabbutton {
+    color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    border-radius: 8px;
+    margin-right: 50px;
+}
+.membercards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.membercard {
+  color: #0a1429;
+  min-height: 165px;
+  margin: 12px;
+  background-color: #f1f1f1;
+  border-radius: 4px;
+  box-shadow: 3px 3px 17px #989ead;
+}
+
+
+.membercard .memberaddress{
+  color: #254892;
+}
+
+.membercard:hover {
+  background-color: #3497fa;
+  cursor: pointer;
+}
+
+.membercard button {
+  margin-top: 10px;
+  position: absolute;
+  bottom: 35px;
+  margin-bottom: 7px;
+  left: 35px;
+}
+
+
+
+.membercard .description {
+  margin-bottom: 20px;
+}
+
+.membercard .value {
+  font-weight: bold;
+}
+
+
+.member-list {
+  margin-top: 10px;
+}
+
+
+.k-grid tr.k-state-selected:not(.k-alt):hover {
+  color: inherit;
+  background-color: rgba(0,123,255,.25);;
+}
+
+.k-grid tr.k-alt.k-state-selected:hover {
+  color: inherit;
+  background-color: rgba(0,123,255,.25);;
+}
+
+.k-grid tr:not(.k-alt):not(.k-state-selected):hover {
+  color: inherit;
+  background-color: transparent;
+}
+
+.k-grid tr.k-alt:not(.k-state-selected):hover {
+  color: #212529;
+  background-color: rgba(33,37,41,.03);
+}
