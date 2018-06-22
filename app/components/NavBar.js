@@ -37,11 +37,6 @@ export default class NavBar extends React.Component {
                   Home
                 </NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink tag={RRNavLink} to="/grid">
-                  Kendo Grid
-                </NavLink>
-              </NavItem>
             </Nav>
           </Collapse>
         </Navbar>

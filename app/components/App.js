@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 import NavBar from './NavBar';
 import Home from './Home';
-import DemoGrid from './DemoGrid';
 
 
 
@@ -27,7 +26,6 @@ class App extends React.Component {
                     <NavBar />
                     <Switch>
                         <Route exact path='/' component={Home} />
-                        <Route exact path='/grid' component={DemoGrid} />
                         <Route render={function() {
                            return <p>Not Found</p>
                         }} />
