@@ -7,6 +7,36 @@
     <title>React Starter App</title>
 </head>
 <body>
-    <div id="app"></div>
+    
+   
+        <div id="app"></div>
+    
+        <div class="todolist">
+            <div class="d-flex justify-content-center">
+                <input type="email" class="form-control-lg col-md-6" id="inputEmail4" placeholder="Enter a task">
+                <button type="button" class="btn btn-primary m-2">Add</button>               
+            </div>
+            <div class="todoitems">
+                    <div class="row justify-content-md-center todoitem">
+                            <div class="col col-lg-4"></div>
+                            <div class="col col-lg-4 d-flex todoitembox">
+                                <div class="mr-auto todoitemtext">Variable width content</div>
+                                <i class="fa fa-check-circle-o todoitemdeleteicon"></i>
+                            </div>
+                            <div class="col col-lg-4"></div>
+                    </div>
+                    <div class="row justify-content-md-center todoitem">
+                            <div class="col col-lg-4"></div>
+                            <div class="col col-lg-4 d-flex todoitembox">
+                                <div class="mr-auto todoitemtext">Feed the dog</div>
+                                <i class="fa fa-trash-o todoitemdeleteicon"></i>
+                            </div>
+                            <div class="col col-lg-4"></div>
+                    </div>                   
+                </div>
+            </div>
+        </div>
+
+    </div>
 </body>
 </html>

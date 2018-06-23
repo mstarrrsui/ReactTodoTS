@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 
 export default class NavBar extends React.Component {
+  
   constructor(props) {
     super(props);
 
@@ -19,11 +20,13 @@ export default class NavBar extends React.Component {
       isOpen: false
     };
   }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
+  
   render() {
     return (
       <div>
