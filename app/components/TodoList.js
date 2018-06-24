@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import log from 'loglevel';
 import TodoForm from './TodoForm';
+import TodoItems from './TodoItems';
 
 
 
@@ -31,11 +32,12 @@ export default class TodoList extends React.Component {
 
     render() {
 
-      //const {members, isAddDialogOpen, scrollId} = this.state;
+      const {todoItems} = this.state;
 
       return (
           <div className="container todolist"> 
-            <TodoForm onSubmit={this.handleSubmit}></TodoForm>          
+            <TodoForm onSubmit={this.handleSubmit} />
+            <TodoItems items={todoItems} />         
           </div>
         );
     }
