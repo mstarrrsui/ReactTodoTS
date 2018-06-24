@@ -49,20 +49,13 @@ export default class TodoList extends React.Component {
         }));
     } 
 
-    cloneAndClearItem = (i, isComplete) => {
-        let newitem = { ...i, completed: isComplete };
-        return newitem;    
-    }
 
     handleClearItem = (item, e) => {
         log.debug(`task cleared is ${item.description}`);
-        const newitems = this.state.todoItems.map( i => {
-            if (i.id !== item.id) {
-                return i;
-            } else {
-                return { ...i, completed: !i.completed };
-            }
-        })
+        const newitems = this.state.todoItems.map( i => 
+            ( i.id === item.id 
+                ? { ...i, completed: !i.completed } 
+                : i ));
         this.setState( () => ({
             todoItems: newitems
         }));
