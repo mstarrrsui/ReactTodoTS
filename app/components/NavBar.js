@@ -26,7 +26,7 @@ export default class NavBar extends React.Component {
       isOpen: !this.state.isOpen
     });
   }
-  
+
   render() {
     return (
       <div>
@@ -38,6 +38,11 @@ export default class NavBar extends React.Component {
               <NavItem>
                 <NavLink tag={RRNavLink} exact={true} to="/">
                   Home
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} exact={true} to="/todo">
+                  ToDo
                 </NavLink>
               </NavItem>
             </Nav>

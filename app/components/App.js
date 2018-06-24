@@ -7,6 +7,7 @@ import {
     Switch
 } from 'react-router-dom';
 import NavBar from './NavBar';
+import TodoList from './TodoList';
 import Home from './Home';
 
 
@@ -26,6 +27,7 @@ class App extends React.Component {
                     <NavBar />
                     <Switch>
                         <Route exact path='/' component={Home} />
+                        <Route exact path='/todo' component={TodoList} />
                         <Route render={function() {
                            return <p>Not Found</p>
                         }} />
