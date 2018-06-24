@@ -29,17 +29,19 @@ export default class TodoForm extends React.Component {
     render() {
 
         return (
-            <form className="form-inline p-2">
-                <div className="col-md-6 offset-3">                 
+            <form className="form-inline form-row">
+                <div className="col-md-7 offset-md-2">
                     <input 
                         type="text" 
                         id="todoTask" 
-                        className="form-control-lg" 
+                        className="form-control-lg w-100" 
                         placeholder="Enter a task"
                         onChange={this.handleChange} />
+                </div>
+                <div className="col-md-1">
                     <button 
                         type="button" 
-                        className="btn btn-primary m-3">Add
+                        className="btn btn-primary m-2">Add
                     </button> 
                 </div>
             </form>
