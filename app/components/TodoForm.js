@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import log from 'loglevel';
 
 
 export default class TodoForm extends React.Component {
@@ -20,6 +21,7 @@ export default class TodoForm extends React.Component {
     }
 
     handleSubmit = (event) => {
+        log.debug("handleSubmit");
         event.preventDefault();
         this.props.onSubmit(
             this.state.todoTask
@@ -29,7 +31,7 @@ export default class TodoForm extends React.Component {
     render() {
 
         return (
-            <form className="form-inline form-row">
+            <form className="form-inline form-row" onSubmit={this.handleSubmit}>
                 <div className="col-md-7 offset-md-2">
                     <input 
                         type="text" 
@@ -40,7 +42,7 @@ export default class TodoForm extends React.Component {
                 </div>
                 <div className="col-md-1">
                     <button 
-                        type="button" 
+                        type="submit" 
                         className="btn btn-primary m-2">Add
                     </button> 
                 </div>
