@@ -49,6 +49,17 @@ export default class TodoList extends React.Component {
         }));
     } 
 
+    handleClearItem = (item, e) => {
+        log.debug(`task cleared is ${item.description}`);
+        const newitems = this.state.todoItems.map( i => {
+            let newitem = { ...i, completed: (i.id === item.id ? !i.completed : i.completed) };
+            return newitem;
+        })
+        this.setState( () => ({
+            todoItems: newitems
+        }));
+    } 
+
     render() {
 
       const {todoItems} = this.state;
@@ -56,7 +67,7 @@ export default class TodoList extends React.Component {
       return (
           <div className="container todolist"> 
             <TodoForm onSubmit={this.handleSubmit} />
-            <TodoItems items={todoItems} />         
+            <TodoItems items={todoItems} onClearItem={this.handleClearItem}/>         
           </div>
         );
     }
