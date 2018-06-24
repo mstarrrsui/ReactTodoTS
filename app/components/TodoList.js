@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import log from 'loglevel';
+import shortid from 'shortid'
 import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
 
@@ -10,7 +11,16 @@ export default class TodoList extends React.Component {
     constructor(props, context) {
       super(props, context);
       this.state = {
-          todoItems: []
+          todoItems: [ 
+              { id: shortid.generate(), 
+                description: 'Take out trash',
+                completed: false
+             },
+             { id: shortid.generate(), 
+                description: 'Mow the lawn',
+                completed: false
+             } 
+            ]
       }
       
     }
@@ -26,8 +36,17 @@ export default class TodoList extends React.Component {
         //            .catch( error => { throw(error); })
     }
 
-    handleSubmit = (task) => {
-        log.debug(`task is ${task}`);
+    handleSubmit = (newtaskdescription) => {
+        log.debug(`task is ${newtaskdescription}`);
+        const newtask = {
+            id: shortid.generate(), 
+            description: newtaskdescription,
+            completed: false
+        }; 
+        
+        this.setState( prevState => ({
+            todoItems: [...prevState.todoItems, newtask]
+        }));
     } 
 
     render() {
