@@ -9,6 +9,7 @@ export default class TodoList extends React.Component {
     constructor(props, context) {
       super(props, context);
       this.state = {
+          todoItems: []
       }
       
     }
@@ -24,13 +25,17 @@ export default class TodoList extends React.Component {
         //            .catch( error => { throw(error); })
     }
 
+    handleSubmit = (task) => {
+        log.debug(`task is ${task}`);
+    } 
+
     render() {
 
       //const {members, isAddDialogOpen, scrollId} = this.state;
 
       return (
-          <div className="todolist"> 
-            <TodoForm></TodoForm>          
+          <div className="container todolist"> 
+            <TodoForm onSubmit={this.handleSubmit}></TodoForm>          
           </div>
         );
     }
