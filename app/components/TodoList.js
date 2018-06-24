@@ -18,7 +18,7 @@ export default class TodoList extends React.Component {
              },
              { id: shortid.generate(), 
                 description: 'Mow the lawn',
-                completed: false
+                completed: true
              } 
             ]
       }
