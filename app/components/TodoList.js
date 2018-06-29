@@ -4,6 +4,7 @@ import log from 'loglevel';
 import shortid from 'shortid'
 import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
+import cryptoutils from '../util/crypto';
 
 
 
@@ -27,6 +28,7 @@ export default class TodoList extends React.Component {
   
     componentDidMount() {
         log.debug("TodoList Mounted");
+        log.debug("random:" + cryptoutils.generateId(30))
     }
 
 
