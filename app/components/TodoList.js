@@ -12,23 +12,24 @@ export default class TodoList extends React.Component {
     constructor(props, context) {
       super(props, context);
       this.state = {
-          todoItems: [ 
-              { id: shortid.generate(), 
-                description: 'Take out trash',
-                completed: false
-             },
-             { id: shortid.generate(), 
-                description: 'Mow the lawn',
-                completed: true
-             } 
-            ]
+          todoItems: [],
+          isLoading: true
       }
       
     }
   
     componentDidMount() {
         log.debug("TodoList Mounted");
-        log.debug("random:" + cryptoutils.generateId(30))
+        let itemsFromStorage = localStorage.getItem('todoitems');
+        this.setState( prevState => ({
+            todoItems: itemsFromStorage ? JSON.parse(itemsFromStorage) : [],
+            isLoading: false
+        }))
+
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        localStorage.setItem('todoitems', JSON.stringify(this.state.todoItems));
     }
 
 
