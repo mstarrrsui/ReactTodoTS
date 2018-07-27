@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { cx, css } from 'emotion'
 
-
 const TodoItemRowClasses =
     cx('row',
         [css`
@@ -19,7 +18,6 @@ const TodoItemBoxClasses =
             box-shadow: 0px 5px 20px 0px #6a8491;
         `])
 ;
-
 
 const TodoItemTextClassBase =
     cx('mr-auto',
@@ -39,8 +37,8 @@ const TodoItemCompletedTextClass = css`
 const TodoItem = ({ item, onClick }) => {
 
     const itemclasses = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: item.completed });
-    const iconClasses = item.completed ?
-        cx('fa fa-undo', [css`color: #1c08d3`])
+    const iconClasses = item.completed
+        ? cx('fa fa-undo', [css`color: #1c08d3`])
         : cx('fa fa-check-circle-o', [css`color: #13eb37`]);
 
 
