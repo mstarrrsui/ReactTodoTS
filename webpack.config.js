@@ -36,7 +36,26 @@ var config = {
     module: {
         rules: [
           { test: /\.(js)$/, exclude: /node_modules/, use: 'babel-loader' },
-          { test: /\.css$/, use: [ 'style-loader', 'css-loader' ]},
+          //for css not in components dir use the normal css loader (non modules)
+          { test: /\.css$/, include: path.resolve(__dirname, 'app/components'),  use: [ 'style-loader', 'css-loader' ]},
+          //use css loader in module mode for component scoped CSS
+          {
+            test: /\.css$/,
+            include: path.resolve(__dirname, 'app/components'),
+            use: [
+                {
+                   loader: 'style-loader',
+                },
+                {
+                   loader: 'css-loader',
+                   options: {
+                      sourceMap: true,
+                      modules: true,
+                      localIdentName: '[local]___[hash:base64:5]'
+                     }
+                }
+            ]
+          },
           { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff" },
           { test: /\.(ttf|eot|otf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
         ]

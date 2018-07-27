@@ -1,0 +1,29 @@
+.todoitem {
+    line-height: 50px;
+    margin: 15px;
+  }
+
+  .todoitembox {
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 5px 20px 0px #6a8491;
+  }
+
+  .todoitemtextcompleted {
+    opacity: .3;
+    text-decoration-line: line-through;
+    transition: all 300ms;
+  }
+
+  .todoitemtext {
+    font-weight: 400;
+    font-size: 24px;
+  }
+
+  .todoitemcompleteicon {
+    color: #13eb37
+  }
+
+  .todoitemundoicon {
+    color: #1c08d3
+  }
