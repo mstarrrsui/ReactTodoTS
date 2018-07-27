@@ -37,7 +37,7 @@ var config = {
         rules: [
           { test: /\.(js)$/, exclude: /node_modules/, use: 'babel-loader' },
           //for css not in components dir use the normal css loader (non modules)
-          { test: /\.css$/,   use: [ 'style-loader', 'css-loader' ]},
+          { test: /\.css$/,  use: [ 'style-loader', 'css-loader' ]},
           //use css loader in module mode for component scoped CSS
         //   {
         //     test: /\.css$/,
