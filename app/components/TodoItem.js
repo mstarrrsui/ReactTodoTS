@@ -1,21 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import styles from './TodoItem.css'
+import { cx, css } from 'emotion'
+
+const TodoItemRowClass = css`
+    line-height: 50px;
+    margin: 15px;
+`;
+
+const TodoItemBoxClass = css`
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 5px 20px 0px #6a8491;
+`;
+
+const TodoItemTextClass = css`
+    font-weight: 400;
+    font-size: 24px;
+`;
+
+const TodoItemCompletedTextClass = css`
+    opacity: .3;
+    text-decoration-line: line-through;
+    transition: all 300ms;
+`;
 
 const TodoItem = ({ item, onClick }) => {
 
-    const itemclasses = ['mr-auto',styles.todoitemtext];
-    if (item.completed) itemclasses.push(styles.todoitemtextcompleted)
-
-    const clearIconClasses = ['fa fa-check-circle-o', styles.todoitemcompleteicon];
-    const undoIconClasses = ['fa fa-undo', styles.todoitemundoicon];
+    const itemclasses = cx('mr-auto', TodoItemTextClass, { [TodoItemCompletedTextClass]: item.completed });
+    const iconClasses = item.completed ? cx('fa fa-undo', [css`color: #1c08d3`]): cx('fa fa-check-circle-o',[css`color: #13eb37`]);
 
 
     return (
-        <div className={['row', styles.todoitem].join(' ')} key={item.id}>
-            <div className={['col-md-8','offset-md-2', styles.todoitembox].join(' ')}>
-                <div className={itemclasses.join(" ")}>{item.description}</div>
-                <i  className={item.completed ? undoIconClasses.join(" ") : clearIconClasses.join(" ")}
+        <div className={cx('row',TodoItemRowClass)} key={item.id}>
+            <div className={cx('col-md-8','offset-md-2', TodoItemBoxClass)}>
+                <div className={itemclasses}>{item.description}</div>
+                <i  className={iconClasses}
                     onClick={ (e) => onClick(item,e) } ></i>
             </div>
         </div>
