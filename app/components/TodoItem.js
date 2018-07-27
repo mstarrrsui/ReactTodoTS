@@ -21,10 +21,14 @@ const TodoItemBoxClasses =
 ;
 
 
-const TodoItemTextClass = css`
-    font-weight: 400;
-    font-size: 24px;
-`;
+const TodoItemTextClassBase =
+    cx('mr-auto',
+        [css`
+            font-weight: 400;
+            font-size: 24px;
+        `])
+;
+
 
 const TodoItemCompletedTextClass = css`
     opacity: .3;
@@ -34,7 +38,7 @@ const TodoItemCompletedTextClass = css`
 
 const TodoItem = ({ item, onClick }) => {
 
-    const itemclasses = cx('mr-auto', TodoItemTextClass, { [TodoItemCompletedTextClass]: item.completed });
+    const itemclasses = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: item.completed });
     const iconClasses = item.completed ?
         cx('fa fa-undo', [css`color: #1c08d3`])
         : cx('fa fa-check-circle-o', [css`color: #13eb37`]);
