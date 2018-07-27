@@ -1,31 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-export default function TodoItem({ item, onClick }) {
+const TodoItem = ({ item, onClick }) => {
 
-    let itemclasses = `mr-auto todoitemtext ${ item.completed ? 'todoitemtextcompleted' : ''}`;
-    
-    let clearIconClasses = `fa fa-check-circle-o`;
-    let undoIconClasses = `fa fa-undo`;
-   
-    let clearIconStyle = {
-        color: "#13eb37" 
-    }
+    const itemclasses = ['mr-auto','todoitemtext'];
+    if (item.completed) itemclasses.push('todoitemtextcompleted')
 
-    let undoIconStyle = {
-        color: "blue" 
-    }
+    const clearIconClasses = [`fa fa-check-circle-o todoitemcompleteicon`];
+    const undoIconClasses = [`fa fa-undo todoitemundoicon`];
+
 
     return (
         <div className="row todoitem" key={item.id}>
             <div className="col-md-8 offset-md-2 todoitembox">
-                <div className={itemclasses}>{item.description}</div>
-                <i className={item.completed ? undoIconClasses : clearIconClasses}
-                 style={item.completed ? undoIconStyle : clearIconStyle} 
-                 onClick={ (e) => onClick(item,e) } ></i>
+                <div className={itemclasses.join(" ")}>{item.description}</div>
+                <i  className={item.completed ? undoIconClasses : clearIconClasses}
+                    onClick={ (e) => onClick(item,e) } ></i>
             </div>
         </div>
-            
+
     )
 }
 
@@ -33,4 +26,6 @@ TodoItem.propTypes = {
     item: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired
 }
+
+export default TodoItem;
 

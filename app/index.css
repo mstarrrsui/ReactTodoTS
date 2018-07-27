@@ -36,8 +36,12 @@
   font-size: 24px;
 }
 
-.todoitemdeleteicon {
+.todoitemcompleteicon {
   color: #13eb37
+}
+
+.todoitemundoicon {
+  color: #1c08d3
 }
 
 

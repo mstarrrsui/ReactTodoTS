@@ -6,11 +6,11 @@ import TodoItem from './TodoItem';
 export default function TodoItems({ items, onClearItem }) {
     return (
         <div className="container todoitems">
-        { items.map( item => 
+        { items.map( item =>
             <TodoItem item={item} key={item.id} onClick={onClearItem} />
         )}
         </div>
-            
+
     )
 }
 
