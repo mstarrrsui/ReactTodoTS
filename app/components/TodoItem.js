@@ -2,16 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { cx, css } from 'emotion'
 
-const TodoItemRowClass = css`
-    line-height: 50px;
-    margin: 15px;
-`;
 
-const TodoItemBoxClass = css`
-    display: flex;
-    align-items: center;
-    box-shadow: 0px 5px 20px 0px #6a8491;
-`;
+const TodoItemRowClasses =
+    cx('row',
+        [css`
+            line-height: 50px;
+            margin: 15px;
+        `])
+;
+
+const TodoItemBoxClasses =
+    cx('col-md-8','offset-md-2',
+        [css`
+            display: flex;
+            align-items: center;
+            box-shadow: 0px 5px 20px 0px #6a8491;
+        `])
+;
+
 
 const TodoItemTextClass = css`
     font-weight: 400;
@@ -27,12 +35,14 @@ const TodoItemCompletedTextClass = css`
 const TodoItem = ({ item, onClick }) => {
 
     const itemclasses = cx('mr-auto', TodoItemTextClass, { [TodoItemCompletedTextClass]: item.completed });
-    const iconClasses = item.completed ? cx('fa fa-undo', [css`color: #1c08d3`]): cx('fa fa-check-circle-o',[css`color: #13eb37`]);
+    const iconClasses = item.completed ?
+        cx('fa fa-undo', [css`color: #1c08d3`])
+        : cx('fa fa-check-circle-o', [css`color: #13eb37`]);
 
 
     return (
-        <div className={cx('row',TodoItemRowClass)} key={item.id}>
-            <div className={cx('col-md-8','offset-md-2', TodoItemBoxClass)}>
+        <div className={TodoItemRowClasses} key={item.id}>
+            <div className={TodoItemBoxClasses}>
                 <div className={itemclasses}>{item.description}</div>
                 <i  className={iconClasses}
                     onClick={ (e) => onClick(item,e) } ></i>
