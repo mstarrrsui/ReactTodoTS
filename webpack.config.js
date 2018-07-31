@@ -1,6 +1,8 @@
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const devMode = process.env.NODE_ENV !== 'production'
 
 
 
@@ -37,7 +39,21 @@ var config = {
         rules: [
           { test: /\.(js)$/, exclude: /node_modules/, use: 'babel-loader' },
           //for css not in components dir use the normal css loader (non modules)
-          { test: /\.css$/,  use: [ 'style-loader', 'css-loader' ]},
+          {
+            test: /\.(sa|sc|c)ss$/,
+            use: [
+              devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+              {
+                loader: 'css-loader',
+                options: {
+                  importLoaders: 1,
+                }
+              },
+              {
+                loader: 'postcss-loader'
+              }
+            ]
+          },
           //use css loader in module mode for component scoped CSS
         //   {
         //     test: /\.css$/,
@@ -63,6 +79,12 @@ var config = {
     plugins: [
         new HtmlWebpackPlugin({
           template: 'app/index.html'
+        }),
+        new MiniCssExtractPlugin({
+          // Options similar to the same options in webpackOptions.output
+          // both options are optional
+          filename: "[name].css",
+          chunkFilename: "[id].css"
         })
     ],
     devServer: {
