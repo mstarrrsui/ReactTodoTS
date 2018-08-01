@@ -1,7 +1,9 @@
 import delay from './delay';
 import forms from "../data/property_forms.json";
 
-
+//
+//  Example of how to implement a mock API call that is promise based and simulates a network delay
+//
 
 
 const MemberApi = {
