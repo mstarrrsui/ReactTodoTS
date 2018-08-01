@@ -1,4 +1,5 @@
 var path = require('path');
+const webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -38,9 +39,21 @@ var config = {
     module: {
         rules: [
           { test: /\.(js)$/, exclude: /node_modules/, use: 'babel-loader' },
-          //for css not in components dir use the normal css loader (non modules)
           {
-            test: /\.(sa|sc|c)ss$/,
+            test: /\.css$/,
+            use: [
+              devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+              {
+                loader: 'css-loader',
+                options: {
+                  importLoaders: 1,
+                }
+              },
+              { loader: 'postcss-loader' }
+            ]
+          },
+          {
+            test: /\.(scss)$/,
             use: [
               devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
               {
@@ -51,40 +64,61 @@ var config = {
               },
               {
                 loader: 'postcss-loader'
+              },
+              {
+                loader: 'sass-loader'
               }
             ]
           },
-          //use css loader in module mode for component scoped CSS
-        //   {
-        //     test: /\.css$/,
-        //     include: path.resolve(__dirname, 'app/components'),
-        //     use: [
-        //         {
-        //            loader: 'style-loader',
-        //         },
-        //         {
-        //            loader: 'css-loader',
-        //            options: {
-        //               sourceMap: true,
-        //               modules: true,
-        //               localIdentName: '[local]___[hash:base64:5]'
-        //              }
-        //         }
-        //     ]
+          {
+            test: /bootstrap\/dist\/js\/umd\//, use: 'imports-loader?jQuery=jquery'
+          },
+        //   { 
+        //       test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
+        //       loader: "url-loader?limit=10000&mimetype=application/font-woff"
         //   },
-          { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff" },
-          { test: /\.(ttf|eot|otf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
+          { 
+              test: /\.(woff(2)?|ttf|eot|otf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
+              loader: "file-loader",
+              options: {
+                name: '[name].[ext]',
+                outputPath: 'fonts/'
+            } 
+          },
+          {
+            test: /\.(jpe?g|png|gif|svg)$/i,
+            use: [
+              'file-loader?name=images/[name].[ext]',
+              //'image-webpack-loader?bypassOnDebug'
+            ]
+          }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
           template: 'app/index.html'
         }),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',
+            Alert: 'exports-loader?Alert!bootstrap/js/dist/alert',
+            Button: 'exports-loader?Button!bootstrap/js/dist/button',
+            Carousel: 'exports-loader?Carousel!bootstrap/js/dist/carousel',
+            Collapse: 'exports-loader?Collapse!bootstrap/js/dist/collapse',
+            Dropdown: 'exports-loader?Dropdown!bootstrap/js/dist/dropdown',
+            Modal: 'exports-loader?Modal!bootstrap/js/dist/modal',
+            Popover: 'exports-loader?Popover!bootstrap/js/dist/popover',
+            Scrollspy: 'exports-loader?Scrollspy!bootstrap/js/dist/scrollspy',
+            Tab: 'exports-loader?Tab!bootstrap/js/dist/tab',
+            Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
+            Util: 'exports-loader?Util!bootstrap/js/dist/util'
+        }),
         new MiniCssExtractPlugin({
-          // Options similar to the same options in webpackOptions.output
-          // both options are optional
-          filename: "[name].css",
-          chunkFilename: "[id].css"
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: devMode ? '[name].css' : '[name].[hash].css',
+            chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
         })
     ],
     devServer: {
