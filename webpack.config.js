@@ -40,20 +40,7 @@ var config = {
         rules: [
           { test: /\.(js)$/, exclude: /node_modules/, use: 'babel-loader' },
           {
-            test: /\.css$/,
-            use: [
-              devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-              {
-                loader: 'css-loader',
-                options: {
-                  importLoaders: 1,
-                }
-              },
-              { loader: 'postcss-loader' }
-            ]
-          },
-          {
-            test: /\.(scss)$/,
+            test: /\.(sa|sc|c)ss$/,
             use: [
               devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
               {
