@@ -106,12 +106,14 @@ var config = {
             // both options are optional
             filename: devMode ? '[name].css' : '[name].[hash].css',
             chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
-        })
+        }),
+        new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
         quiet: false,
         noInfo: false,
         historyApiFallback: true,
+        hot: true,
         stats: {
             // Config for minimal console.log mess.
             assets: true,

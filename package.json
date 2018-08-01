@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --debug --devtool eval-source-map",
+    "start": "webpack-dev-server --debug --devtool eval-source-map --mode development",
     "start:dist": "cross-env NODE_ENV='production' node ./servedist.js",
     "elint": "eslint . — ext .js — ext .jsx — cache || true",
     "build": "cross-env NODE_ENV='production' webpack -p",
@@ -60,13 +60,14 @@
     "mini-css-extract-plugin": "^0.4.1",
     "node-sass": "^4.9.2",
     "postcss-loader": "^2.1.6",
+    "react-hot-loader": "^4.3.4",
     "rimraf": "^2.6.2",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
     "webpack": "^4.8.1",
     "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-cli": "^2.1.3",
+    "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.4"
   }
 }
