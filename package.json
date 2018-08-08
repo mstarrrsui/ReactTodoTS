@@ -39,6 +39,8 @@
     "shortid": "^2.2.8"
   },
   "devDependencies": {
+    "@types/react": "^16.4.8",
+    "@types/webpack-env": "^1.13.6",
     "autoprefixer": "^9.0.2",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
@@ -64,6 +66,8 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.21.0",
+    "ts-loader": "^4.4.2",
+    "typescript": "^3.0.1",
     "url-loader": "^1.0.1",
     "webpack": "^4.8.1",
     "webpack-bundle-analyzer": "^2.11.1",

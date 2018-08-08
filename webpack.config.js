@@ -9,7 +9,10 @@ const devMode = process.env.NODE_ENV !== 'production'
 
 var config = {
     mode: process.env.NODE_ENV === 'production' ? "production" : "development",
-    entry: './app/index.js',
+    entry: './app/index.tsx',
+    resolve: {
+      extensions: [".ts", ".tsx", ".js", ".jsx"]
+  },
     optimization: {
         minimize: false,
 		splitChunks: {
@@ -40,6 +43,11 @@ var config = {
         rules: [
           { test: /\.(js)$/, exclude: /node_modules/, use: 'babel-loader' },
           {
+            test: /\.tsx?$/,
+            loader: "ts-loader",
+            exclude: /node_modules/
+          },
+          {
             test: /\.(sa|sc|c)ss$/,
             use: [
               devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
@@ -60,17 +68,17 @@ var config = {
           {
             test: /bootstrap\/dist\/js\/umd\//, use: 'imports-loader?jQuery=jquery'
           },
-        //   { 
-        //       test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
+        //   {
+        //       test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         //       loader: "url-loader?limit=10000&mimetype=application/font-woff"
         //   },
-          { 
-              test: /\.(woff(2)?|ttf|eot|otf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
+          {
+              test: /\.(woff(2)?|ttf|eot|otf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
               loader: "file-loader",
               options: {
                 name: '[name].[ext]',
                 outputPath: 'fonts/'
-            } 
+            }
           },
           {
             test: /\.(jpe?g|png|gif|svg)$/i,
