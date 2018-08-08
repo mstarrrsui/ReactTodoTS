@@ -41,7 +41,6 @@ var config = {
     },
     module: {
         rules: [
-          { test: /\.(js)$/, exclude: /node_modules/, use: 'babel-loader' },
           {
             test: /\.tsx?$/,
             loader: "ts-loader",

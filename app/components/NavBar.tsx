@@ -43,6 +43,11 @@ export default class NavBar extends Component<object, State> {
                   Home
                 </NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} exact={true} to="/todo">
+                  ToDo
+                </NavLink>
+              </NavItem>
             </Nav>
           </Collapse>
         </Navbar>

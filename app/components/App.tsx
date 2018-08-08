@@ -7,10 +7,12 @@ import {
 } from 'react-router-dom';
 import NavBar from './NavBar';
 import Home from './Home';
+import TodoList from './TodoList'
 
 
 
-export default class App extends Component<{}>  {
+
+export default class App extends Component  {
 
     componentDidMount() {
         log.setDefaultLevel(3);
@@ -25,6 +27,7 @@ export default class App extends Component<{}>  {
                     <NavBar />
                     <Switch>
                         <Route exact path='/' component={Home} />
+                        <Route exact path='/todo' component={TodoList} />
                         <Route render={function() {
                            return <p>Not Found</p>
                         }} />

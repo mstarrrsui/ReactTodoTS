@@ -1,5 +1,5 @@
 const crypto = window.crypto ||
-  window.msCrypto || {
+  window['msCrypto'] || {
     getRandomValues: array => {
       for (let i = 0, l = array.length; i < l; i++) {
         array[i] = Math.floor(Math.random() * 256);
@@ -9,7 +9,7 @@ const crypto = window.crypto ||
   };
 
 // dec2hex :: Integer -> String
-function dec2hex(dec) {
+function dec2hex(dec):string {
     var val = ('0' + dec.toString(16)).substr(-2);
     return val;
 }
@@ -17,7 +17,7 @@ function dec2hex(dec) {
 const CryptoUtils = {
 
     // generateId :: Integer -> String
-    generateId(len) {
+    generateId(len): string {
         var arr = new Uint8Array((len || 40) / 2)
         crypto.getRandomValues(arr)
         return Array.from(arr, dec2hex).join('')
