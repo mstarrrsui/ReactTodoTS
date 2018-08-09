@@ -17,11 +17,9 @@ export default class NavBar extends React.Component<object, State> {
 
   readonly state: State = initialState;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
-
     this.toggle = this.toggle.bind(this);
-
   }
 
   toggle() {

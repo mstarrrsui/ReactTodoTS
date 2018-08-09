@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import log from 'loglevel';
 import shortid from 'shortid'
 import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
 import { ITask } from '../models/ITask';
+import log from 'loglevel';
 import cryptoutils from '../util/crypto';
 
 
@@ -34,7 +34,7 @@ export default class TodoList extends React.Component<object,ITodoListState> {
 
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: any, prevState: ITodoListState) {
         localStorage.setItem('todoitems', JSON.stringify(this.state.todoItems));
     }
 
@@ -45,7 +45,7 @@ export default class TodoList extends React.Component<object,ITodoListState> {
         //            .catch( error => { throw(error); })
     }
 
-    handleSubmit = (newtaskdescription) => {
+    handleSubmit = (newtaskdescription: string) => {
         log.debug(`task is ${newtaskdescription}`);
         const newtask: ITask = {
             id: shortid.generate(), 
@@ -59,7 +59,7 @@ export default class TodoList extends React.Component<object,ITodoListState> {
     } 
 
 
-    handleClearItem = (item, e) => {
+    handleClearItem = (item: ITask) => {
         log.debug(`task cleared is ${item.description}`);
         const newitems = this.state.todoItems.map( i => 
             ( i.id === item.id 

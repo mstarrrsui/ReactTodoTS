@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import log from 'loglevel/lib/loglevel';
+import log from 'loglevel';
 import {
     BrowserRouter as Router,
     Route,
