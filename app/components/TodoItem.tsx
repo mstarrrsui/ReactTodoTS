@@ -42,8 +42,8 @@ interface ITodoItemProps {
 
 const TodoItem = ({ item, onClick }: ITodoItemProps) => {
 
-    const itemclasses = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: item.completed });
-    const iconClasses = item.completed
+    const itemclasses: string = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: item.completed });
+    const iconClasses: string = item.completed
         ? cx('fa fa-undo', [css`color: #1c08d3`])
         : cx('fa fa-check-circle-o', [css`color: #13eb37`]);
 

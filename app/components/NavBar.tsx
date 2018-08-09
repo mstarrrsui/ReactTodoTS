@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import * as React from "react";
 import { NavLink as RRNavLink } from "react-router-dom";
 import {
   Collapse,
@@ -13,7 +13,7 @@ import {
 const initialState = { isOpen: false }
 type State = Readonly<typeof initialState>
 
-export default class NavBar extends Component<object, State> {
+export default class NavBar extends React.Component<object, State> {
 
   readonly state: State = initialState;
 
