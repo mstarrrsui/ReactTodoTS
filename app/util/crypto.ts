@@ -1,11 +1,13 @@
-declare global { 
+declare global {
   interface Window {
      msCrypto: Crypto;
   }
 }
+
+
 const crypto: Crypto = window.crypto ||
   window.msCrypto || {
-    getRandomValues: (array: Uint8Array): Uint8Array => {
+    getRandomValues: (array: any) => {
       for (let i = 0, l = array.length; i < l; i++) {
         array[i] = Math.floor(Math.random() * 256);
       }

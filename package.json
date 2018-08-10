@@ -41,6 +41,7 @@
   "devDependencies": {
     "@types/loglevel": "^1.5.3",
     "@types/react": "^16.4.8",
+    "@types/react-dom": "^16.0.7",
     "@types/react-router-dom": "^4.3.0",
     "@types/reactstrap": "^6.0.2",
     "@types/shortid": "0.0.29",
