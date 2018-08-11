@@ -28,6 +28,8 @@ export default class TodoList extends React.Component<object,ITodoListState> {
     componentDidMount() {
         log.debug("TodoList Mounted");
         let tasksFromStorage = TodoRepo.loadTasks().then( tasks => {
+            log.debug("Setting todolist state");
+
             this.setState( prevState => ({
                 todoItems: tasks,
                 isLoading: false
