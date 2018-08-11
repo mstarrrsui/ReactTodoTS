@@ -6,6 +6,8 @@ import TodoItems from './TodoItems';
 import { ITask } from '../models/ITask';
 import log from 'loglevel';
 import cryptoutils from '../util/crypto';
+import TodoRepo from '../util/TodoRepo';
+import Spinner from './Spinner';
 
 
 
@@ -26,12 +28,12 @@ export default class TodoList extends React.Component<object,ITodoListState> {
 
     componentDidMount() {
         log.debug("TodoList Mounted");
-        let itemsFromStorage = localStorage.getItem('todoitems');
-        this.setState( prevState => ({
-            todoItems: itemsFromStorage ? JSON.parse(itemsFromStorage) : [],
-            isLoading: false
-        }))
-
+        let tasksFromStorage = TodoRepo.loadTasks().then( tasks => {
+            this.setState( prevState => ({
+                todoItems: tasks,
+                isLoading: false
+            }))
+        })
     }
 
     componentDidUpdate(prevProps: any, prevState: ITodoListState) {
@@ -39,11 +41,6 @@ export default class TodoList extends React.Component<object,ITodoListState> {
     }
 
 
-    loadMembers() {
-        //   MemberApi.getAllMembers()
-        //            .then( (members) => this.setState( () => ({ members: members }) ))
-        //            .catch( error => { throw(error); })
-    }
 
     handleSubmit = (newtaskdescription: string) => {
         log.debug(`task is ${newtaskdescription}`);
@@ -77,7 +74,10 @@ export default class TodoList extends React.Component<object,ITodoListState> {
       return (
           <div className="container todolist"> 
             <TodoForm onSubmit={this.handleSubmit} />
-            <TodoItems items={todoItems} onClearItem={this.handleClearItem}/>         
+            { !(todoItems.length > 0)
+            ? <Spinner/> 
+            : <TodoItems items={todoItems} onClearItem={this.handleClearItem}/>         
+            }
           </div>
         );
     }
