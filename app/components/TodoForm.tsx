@@ -24,11 +24,12 @@ export default class TodoForm extends React.Component<ITodoFormProps,ITodoFormSt
     }
 
     handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+        const { onSubmit } = this.props;
         log.debug("handleSubmit");
         event.preventDefault();
         const newtask = this.state.todoTask;
         if (newtask.trim().length > 0) {
-            this.props.onSubmit( newtask );
+            onSubmit( newtask );
             this.setState(() => ({ todoTask : '' }));
         }
     }

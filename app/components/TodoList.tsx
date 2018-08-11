@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from "react";
 import shortid from 'shortid'
 import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
@@ -69,12 +68,12 @@ export default class TodoList extends React.Component<object,ITodoListState> {
 
     render() {
 
-      const {todoItems} = this.state;
+      const {todoItems, isLoading} = this.state;
 
       return (
           <div className="container todolist"> 
             <TodoForm onSubmit={this.handleSubmit} />
-            { !(todoItems.length > 0)
+            { isLoading 
             ? <Spinner/> 
             : <TodoItems items={todoItems} onClearItem={this.handleClearItem}/>         
             }

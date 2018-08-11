@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import * as React from "react";
+
 import log from 'loglevel';
 import {
     BrowserRouter as Router,
@@ -12,7 +13,7 @@ import TodoList from './TodoList'
 
 
 
-export default class App extends Component  {
+export default class App extends React.Component  {
 
     componentDidMount() {
         log.setDefaultLevel(3);
