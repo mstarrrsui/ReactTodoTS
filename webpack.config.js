@@ -18,7 +18,7 @@ var config = {
       extensions: [".ts", ".tsx", ".js", ".jsx"]
   },
     optimization: {
-        minimize: false,
+        minimize: process.env.NODE_ENV === 'production' ? true : false,
         splitChunks: {
           cacheGroups: {
             commons: {
@@ -50,7 +50,11 @@ var config = {
             loader: "ts-loader",
             exclude: /node_modules/,
             options: {
-              transpileOnly: true // IMPORTANT! use transpileOnly mode to speed-up compilation
+              //
+              // use transpileOnly mode to speed-up compilation; type checking is done in
+              // a separate process using the ForkTsCheckerWebpackPlugin
+              //
+              transpileOnly: true 
             }
           },
           {
