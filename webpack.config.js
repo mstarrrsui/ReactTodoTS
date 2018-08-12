@@ -12,6 +12,7 @@ var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 var config = {
     mode: process.env.NODE_ENV === 'production' ? "production" : "development",
+    devtool: process.env.NODE_ENV === 'production' ? "" : "eval-source-map",
     entry: './app/index.tsx',
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx"]
