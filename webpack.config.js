@@ -1,9 +1,12 @@
+'use strict';
+
 var path = require('path');
 const webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const devMode = process.env.NODE_ENV !== 'production'
+var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 
 
@@ -44,7 +47,10 @@ var config = {
           {
             test: /\.tsx?$/,
             loader: "ts-loader",
-            exclude: /node_modules/
+            exclude: /node_modules/,
+            options: {
+              transpileOnly: true // IMPORTANT! use transpileOnly mode to speed-up compilation
+            }
           },
           {
             test: /\.(sa|sc|c)ss$/,
@@ -114,7 +120,8 @@ var config = {
             filename: devMode ? '[name].css' : '[name].[hash].css',
             chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
         }),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new ForkTsCheckerWebpackPlugin()
     ],
     devServer: {
         quiet: false,
@@ -134,16 +141,6 @@ var config = {
     }
 };
 
-// if (process.env.NODE_ENV === 'production') {
-//     config.plugins.push(
-//         new webpack.DefinePlugin({
-//             'process.env': {
-//                 'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-//             }
-//         }),
-//         new webpack.optimize.UglifyJsPlugin()
-//     );
-// }
 
 if (process.env.NODE_ENV === 'visualize') {
     config.plugins.push(
