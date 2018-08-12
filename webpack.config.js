@@ -1,39 +1,32 @@
-'use strict';
-
 var path = require('path');
 const webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const devMode = process.env.NODE_ENV !== 'production'
-var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 
 
 var config = {
     mode: process.env.NODE_ENV === 'production' ? "production" : "development",
-    devtool: process.env.NODE_ENV === 'production' ? "" : "eval-source-map",
-    entry: './app/index.tsx',
-    resolve: {
-      extensions: [".ts", ".tsx", ".js", ".jsx"]
-  },
+    entry: './app/index.js',
     optimization: {
-        minimize: process.env.NODE_ENV === 'production' ? true : false,
-        splitChunks: {
-          cacheGroups: {
-            commons: {
-              chunks: "initial",
-              minChunks: 2
-            },
-            vendor: {
-              test: /node_modules/,
-              chunks: "initial",
-              name: "vendor",
-              priority: 10,
-              enforce: true
-            }
-          }
-		    }
+        minimize: false,
+		splitChunks: {
+			cacheGroups: {
+				commons: {
+					chunks: "initial",
+					minChunks: 2
+				},
+				vendor: {
+					test: /node_modules/,
+					chunks: "initial",
+					name: "vendor",
+					priority: 10,
+					enforce: true
+				}
+			}
+		}
     },
     performance: {
         hints: false
@@ -45,18 +38,7 @@ var config = {
     },
     module: {
         rules: [
-          {
-            test: /\.tsx?$/,
-            loader: "ts-loader",
-            exclude: /node_modules/,
-            options: {
-              //
-              // use transpileOnly mode to speed-up compilation; type checking is done in
-              // a separate process using the ForkTsCheckerWebpackPlugin
-              //
-              transpileOnly: true 
-            }
-          },
+          { test: /\.(js)$/, exclude: /node_modules/, use: 'babel-loader' },
           {
             test: /\.(sa|sc|c)ss$/,
             use: [
@@ -78,17 +60,17 @@ var config = {
           {
             test: /bootstrap\/dist\/js\/umd\//, use: 'imports-loader?jQuery=jquery'
           },
-        //   {
-        //       test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        //   { 
+        //       test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
         //       loader: "url-loader?limit=10000&mimetype=application/font-woff"
         //   },
-          {
-              test: /\.(woff(2)?|ttf|eot|otf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          { 
+              test: /\.(woff(2)?|ttf|eot|otf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
               loader: "file-loader",
               options: {
                 name: '[name].[ext]',
                 outputPath: 'fonts/'
-            }
+            } 
           },
           {
             test: /\.(jpe?g|png|gif|svg)$/i,
@@ -125,8 +107,7 @@ var config = {
             filename: devMode ? '[name].css' : '[name].[hash].css',
             chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
         }),
-        new webpack.HotModuleReplacementPlugin(),
-        new ForkTsCheckerWebpackPlugin()
+        new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
         quiet: false,
@@ -146,6 +127,16 @@ var config = {
     }
 };
 
+// if (process.env.NODE_ENV === 'production') {
+//     config.plugins.push(
+//         new webpack.DefinePlugin({
+//             'process.env': {
+//                 'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+//             }
+//         }),
+//         new webpack.optimize.UglifyJsPlugin()
+//     );
+// }
 
 if (process.env.NODE_ENV === 'visualize') {
     config.plugins.push(

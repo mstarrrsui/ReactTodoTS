@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from 'react';
+import PropTypes from 'prop-types'
 import { cx, css } from 'emotion'
-import { ITask } from '../models/ITask';
 
 const TodoItemRowClasses =
     cx('row',
@@ -34,16 +34,10 @@ const TodoItemCompletedTextClass = css`
     transition: all 300ms;
 `;
 
-interface ITodoItemProps {
-    item: ITask,
-    onClick: (item: ITask, e: React.MouseEvent) => void
-}
+const TodoItem = ({ item, onClick }) => {
 
-
-const TodoItem = ({ item, onClick }: ITodoItemProps) => {
-
-    const itemclasses: string = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: item.completed });
-    const iconClasses: string = item.completed
+    const itemclasses = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: item.completed });
+    const iconClasses = item.completed
         ? cx('fa fa-undo', [css`color: #1c08d3`])
         : cx('fa fa-check-circle-o', [css`color: #13eb37`]);
 
@@ -60,7 +54,10 @@ const TodoItem = ({ item, onClick }: ITodoItemProps) => {
     )
 }
 
-
+TodoItem.propTypes = {
+    item: PropTypes.object.isRequired,
+    onClick: PropTypes.func.isRequired
+}
 
 export default TodoItem;
 

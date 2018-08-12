@@ -1,8 +1,9 @@
-import * as React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 
 
-const Spinner: React.SFC = () =>  {
+const Spinner = () =>  {
 
     var styles = {
         content: {
@@ -10,7 +11,7 @@ const Spinner: React.SFC = () =>  {
             top: "50%",
             left: "50%",
             transform: "translateX(-50%) translateY(-50%)"
-        } as React.CSSProperties
+        }
     }
 
   return (

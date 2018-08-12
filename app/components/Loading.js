@@ -1,5 +1,5 @@
-import * as React from "react";
-
+var React = require('react');
+var PropTypes = require('prop-types');
 
 var styles = {
     content: {
@@ -7,29 +7,12 @@ var styles = {
         fontSize: '30px',
         justifyContent: 'center',
         alignItems: 'center'
-    } as React.CSSProperties
-}
-
-interface ILoadingProps {
-    text?: string,    
-    speed?: number 
-}
-
-interface ILoadingState {
-    text: string;
-}
-
-
-
-export default class Loading extends React.Component<ILoadingProps,ILoadingState> {
-    static defaultProps: ILoadingProps = {
-        text: 'Loading',
-        speed: 300
     }
+}
 
-    private interval: number;
-
-    constructor(props: ILoadingProps) {
+class Loading extends React.Component {
+    
+    constructor(props) {
         super(props)
 
         this.state = {
@@ -38,25 +21,22 @@ export default class Loading extends React.Component<ILoadingProps,ILoadingState
     }
 
     componentDidMount() {
-
-        const { text, speed } = this.props;
-
-        var stopper = text + '........';
+        var stopper = this.props.text + '........';
         this.interval = window.setInterval(function () {
             if (this.state.text === stopper) {
                 this.setState(function () {
                     return {
-                        text:text
+                        text:this.props.text
                     }
                 })
             } else {
-                this.setState(function (prevState: ILoadingState) {
+                this.setState(function (prevState) {
                     return {
                         text: prevState.text + '.'
                     }
                 })
             }
-        }.bind(this), speed)
+        }.bind(this), this.props.speed)
     }
 
     componentWillUnmount() {
@@ -72,9 +52,14 @@ export default class Loading extends React.Component<ILoadingProps,ILoadingState
     }
 }
 
+Loading.propTypes = {
+    text: PropTypes.string.isRequired,    
+    speed: PropTypes.number.isRequired    
+}
 
+Loading.defaultProps = {
+    text: 'Loading',
+    speed: 300
+}
 
-// Loading.defaultProps = {
-//     text: 'Loading',
-//     speed: 300
-// }
+module.exports = Loading;
