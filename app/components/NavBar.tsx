@@ -32,7 +32,7 @@ export default class NavBar extends React.Component<object, State> {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">React Starter</NavbarBrand>
+          <NavbarBrand href="/">React Examples</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
@@ -48,7 +48,7 @@ export default class NavBar extends React.Component<object, State> {
               </NavItem>
               <NavItem>
                 <NavLink tag={RRNavLink} exact={true} to="/search">
-                  ToDo
+                  Reddit Search
                 </NavLink>
               </NavItem>
             </Nav>

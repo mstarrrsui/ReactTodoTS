@@ -24,7 +24,7 @@ export default class IApp extends React.Component<object, ISearchExampleState> {
         log.debug(`SearchExample mounted`);
 
         this.searchService
-            .getResults()
+            .getResultSubscription()
             .subscribe(res => {
               this.setState({results: res});
             });
@@ -39,11 +39,11 @@ export default class IApp extends React.Component<object, ISearchExampleState> {
     render() {
 
         let results = this.state.results.map(res => {
-        return (
-            <li className="list-group-item" key={res.data.id}>
-            <a href={res.data.url}>{res.data.title}</a>
-            </li>
-        );
+            return (
+                <li className="list-group-item" key={res.data.id}>
+                <a href={res.data.url}>{res.data.title}</a>
+                </li>
+            );
         });
 
         return (

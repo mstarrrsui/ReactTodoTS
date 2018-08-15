@@ -1,4 +1,4 @@
-import { Observable, of, from } from 'rxjs';
+import { Observable, of, from, Subscription } from 'rxjs';
 import { Subject } from 'rxjs';
 import log from 'loglevel';
  
@@ -25,7 +25,7 @@ export default class SearchService {
     this.searchTerm.next(term);
   }
 
-  doSearch(term:any) {
+  doSearch(term:any): Observable<any> {
     log.debug(`doSearch:${term}`)
     let promise = fetch(`https://www.reddit.com/search.json?q=${term}`)
                   .then(response => response.json())
@@ -36,12 +36,11 @@ export default class SearchService {
     return from(promise)
   }
 
-  getResults() {
+  getResultSubscription(): Observable<any> {
     return this.searchTerm.pipe(
                debounceTime(500),
                distinctUntilChanged(),
-               switchMap(term => term
-                 ? this.doSearch(term) : of([])),
+               switchMap(term => term ? this.doSearch(term) : of([])),
                catchError(error => {
                  console.error(error);
                  return of([]);
