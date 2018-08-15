@@ -9,7 +9,7 @@ import {
 import NavBar from './NavBar';
 import Home from './Home';
 import TodoList from './TodoList'
-
+import SearchExample from './SearchExample'
 
 
 
@@ -29,6 +29,7 @@ export default class App extends React.Component  {
                     <Switch>
                         <Route exact path='/' component={Home} />
                         <Route exact path='/todo' component={TodoList} />
+                        <Route exact path='/search' component={SearchExample} />
                         <Route render={function() {
                            return <p>Not Found</p>
                         }} />

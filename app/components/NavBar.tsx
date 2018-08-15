@@ -46,6 +46,11 @@ export default class NavBar extends React.Component<object, State> {
                   ToDo
                 </NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} exact={true} to="/search">
+                  ToDo
+                </NavLink>
+              </NavItem>
             </Nav>
           </Collapse>
         </Navbar>
