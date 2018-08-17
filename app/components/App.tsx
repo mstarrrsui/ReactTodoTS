@@ -14,13 +14,13 @@ import {
 
 export default class App extends React.Component  {
 
-    componentDidMount() {
+    public componentDidMount() {
         log.setDefaultLevel(3);
         log.setLevel(1, true);
         log.debug('App Mounted');
     }
 
-    render() {
+    public render() {
         return (
             <Router>
                 <div className="container">
@@ -29,14 +29,15 @@ export default class App extends React.Component  {
                         <Route exact={true} path="/" component={Home} />
                         <Route exact={true} path="/todo" component={TodoList} />
                         <Route exact={true} path="/search" component={SearchExample} />
-                        <Route render={function() {
-                           return <p>Not Found</p>;
-                        }} />
+                        <Route render={this.returnNotFound} />
                     </Switch>
                 </div>
             </Router>
         );
     }
 
-}
+    private returnNotFound = () => {
+        return <p>Not Found</p>;
+    }
 
+}
