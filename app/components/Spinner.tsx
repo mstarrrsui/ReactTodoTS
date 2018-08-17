@@ -1,6 +1,6 @@
 import * as React from "react";
 
-
+const loading = require('../images/loading.gif');
 
 const Spinner: React.SFC = () =>  {
 
@@ -15,7 +15,7 @@ const Spinner: React.SFC = () =>  {
 
   return (
     <div style={styles.content}>
-        <img src='app/images/loading.gif'/>
+        <img src={ loading }/>
     </div>
   );
 }
