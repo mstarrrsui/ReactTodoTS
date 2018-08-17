@@ -1,7 +1,17 @@
 import * as React from "react";
 import log from 'loglevel';
 import SearchService from './SearchService'
+import { cx,css } from 'emotion'
 
+
+const SearchExampleClasses =
+        cx('container',
+            'form-group',
+            'col-md-8',
+            [css`
+                margin-top: 40px
+            `])
+    ;
 
 interface ISearchExampleState {
   results: any[];
@@ -47,7 +57,7 @@ export default class IApp extends React.Component<object, ISearchExampleState> {
         });
 
         return (
-            <div className="form-group">
+            <div className={SearchExampleClasses}>
                 <h4>Search On Reddit</h4>
                 <input className="form-control" placeholder="Search Term" type="text" onChange={this.search} />
                 <ul className="list-group">
