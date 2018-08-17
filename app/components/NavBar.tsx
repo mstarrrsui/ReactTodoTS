@@ -1,41 +1,35 @@
-import * as React from "react";
-import { NavLink as RRNavLink } from "react-router-dom";
+import * as React from 'react';
+import { NavLink as RRNavLink } from 'react-router-dom';
 import {
   Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
   Nav,
+  Navbar,
+  NavbarBrand,
+  NavbarToggler,
   NavItem,
-  NavLink
-} from "reactstrap";
+  NavLink,
+} from 'reactstrap';
 
-const initialState = { isOpen: false }
-type State = Readonly<typeof initialState>
+const initialState = { isOpen: false };
+type State = Readonly<typeof initialState>;
 
 export default class NavBar extends React.Component<object, State> {
 
-  readonly state: State = initialState;
+  public readonly state: State = initialState;
 
   constructor(props: any) {
     super(props);
     this.toggle = this.toggle.bind(this);
   }
 
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-
-  render() {
+  public render() {
     return (
       <div>
-        <Navbar color="light" light expand="md">
+        <Navbar color="light" light={true} expand="md">
           <NavbarBrand href="/">React Examples</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
+          <Collapse isOpen={this.state.isOpen} navbar={true}>
+            <Nav className="ml-auto" navbar={true}>
               <NavItem>
                 <NavLink tag={RRNavLink} exact={true} to="/">
                   Home
@@ -57,4 +51,11 @@ export default class NavBar extends React.Component<object, State> {
       </div>
     );
   }
+
+  private toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  }
+
 }
