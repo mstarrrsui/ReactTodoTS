@@ -1,37 +1,36 @@
-import * as React from "react";
+import * as React from 'react';
+
+import Home from './Home';
+import NavBar from './NavBar';
+import SearchExample from './SearchExample';
+import TodoList from './TodoList';
 
 import log from 'loglevel';
 import {
     BrowserRouter as Router,
     Route,
-    Switch
+    Switch,
 } from 'react-router-dom';
-import NavBar from './NavBar';
-import Home from './Home';
-import TodoList from './TodoList'
-import SearchExample from './SearchExample'
-
-
 
 export default class App extends React.Component  {
 
     componentDidMount() {
         log.setDefaultLevel(3);
         log.setLevel(1, true);
-        log.debug("App Mounted");
+        log.debug('App Mounted');
     }
 
     render() {
         return (
             <Router>
-                <div className='container'>
+                <div className="container">
                     <NavBar />
                     <Switch>
-                        <Route exact path='/' component={Home} />
-                        <Route exact path='/todo' component={TodoList} />
-                        <Route exact path='/search' component={SearchExample} />
+                        <Route exact={true} path="/" component={Home} />
+                        <Route exact={true} path="/todo" component={TodoList} />
+                        <Route exact={true} path="/search" component={SearchExample} />
                         <Route render={function() {
-                           return <p>Not Found</p>
+                           return <p>Not Found</p>;
                         }} />
                     </Switch>
                 </div>
