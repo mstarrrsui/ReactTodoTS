@@ -14,7 +14,6 @@
     },
     "rules": {
         "quotemark": [true, "single", "jsx-double", "avoid-escape", "avoid-template"],
-        "jsx-self-close": true,
         "prefer-object-spread": true
     }
  }
