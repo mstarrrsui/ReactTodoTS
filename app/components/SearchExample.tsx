@@ -1,8 +1,8 @@
-import * as React from "react";
-import log from 'loglevel';
-import SearchService from './SearchService'
-import { cx,css } from 'emotion'
+import * as React from 'react';
+import SearchService from './SearchService';
 
+import { css, cx } from 'emotion';
+import log from 'loglevel';
 
 const SearchExampleClasses =
         cx('container',
@@ -17,38 +17,37 @@ interface ISearchExampleState {
   results: any[];
 }
 const initialState: ISearchExampleState = {
-  results: []
+  results: [],
 };
 
 export default class IApp extends React.Component<object, ISearchExampleState> {
-    
-    state: Readonly<ISearchExampleState> = initialState;
-    searchService: SearchService;
+    public state: Readonly<ISearchExampleState> = initialState;
+    private searchService: SearchService;
 
     constructor(props: any) {
         super(props);
         this.searchService = new SearchService();
     }
 
-    componentDidMount() {
-        log.debug(`SearchExample mounted`);
+    public componentDidMount() {
+        log.debug('SearchExample mounted');
 
         this.searchService
             .getResultSubscription()
-            .subscribe(res => {
+            .subscribe((res) => {
               this.setState({results: res});
             });
       }
 
-    search = (event: React.ChangeEvent<HTMLInputElement>) => {
+    public search = (event: React.ChangeEvent<HTMLInputElement>) => {
         const searchtext = event.target.value.trim();
         log.debug(`searching with ${searchtext}`);
         this.searchService.search(searchtext);
-    } 
+    }
 
-    render() {
+    public render() {
 
-        let results = this.state.results.map(res => {
+        const results = this.state.results.map((res) => {
             return (
                 <li className="list-group-item" key={res.data.id}>
                 <a href={res.data.url}>{res.data.title}</a>
@@ -63,7 +62,7 @@ export default class IApp extends React.Component<object, ISearchExampleState> {
                 <ul className="list-group">
                 {results}
                 </ul>
-            </div>    
+            </div>
         );
   }
 }
