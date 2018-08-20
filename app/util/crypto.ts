@@ -1,9 +1,9 @@
 declare global {
+  // tslint:disable-next-line
   interface Window {
      msCrypto: Crypto;
   }
 }
-
 
 const crypto: Crypto = window.crypto ||
   window.msCrypto || {
@@ -13,12 +13,12 @@ const crypto: Crypto = window.crypto ||
       }
       return array;
     },
-    subtle: null  //to make compatible with Crypto interface
+    subtle: null,  // to make compatible with Crypto interface
   };
 
 // dec2hex :: Integer -> String
-function dec2hex(dec: number):string {
-    var val = ('0' + dec.toString(16)).substr(-2);
+function dec2hex(dec: number): string {
+    const val = ('0' + dec.toString(16)).substr(-2);
     return val;
 }
 
@@ -26,11 +26,10 @@ const CryptoUtils = {
 
     // generateId :: Integer -> String
     generateId(len: number): string {
-        let arr: Uint8Array = new Uint8Array((len || 40) / 2)
-        crypto.getRandomValues(arr)
-        return Array.from(arr, dec2hex).join('')
-    }
+        const arr: Uint8Array = new Uint8Array((len || 40) / 2);
+        crypto.getRandomValues(arr);
+        return Array.from(arr, dec2hex).join('');
+    },
+};
 
-
-}
- export default CryptoUtils;
+export default CryptoUtils;

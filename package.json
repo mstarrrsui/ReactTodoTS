@@ -18,6 +18,7 @@
     "axios": "^0.18.0",
     "bootstrap": "^4.1.1",
     "compression": "^1.7.2",
+    "core-js": "^2.5.7",
     "emotion": "^9.2.6",
     "es6-promise": "^4.2.4",
     "express": "^4.16.3",
