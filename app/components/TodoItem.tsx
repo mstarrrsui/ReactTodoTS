@@ -1,6 +1,7 @@
-import * as React from "react";
-import { cx, css } from 'emotion'
+import * as React from 'react';
 import { ITask } from '../models/ITask';
+
+import { css, cx } from 'emotion';
 
 const TodoItemRowClasses =
     cx('row',
@@ -11,7 +12,7 @@ const TodoItemRowClasses =
 ;
 
 const TodoItemBoxClasses =
-    cx('col-md-8','offset-md-2',
+    cx('col-md-8', 'offset-md-2',
         [css`
             display: flex;
             align-items: center;
@@ -27,7 +28,6 @@ const TodoItemTextClassBase =
         `])
 ;
 
-
 const TodoItemCompletedTextClass = css`
     opacity: .3;
     text-decoration-line: line-through;
@@ -35,32 +35,30 @@ const TodoItemCompletedTextClass = css`
 `;
 
 interface ITodoItemProps {
-    item: ITask,
-    onClick: (item: ITask, e: React.MouseEvent) => void
+    item: ITask;
+    onClick: (item: ITask, e: React.MouseEvent) => void;
 }
 
-
 const TodoItem = ({ item, onClick }: ITodoItemProps) => {
+
+    const onClickHandler = (e: React.MouseEvent) => onClick(item, e);
 
     const itemclasses: string = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: item.completed });
     const iconClasses: string = item.completed
         ? cx('fa fa-undo', [css`color: #1c08d3`])
         : cx('fa fa-check-circle-o', [css`color: #13eb37`]);
 
-
     return (
         <div className={TodoItemRowClasses} key={item.id}>
             <div className={TodoItemBoxClasses}>
                 <div className={itemclasses}>{item.description}</div>
-                <i  className={iconClasses}
-                    onClick={ (e) => onClick(item,e) } ></i>
+                <i
+                    className={iconClasses}
+                    onClick={onClickHandler}
+                />
             </div>
         </div>
-
-    )
-}
-
-
+    );
+};
 
 export default TodoItem;
-

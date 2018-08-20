@@ -1,11 +1,10 @@
-import * as React from "react";
-import TodoItem from './TodoItem';
+import * as React from 'react';
 import { ITask } from '../models/ITask';
-
+import TodoItem from './TodoItem';
 
 interface ITodoItemsProps {
-    items: ITask[],
-    onClearItem: (item: ITask, e: React.MouseEvent) => void
+    items: ITask[];
+    onClearItem: (item: ITask, e: React.MouseEvent) => void;
 }
 
 export default function TodoItems({ items, onClearItem }: ITodoItemsProps) {

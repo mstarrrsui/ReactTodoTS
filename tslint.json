@@ -15,6 +15,7 @@
     "rules": {
         "quotemark": [true, "single", "jsx-double", "avoid-escape", "avoid-template"],
         "prefer-object-spread": true,
-        "no-submodule-imports": [true, "rxjs"]
+        "no-submodule-imports": [true, "rxjs"],
+        "jsx-no-multiline-js": false
     }
  }
