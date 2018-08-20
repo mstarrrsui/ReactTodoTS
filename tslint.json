@@ -1,6 +1,6 @@
 {
-    "extends": [ 
-        "tslint:latest", 
+    "extends": [
+        "tslint:latest",
         "tslint-react"
     ],
     "defaultSeverity": "warning",
@@ -14,6 +14,7 @@
     },
     "rules": {
         "quotemark": [true, "single", "jsx-double", "avoid-escape", "avoid-template"],
-        "prefer-object-spread": true
+        "prefer-object-spread": true,
+        "no-submodule-imports": [true, "rxjs"]
     }
  }
