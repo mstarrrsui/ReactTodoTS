@@ -1,18 +1,16 @@
-import * as React from "react";
-import shortid from 'shortid'
-import TodoForm from './TodoForm';
-import TodoItems from './TodoItems';
+import * as React from 'react';
 import { ITask } from '../models/ITask';
-import log from 'loglevel';
-import cryptoutils from '../util/crypto';
 import TodoRepo from '../util/TodoRepo';
 import Spinner from './Spinner';
+import TodoForm from './TodoForm';
+import TodoItems from './TodoItems';
 
-
+import log from 'loglevel';
+import shortid from 'shortid';
 
 interface ITodoListState {
-    todoItems : ITask[],
-    isLoading: boolean
+    todoItems: ITask[];
+    isLoading: boolean;
 }
 
 const initialState: ITodoListState = {
@@ -22,7 +20,7 @@ const initialState: ITodoListState = {
 
 
 export default class TodoList extends React.Component<object,ITodoListState> {
-    
+
     state: Readonly<ITodoListState> = initialState;
 
     componentDidMount() {
@@ -46,41 +44,41 @@ export default class TodoList extends React.Component<object,ITodoListState> {
     handleSubmit = (newtaskdescription: string) => {
         log.debug(`task is ${newtaskdescription}`);
         const newtask: ITask = {
-            id: shortid.generate(), 
+            id: shortid.generate(),
             description: newtaskdescription,
             completed: false
-        }; 
-        
+        };
+
         this.setState( prevState => ({
             todoItems: [...prevState.todoItems, newtask]
         }));
-    } 
+    }
 
 
     handleClearItem = (item: ITask) => {
         log.debug(`task cleared is ${item.description}`);
-        const newitems = this.state.todoItems.map( i => 
-            ( i.id === item.id 
-                ? { ...i, completed: !i.completed } 
+        const newitems = this.state.todoItems.map( i =>
+            ( i.id === item.id
+                ? { ...i, completed: !i.completed }
                 : i ));
         this.setState( () => ({
             todoItems: newitems
         }));
-    } 
+    }
 
     render() {
 
       const {todoItems, isLoading} = this.state;
 
       return (
-          <div className="container todolist"> 
+          <div className="container todolist">
             <TodoForm onSubmit={this.handleSubmit} />
-            { isLoading 
-            ? <Spinner/> 
-            : <TodoItems items={todoItems} onClearItem={this.handleClearItem}/>         
+            { isLoading
+            ? <Spinner/>
+            : <TodoItems items={todoItems} onClearItem={this.handleClearItem}/>
             }
           </div>
         );
     }
   }
-  
+
