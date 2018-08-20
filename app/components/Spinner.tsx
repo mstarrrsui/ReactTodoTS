@@ -1,24 +1,22 @@
-import * as React from "react";
+import * as React from 'react';
 
+// tslint:disable-next-line
 const loading = require('../images/loading.gif');
 
 const Spinner: React.SFC = () =>  {
 
-    var styles = {
-        content: {
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translateX(-50%) translateY(-50%)"
-        } as React.CSSProperties
-    }
+    const spinnerStyles: React.CSSProperties = {
+        left: '50%',
+        position: 'absolute',
+        top: '50%',
+        transform: 'translateX(-50%) translateY(-50%)',
+    };
 
-  return (
-    <div style={styles.content}>
-        <img src={ loading }/>
-    </div>
-  );
-}
-
+    return (
+        <div style={spinnerStyles}>
+            <img src={loading}/>
+        </div>
+    );
+};
 
 export default Spinner;

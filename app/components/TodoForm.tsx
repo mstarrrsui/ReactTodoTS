@@ -1,40 +1,40 @@
-import * as React from "react";
+import * as React from 'react';
+
 import log from 'loglevel';
 
 interface ITodoFormProps {
-    onSubmit: (newTask: string) => void
+    onSubmit: (newTask: string) => void;
 }
 
 interface ITodoFormState {
-    todoTask : string;
+    todoTask: string;
 }
 
 const initialState: ITodoFormState = {
-    todoTask: ''
-}
+    todoTask: '',
+};
 
-export default class TodoForm extends React.Component<ITodoFormProps,ITodoFormState> {
+export default class TodoForm extends React.Component<ITodoFormProps, ITodoFormState> {
 
-    state: Readonly<ITodoFormState> = initialState;
+    public state: Readonly<ITodoFormState> = initialState;
 
-
-    handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    public handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const value = event.target.value;
         this.setState(() => ({ todoTask: value }));
     }
 
-    handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    public handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         const { onSubmit } = this.props;
-        log.debug("handleSubmit");
+        log.debug('handleSubmit');
         event.preventDefault();
         const newtask = this.state.todoTask;
         if (newtask.trim().length > 0) {
-            onSubmit( newtask );
+            onSubmit(newtask);
             this.setState(() => ({ todoTask : '' }));
         }
     }
 
-    render() {
+    public render() {
         const { todoTask } = this.state;
         return (
             <form className="form-inline form-row" onSubmit={this.handleSubmit}>
@@ -45,13 +45,15 @@ export default class TodoForm extends React.Component<ITodoFormProps,ITodoFormSt
                         className="form-control-lg w-100"
                         placeholder="Enter a task"
                         value={todoTask}
-                        onChange={this.handleChange} />
+                        onChange={this.handleChange}
+                    />
                 </div>
                 <div className="col-md-1">
                     <button
                         type="submit"
                         className="btn btn-primary m-2"
-                        disabled={!todoTask}>Add
+                        disabled={!todoTask}
+                    > Add
                     </button>
                 </div>
             </form>
@@ -59,7 +61,3 @@ export default class TodoForm extends React.Component<ITodoFormProps,ITodoFormSt
     }
 
 }
-
-
-
-
