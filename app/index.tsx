@@ -1,19 +1,18 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import App from './components/App';
 
-import 'bootstrap/dist/js/bootstrap';
-import 'bootstrap/scss/bootstrap.scss';
-import 'font-awesome/css/font-awesome.min.css';
+import 'bootstrap';
+import 'bootstrap/scss/bootstrap.scss'; // tslint:disable-line
+import 'font-awesome/css/font-awesome.min.css'; // tslint:disable-line
 
-
-require('./index.css');
-
+import './index.css';
 
 ReactDOM.render(
     <App />,
-    document.getElementById('app')
+    document.getElementById('app'),
 );
 
-
-module.hot.accept();
+if (module.hot) {
+    module.hot.accept();
+}
