@@ -6,7 +6,6 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const devMode = process.env.NODE_ENV !== 'production'
-var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 
 
@@ -47,15 +46,13 @@ var config = {
         rules: [
           {
             test: /\.tsx?$/,
-            loader: "ts-loader",
+            loader: "babel-loader",
             exclude: /node_modules/,
-            options: {
-              //
-              // use transpileOnly mode to speed-up compilation; type checking is done in
-              // a separate process using the ForkTsCheckerWebpackPlugin
-              //
-              transpileOnly: true 
-            }
+          },
+          {
+            test: /\.js$/,
+            use: ["source-map-loader"],
+            enforce: "pre"
           },
           {
             test: /\.(sa|sc|c)ss$/,
@@ -125,8 +122,7 @@ var config = {
             filename: devMode ? '[name].css' : '[name].[hash].css',
             chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
         }),
-        new webpack.HotModuleReplacementPlugin(),
-        new ForkTsCheckerWebpackPlugin()
+        new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
         quiet: false,
