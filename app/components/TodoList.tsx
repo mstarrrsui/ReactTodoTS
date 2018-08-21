@@ -14,59 +14,56 @@ interface ITodoListState {
 }
 
 const initialState: ITodoListState = {
+    isLoading: true,
     todoItems: [],
-    isLoading: true
-}
+};
 
+export default class TodoList extends React.Component<object, ITodoListState> {
 
-export default class TodoList extends React.Component<object,ITodoListState> {
+    public state: Readonly<ITodoListState> = initialState;
 
-    state: Readonly<ITodoListState> = initialState;
+    public componentDidMount() {
+        log.debug('TodoList Mounted');
+        TodoRepo.loadTasks().then(tasks => {
+            log.debug('Setting todolist state');
 
-    componentDidMount() {
-        log.debug("TodoList Mounted");
-        let tasksFromStorage = TodoRepo.loadTasks().then( tasks => {
-            log.debug("Setting todolist state");
-
-            this.setState( prevState => ({
+            this.setState(() => ({
+                isLoading: false,
                 todoItems: tasks,
-                isLoading: false
-            }))
-        })
+            }));
+        });
     }
 
-    componentDidUpdate(prevProps: any, prevState: ITodoListState) {
+    public componentDidUpdate() {
         localStorage.setItem('todoitems', JSON.stringify(this.state.todoItems));
     }
 
-
-
-    handleSubmit = (newtaskdescription: string) => {
+    public handleSubmit = (newtaskdescription: string) => {
         log.debug(`task is ${newtaskdescription}`);
         const newtask: ITask = {
-            id: shortid.generate(),
+            completed: false,
             description: newtaskdescription,
-            completed: false
+            id: shortid.generate(),
         };
 
-        this.setState( prevState => ({
+        this.setState(prevState => ({
             todoItems: [...prevState.todoItems, newtask]
         }));
     }
 
-
-    handleClearItem = (item: ITask) => {
+    public handleClearItem = (item: ITask) => {
         log.debug(`task cleared is ${item.description}`);
-        const newitems = this.state.todoItems.map( i =>
-            ( i.id === item.id
+        const newitems = this.state.todoItems.map(i =>
+            (i.id === item.id
                 ? { ...i, completed: !i.completed }
-                : i ));
-        this.setState( () => ({
+                : i
+            ));
+        this.setState(() => ({
             todoItems: newitems
         }));
     }
 
-    render() {
+    public render() {
 
       const {todoItems, isLoading} = this.state;
 
@@ -81,4 +78,3 @@ export default class TodoList extends React.Component<object,ITodoListState> {
         );
     }
   }
-

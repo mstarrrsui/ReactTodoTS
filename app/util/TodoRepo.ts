@@ -9,7 +9,7 @@ export default class TodoRepo {
 
         const itemsJson: string = localStorage.getItem('todoitems');
         const itemsFromStorage: ITask[] = (itemsJson ? JSON.parse(itemsJson) : []) as ITask[];
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             setTimeout(() => {
               resolve(itemsFromStorage);
             }, delay);

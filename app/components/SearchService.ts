@@ -22,8 +22,8 @@ export default class SearchService {
   public doSearch(term: any): Observable<any> {
     log.debug(`doSearch:${term}`);
     const promise = fetch(`https://www.reddit.com/search.json?q=${term}`)
-                  .then((response) => response.json())
-                  .then((json) => {
+                  .then(response => response.json())
+                  .then(json => {
                       return json.data.children;
                   });
 
@@ -34,11 +34,11 @@ export default class SearchService {
     return this.searchTerm.pipe(
                debounceTime(500),
                distinctUntilChanged(),
-               switchMap((term) => term ? this.doSearch(term) : of([])),
-               catchError((error) => {
+               switchMap(term => term ? this.doSearch(term) : of([])),
+               catchError(error => {
                  log.error(error);
                  return of([]);
-               }),
+               })
             );
   }
 }

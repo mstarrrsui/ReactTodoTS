@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Subscription } from 'rxjs';
 import SearchService from './SearchService';
 
 import { css, cx } from 'emotion';
@@ -23,6 +24,7 @@ const initialState: ISearchExampleState = {
 export default class IApp extends React.Component<object, ISearchExampleState> {
     public state: Readonly<ISearchExampleState> = initialState;
     private searchService: SearchService;
+    private searchSubscription: Subscription;
 
     constructor(props: any) {
         super(props);
@@ -32,12 +34,18 @@ export default class IApp extends React.Component<object, ISearchExampleState> {
     public componentDidMount() {
         log.debug('SearchExample mounted');
 
-        this.searchService
+        this.searchSubscription = this.searchService
             .getResultSubscription()
-            .subscribe((res) => {
+            .subscribe(res => {
               this.setState({results: res});
             });
-      }
+    }
+
+    public componentWillUnmount() {
+        if (this.searchSubscription) {
+            this.searchSubscription.unsubscribe();
+        }
+    }
 
     public search = (event: React.ChangeEvent<HTMLInputElement>) => {
         const searchtext = event.target.value.trim();
@@ -47,7 +55,7 @@ export default class IApp extends React.Component<object, ISearchExampleState> {
 
     public render() {
 
-        const results = this.state.results.map((res) => {
+        const results = this.state.results.map(res => {
             return (
                 <li className="list-group-item" key={res.data.id}>
                 <a href={res.data.url}>{res.data.title}</a>
