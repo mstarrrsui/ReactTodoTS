@@ -54,7 +54,7 @@ var config = {
               // use transpileOnly mode to speed-up compilation; type checking is done in
               // a separate process using the ForkTsCheckerWebpackPlugin
               //
-              transpileOnly: true 
+              transpileOnly: true
             }
           },
           {
@@ -78,24 +78,23 @@ var config = {
           {
             test: /bootstrap\/dist\/js\/umd\//, use: 'imports-loader?jQuery=jquery'
           },
-        //   {
-        //       test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        //       loader: "url-loader?limit=10000&mimetype=application/font-woff"
-        //   },
           {
-              test: /\.(woff(2)?|ttf|eot|otf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-              loader: "file-loader",
+              test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+              loader: "url-loader?limit=10000&mimetype=application/font-woff"
+          },
+          {
+              test: /\.(ttf|eot|otf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+              loader: 'url-loader',
               options: {
-                name: '[name].[ext]',
-                outputPath: 'fonts/'
-            }
+                limit: 10000
+              }
           },
           {
             test: /\.(jpe?g|png|gif|svg)$/i,
-            use: [
-              'file-loader?name=images/[name].[ext]',
-              //'image-webpack-loader?bypassOnDebug'
-            ]
+            loader: 'url-loader',
+              options: {
+                limit: 10000
+              }
           }
         ]
     },

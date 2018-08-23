@@ -35,6 +35,7 @@ export default class TodoList extends React.Component<object, ITodoListState> {
     }
 
     public componentDidUpdate() {
+        log.debug('TodoList - component did update');
         localStorage.setItem('todoitems', JSON.stringify(this.state.todoItems));
     }
 
@@ -48,6 +49,13 @@ export default class TodoList extends React.Component<object, ITodoListState> {
 
         this.setState(prevState => ({
             todoItems: [...prevState.todoItems, newtask]
+        }));
+    }
+
+    public handleClearCompleted = () => {
+        const nonCompletedItems = this.state.todoItems.filter(i => !i.completed);
+        this.setState(() => ({
+            todoItems: nonCompletedItems
         }));
     }
 
@@ -69,7 +77,7 @@ export default class TodoList extends React.Component<object, ITodoListState> {
 
       return (
           <div className="container todolist">
-            <TodoForm onSubmit={this.handleSubmit} />
+            <TodoForm onSubmit={this.handleSubmit} onClear={this.handleClearCompleted} />
             { isLoading
             ? <Spinner/>
             : <TodoItems items={todoItems} onClearItem={this.handleClearItem}/>
