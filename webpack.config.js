@@ -5,10 +5,11 @@ const webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const WorkboxPlugin = require('workbox-webpack-plugin');
 const devMode = process.env.NODE_ENV !== 'production'
 var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-
+const noop = () => {}
 
 var config = {
     mode: process.env.NODE_ENV === 'production' ? "production" : "development",
@@ -105,6 +106,7 @@ var config = {
         new HtmlWebpackPlugin({
           template: 'app/index.html'
         }),
+        devMode ? noop : new WorkboxPlugin.GenerateSW(),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
@@ -127,8 +129,8 @@ var config = {
             filename: devMode ? '[name].css' : '[name].[hash].css',
             chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
         }),
-        new webpack.HotModuleReplacementPlugin(),
-        new ForkTsCheckerWebpackPlugin()
+        devMode ? new webpack.HotModuleReplacementPlugin() : noop,
+        devMode ? new ForkTsCheckerWebpackPlugin() : noop
     ],
     devServer: {
         quiet: false,
