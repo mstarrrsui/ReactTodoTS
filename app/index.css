@@ -4,7 +4,27 @@
   font-weight: bolder;
 }
 
+.mainimgcontainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
+.mainimg {
+  
+  background-image: url("https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"); /* The image used */
+  height: 200px; /* You must set a specified height */
+  width: 200px;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: 200px 200px; /* Resize the background image to cover the entire container */
+}
+
+.mainimg:hover {
+  transform: rotate(720deg);
+  transition: transform 2s;
+}
 
 .todolist {
   margin-top: 40px;

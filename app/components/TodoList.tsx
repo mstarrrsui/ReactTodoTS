@@ -77,8 +77,9 @@ export default class TodoList extends React.Component<object, ITodoListState> {
 
       return (
           <div className="container todolist">
+            <img src="app/images/beaker.jpg"/>
             <TodoForm onSubmit={this.handleSubmit} onClear={this.handleClearCompleted} />
-            { isLoading
+            { true
             ? <Spinner/>
             : <TodoItems items={todoItems} onClearItem={this.handleClearItem}/>
             }

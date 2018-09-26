@@ -106,7 +106,29 @@ var config = {
         new HtmlWebpackPlugin({
           template: 'app/index.html'
         }),
-        devMode ? noop : new WorkboxPlugin.GenerateSW(),
+        devMode ? noop : new WorkboxPlugin.GenerateSW({
+          // Exclude images from the precache
+          exclude: [/\.(?:png|jpg|jpeg|svg)$/],
+    
+          // Define runtime caching rules.
+          runtimeCaching: [{
+            // Match any request ends with .png, .jpg, .jpeg or .svg.
+            urlPattern: '/\.(?:png|jpg|jpeg|svg)$/',
+    
+            // Apply a cache-first strategy.
+            handler: 'cacheFirst',
+    
+            options: {
+              // Use a custom cache name.
+              cacheName: 'images',
+    
+              // Only cache 10 images.
+              expiration: {
+                maxEntries: 10,
+              },
+            },
+          }],
+        }),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
