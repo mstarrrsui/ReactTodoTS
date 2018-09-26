@@ -116,7 +116,7 @@ var config = {
             urlPattern: /.*\.(?:png|jpg|jpeg|svg|gif)/g,
     
             // Apply a cache-first strategy.
-            handler: 'cacheFirst',
+            handler: 'staleWhileRevalidate',
     
             options: {
               // Use a custom cache name.
