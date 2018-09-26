@@ -10,7 +10,8 @@
     "build": "cross-env NODE_ENV='production' webpack -p",
     "clean": "rimraf dist/*",
     "visualize": "cross-env NODE_ENV='visualize' webpack -p",
-    "prebuild": "npm run clean"
+    "prebuild": "npm run clean",
+    "copysw": "copyfiles --verbose --flat app/mySW.js dist"
   },
   "author": "",
   "license": "ISC",
@@ -49,6 +50,7 @@
     "@types/shortid": "0.0.29",
     "@types/webpack-env": "^1.13.6",
     "autoprefixer": "^9.0.2",
+    "copyfiles": "^2.1.0",
     "cross-env": "^5.1.4",
     "css-loader": "^0.28.11",
     "exports-loader": "^0.7.0",

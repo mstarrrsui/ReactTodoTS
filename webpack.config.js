@@ -5,7 +5,8 @@ const webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const WorkboxPlugin = require('workbox-webpack-plugin');
+//const WorkboxPlugin = require('workbox-webpack-plugin');
+const {InjectManifest} = require('workbox-webpack-plugin');
 const devMode = process.env.NODE_ENV !== 'production'
 var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
@@ -44,7 +45,7 @@ var config = {
     },
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: "[name].js",
+        filename: devMode ? '[name].js' : '[name].[hash].js',
         publicPath: '/'
     },
     module: {
@@ -106,28 +107,9 @@ var config = {
         new HtmlWebpackPlugin({
           template: 'app/index.html'
         }),
-        devMode ? noop : new WorkboxPlugin.GenerateSW({
-          // Exclude images from the precache
-          exclude: [/\.(?:png|jpg|jpeg|svg)$/],
-    
-          // Define runtime caching rules.
-          runtimeCaching: [{
-            // Match any request ends with .png, .jpg, .jpeg or .svg.
-            urlPattern: /.*\.(?:png|jpg|jpeg|svg|gif)/g,
-    
-            // Apply a cache-first strategy.
-            handler: 'staleWhileRevalidate',
-    
-            options: {
-              // Use a custom cache name.
-              cacheName: 'images',
-    
-              // Only cache 10 images.
-              expiration: {
-                maxEntries: 10,
-              },
-            },
-          }],
+        new InjectManifest({
+          swSrc: 'app/mySW.js',
+          swDest: 'service-worker.js'
         }),
         new webpack.ProvidePlugin({
             $: 'jquery',
