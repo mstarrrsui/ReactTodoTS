@@ -113,7 +113,7 @@ var config = {
           // Define runtime caching rules.
           runtimeCaching: [{
             // Match any request ends with .png, .jpg, .jpeg or .svg.
-            urlPattern: '/\.(?:png|jpg|jpeg|svg)$/',
+            urlPattern: /.*\.(?:png|jpg|jpeg|svg|gif)/g,
     
             // Apply a cache-first strategy.
             handler: 'cacheFirst',
