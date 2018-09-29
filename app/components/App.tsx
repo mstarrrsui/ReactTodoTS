@@ -21,8 +21,10 @@ export default class App extends React.Component  {
     }
 
     public render() {
+
+        console.log('basename:' + BASENAME)
         return (
-            <Router>
+            <Router basename={BASENAME}>
                 <div className="container">
                     <NavBar />
                     <Switch>

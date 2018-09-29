@@ -46,7 +46,7 @@ var config = {
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: devMode ? '[name].js' : '[name].[hash].js',
-        publicPath: '/'
+        publicPath: ''
     },
     module: {
         rules: [
@@ -104,6 +104,9 @@ var config = {
         ]
     },
     plugins: [
+        new webpack.DefinePlugin({
+          BASENAME: devMode ? JSON.stringify("/") : JSON.stringify("/TestWeb1")
+        }),
         new HtmlWebpackPlugin({
           template: 'app/index.html'
         }),
