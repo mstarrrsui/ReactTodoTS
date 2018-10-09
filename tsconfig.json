@@ -4,19 +4,23 @@
       "target": "es5",
       "jsx": "react",
       "module": "commonjs",
+      "moduleResolution": "node",
       "noImplicitAny": true,
       "allowSyntheticDefaultImports": true,
       "esModuleInterop": true,
       "sourceMap": true,
       "noUnusedLocals": true,
       "noUnusedParameters": true,
+      "outDir": "outputjs",
       "typeRoots": ["node_modules/@types"],
       "lib": [
         "dom",
         "es6"
       ]
     },
-
+    "include": [
+      "app/**/*"
+    ],
     "exclude": [
       "node_modules"
     ]

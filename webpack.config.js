@@ -16,7 +16,7 @@ var config = {
     mode: process.env.NODE_ENV === 'production' ? "production" : "development",
     devtool: process.env.NODE_ENV === 'production' ? "" : "eval-source-map",
     entry: {
-      polyfills: './polyfills.ts',
+      polyfills: './app/polyfills.ts',
       main: './app/index.tsx'
     },
     resolve: {

@@ -10,6 +10,7 @@
     "build": "cross-env NODE_ENV='production' webpack -p",
     "clean": "rimraf dist/*",
     "visualize": "cross-env NODE_ENV='visualize' webpack -p",
+    "transpile": "tsc",
     "prebuild": "npm run clean",
     "copysw": "copyfiles --verbose --flat app/mySW.js dist"
   },
