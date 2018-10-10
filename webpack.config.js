@@ -5,7 +5,6 @@ const webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-//const WorkboxPlugin = require('workbox-webpack-plugin');
 const {InjectManifest} = require('workbox-webpack-plugin');
 const devMode = process.env.NODE_ENV !== 'production'
 var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
