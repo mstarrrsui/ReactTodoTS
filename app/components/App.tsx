@@ -22,9 +22,9 @@ export default class App extends React.Component  {
 
     public render() {
 
-        console.log('basename:' + BASENAME)
+        // log.debug('basename:' + BASENAME);
         return (
-            <Router basename={BASENAME}>
+            <Router>
                 <div className="container">
                     <NavBar />
                     <Switch>

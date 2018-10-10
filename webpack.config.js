@@ -103,9 +103,9 @@ var config = {
         ]
     },
     plugins: [
-        new webpack.DefinePlugin({
-          BASENAME: devMode ? JSON.stringify("/") : JSON.stringify("/TestWeb1")
-        }),
+        //new webpack.DefinePlugin({
+        //  BASENAME: devMode ? JSON.stringify("/") : JSON.stringify("/TestWeb1")
+        //}),
         new HtmlWebpackPlugin({
           template: 'app/index.html'
         }),
