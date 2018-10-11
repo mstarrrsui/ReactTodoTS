@@ -22,14 +22,9 @@ function dec2hex(dec: number): string {
     return val;
 }
 
-const CryptoUtils = {
-
-    // generateId :: Integer -> String
-    generateId(len: number): string {
-        const arr: Uint8Array = new Uint8Array((len || 40) / 2);
-        crypto.getRandomValues(arr);
-        return Array.from(arr, dec2hex).join('');
-    },
-};
-
-export default CryptoUtils;
+// generateId :: Integer -> String
+export function generateId(len: number): string {
+    const arr: Uint8Array = new Uint8Array((len || 40) / 2);
+    crypto.getRandomValues(arr);
+    return Array.from(arr, dec2hex).join('');
+}

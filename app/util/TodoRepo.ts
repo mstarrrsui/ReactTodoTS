@@ -1,6 +1,7 @@
 
 import { ITask } from '../models/ITask';
 
+// simulated delay
 const delay: number = 3000;
 
 export default class TodoRepo {
