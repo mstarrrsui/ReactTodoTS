@@ -25,7 +25,7 @@ module.exports = ( {mode, visualize=false} = { mode: "development" }) => {
         extensions: [".ts", ".tsx", ".js", ".jsx"]
       },
       optimization: {
-          minimize: false,
+          minimize: true,
           splitChunks: {
             cacheGroups: {
               commons: {

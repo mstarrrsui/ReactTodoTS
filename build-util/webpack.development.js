@@ -9,6 +9,9 @@ module.exports = () => {
 
   return {
     devtool: "eval-source-map",
+    optimization: {
+      minimize: false
+    },
     module: {
         rules: [
           {
