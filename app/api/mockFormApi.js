@@ -1,6 +1,6 @@
-import delay from './delay';
 import forms from "../data/property_forms.json";
 
+const delay = 3000;
 
 
 
