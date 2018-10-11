@@ -9,7 +9,7 @@ const envConfig = mode => require(`./build-util/webpack.${mode}.js`)();
 
 //common config goes in here
 
-module.exports = ( {mode, visualize=false} = { mode: "development" }) => {
+module.exports = ( {mode, visualize=false} = { mode: "development", visualize=false }) => {
 
   console.log(`mode: ${mode}`);
   console.log(`visualize: ${visualize}`);
