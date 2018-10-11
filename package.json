@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development",
-    "servedist": "cross-env NODE_ENV='production' node ./servedist.js",
+    "start": "webpack-dev-server --env.mode development",
+    "servedist": "node ./servedist.js",
     "lint": "tslint 'app/**/*.ts{,x}'",
-    "build": "cross-env NODE_ENV='production' webpack -p",
+    "build": "webpack -p --env.mode production",
     "clean": "rimraf dist/*",
-    "visualize": "cross-env NODE_ENV='visualize' webpack -p",
+    "visualize": "npm run build -- --env.visualize true",
     "transpile": "tsc",
     "prebuild": "npm run clean",
     "copysw": "copyfiles --verbose --flat app/mySW.js dist"
@@ -75,6 +75,7 @@
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.4",
+    "webpack-merge": "^4.1.4",
     "workbox-webpack-plugin": "^3.6.1"
   }
 }
