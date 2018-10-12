@@ -16,6 +16,10 @@
   },
   "author": "",
   "license": "ISC",
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true  
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.1.1",

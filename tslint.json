@@ -23,7 +23,7 @@
             {
               "multiline": {
                 "objects": "ignore",
-                "arrays": "always",
+                "arrays": "never",
                 "functions": "never",
                 "typeLiterals": "ignore"
               },
