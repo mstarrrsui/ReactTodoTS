@@ -7,7 +7,15 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const envConfig = mode => require(`./build-util/webpack.${mode}.js`)();
 
-//common config goes in here
+//
+// common config setting are in this file.
+// uses webpack-merge to also merge in either a dev or production config file based on 
+// the env.mode value passed in from the npm script task
+//
+//    dev config adds hot module replacement and the ForkTS plugin to do TypeScript linting on a worker thread
+//    prod config adds css extraction, minification and service-worker generation
+//
+
 
 module.exports = ({ mode, visualize = false } = { mode: "development", visualize: false }) => {
   console.log(`mode: ${mode}`);
