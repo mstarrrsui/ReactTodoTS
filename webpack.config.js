@@ -85,7 +85,10 @@ module.exports = ({ mode, visualize = false } = { mode: "development", visualize
       },
       plugins: [
         new webpack.ProgressPlugin(),
-        new HtmlWebpackPlugin(),
+        new HtmlWebpackPlugin({
+          title: 'React Starter App',
+          template: 'app/index.html'
+        }),
         new webpack.ProvidePlugin({
           $: "jquery",
           jQuery: "jquery",
