@@ -48,13 +48,15 @@ export default class TodoItem extends React.PureComponent<ITodoItemProps> {
 
     public render() {
 
-        const itemclasses = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: this.props.item.completed });
-        const iconClasses = this.props.item.completed ? TodoItemIconCompleted : TodoItemIconNormal;
+        const { item } = this.props;
+
+        const itemclasses = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: item.completed });
+        const iconClasses = item.completed ? TodoItemIconCompleted : TodoItemIconNormal;
 
         return (
-            <div className={TodoItemRowClasses} key={this.props.item.id}>
+            <div className={TodoItemRowClasses} key={item.id}>
                 <div className={TodoItemBoxClasses}>
-                    <div className={itemclasses}>{this.props.item.description}</div>
+                    <div className={itemclasses}>{item.description}</div>
                     <i
                         className={iconClasses}
                         onClick={this.onClickHandler}
