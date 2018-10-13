@@ -31,34 +31,36 @@ const TodoItemTextClassBase =
 const TodoItemCompletedTextClass = css`
     opacity: .3;
     text-decoration-line: line-through;
-    transition: all 300ms;
+    transition: all 3000ms;
 `;
+
+const TodoItemIconCompleted = cx('fa fa-undo', [css`color: #1c08d3`]);
+const TodoItemIconNormal = cx('fa fa-check-circle-o', [css`color: #13eb37`]);
 
 interface ITodoItemProps {
     item: ITask;
     onClick: (item: ITask, e: React.MouseEvent) => void;
 }
 
-const TodoItem = ({ item, onClick }: ITodoItemProps) => {
+export default class TodoItem extends React.PureComponent<ITodoItemProps> {
 
-    const onClickHandler = (e: React.MouseEvent) => onClick(item, e);
+    public onClickHandler = (e: React.MouseEvent) => this.props.onClick(this.props.item, e);
 
-    const itemclasses: string = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: item.completed });
-    const iconClasses: string = item.completed
-        ? cx('fa fa-undo', [css`color: #1c08d3`])
-        : cx('fa fa-check-circle-o', [css`color: #13eb37`]);
+    public render() {
 
-    return (
-        <div className={TodoItemRowClasses} key={item.id}>
-            <div className={TodoItemBoxClasses}>
-                <div className={itemclasses}>{item.description}</div>
-                <i
-                    className={iconClasses}
-                    onClick={onClickHandler}
-                />
+        const itemclasses = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: this.props.item.completed });
+        const iconClasses = this.props.item.completed ? TodoItemIconCompleted : TodoItemIconNormal;
+
+        return (
+            <div className={TodoItemRowClasses} key={this.props.item.id}>
+                <div className={TodoItemBoxClasses}>
+                    <div className={itemclasses}>{this.props.item.description}</div>
+                    <i
+                        className={iconClasses}
+                        onClick={this.onClickHandler}
+                    />
+                </div>
             </div>
-        </div>
-    );
-};
-
-export default TodoItem;
+        );
+    }
+}
