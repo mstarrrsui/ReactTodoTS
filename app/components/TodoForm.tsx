@@ -21,13 +21,13 @@ export default class TodoForm extends React.Component<ITodoFormProps, ITodoFormS
   public handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const value = event.target.value;
     this.setState(() => ({ todoTask: value }));
-  }
+  };
 
   public handleClear = () => {
     const { onClear } = this.props;
     log.debug('handleClear');
     onClear();
-  }
+  };
 
   public handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     const { onSubmit } = this.props;
@@ -38,7 +38,7 @@ export default class TodoForm extends React.Component<ITodoFormProps, ITodoFormS
       onSubmit(newtask);
       this.setState(() => ({ todoTask: '' }));
     }
-  }
+  };
 
   public render() {
     const { todoTask } = this.state;

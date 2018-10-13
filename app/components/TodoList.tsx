@@ -49,14 +49,14 @@ export default class TodoList extends React.Component<object, ITodoListState> {
     this.setState(prevState => ({
       todoItems: [...prevState.todoItems, newtask]
     }));
-  }
+  };
 
   public handleClearCompleted = () => {
     const nonCompletedItems = this.state.todoItems.filter(i => !i.completed);
     this.setState(() => ({
       todoItems: nonCompletedItems
     }));
-  }
+  };
 
   public handleClearItem = (item: ITask) => {
     log.debug(`task cleared is ${item.description}`);
@@ -64,7 +64,7 @@ export default class TodoList extends React.Component<object, ITodoListState> {
     this.setState(() => ({
       todoItems: newitems
     }));
-  }
+  };
 
   public render() {
     const { todoItems, isLoading } = this.state;
