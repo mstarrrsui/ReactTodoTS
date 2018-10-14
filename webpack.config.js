@@ -68,19 +68,12 @@ module.exports = ({ mode, visualize = false } = { mode: "development", visualize
             loader: "url-loader?limit=10000&mimetype=application/font-woff"
           },
           {
-            test: /\.(ttf|eot|otf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+            test: /\.(ttf|eot|otf|svg|jpe?g|png|gif)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
             loader: "url-loader",
             options: {
               limit: 10000
             }
-          },
-          {
-            test: /\.(jpe?g|png|gif|svg)$/i,
-            loader: "url-loader",
-            options: {
-              limit: 10000
-            }
-          }
+          }        
         ]
       },
       plugins: [
