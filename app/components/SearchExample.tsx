@@ -46,7 +46,7 @@ export default class SearchExample extends React.Component<object, ISearchExampl
     const searchtext = event.target.value.trim();
     log.debug(`searching with ${searchtext}`);
     this.searchService.search(searchtext);
-  }
+  };
 
   public render() {
     const results = this.state.results.map(res => {

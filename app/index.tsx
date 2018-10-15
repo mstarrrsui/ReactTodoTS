@@ -7,11 +7,8 @@ import 'font-awesome/css/font-awesome.min.css'; // tslint:disable-line
 
 import './index.css';
 
-ReactDOM.render(
-    <App />,
-    document.getElementById('app')
-);
+ReactDOM.render(<App />, document.getElementById('app'));
 
 if (module.hot) {
-    module.hot.accept();
+  module.hot.accept();
 }

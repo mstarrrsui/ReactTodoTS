@@ -1,20 +1,15 @@
-import forms from "../data/property_forms.json";
+import forms from '../data/property_forms.json';
 
 const delay = 3000;
 
-
-
 const MemberApi = {
-
   formData: [],
 
+  getAllForms: function() {
+    const isNull = data => (data == null || data === 'NULL' ? true : false);
 
-  getAllForms: function () {
-
-    const isNull = (data) => (data == null || data === 'NULL') ? true : false;
-
-    const createFullDocNumber = (doc) =>
-      `${isNull(doc.DocNumber) ? '' : doc.DocNumber} ${isNull(doc.Edition) ? '' : doc.Edition}`
+    const createFullDocNumber = doc =>
+      `${isNull(doc.DocNumber) ? '' : doc.DocNumber} ${isNull(doc.Edition) ? '' : doc.Edition}`;
 
     if (this.formData.length < 1)
       this.formData = forms.map(d => ({ NumberPlus: createFullDocNumber(d), selected: false, ...d }));
@@ -25,8 +20,6 @@ const MemberApi = {
       }, delay);
     });
   }
-
-
-}
+};
 
 export default MemberApi;

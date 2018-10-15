@@ -34,5 +34,5 @@ export default class App extends React.Component {
 
   private returnNotFound = () => {
     return <p>Not Found</p>;
-  }
+  };
 }
