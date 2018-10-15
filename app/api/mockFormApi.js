@@ -9,7 +9,7 @@ const MemberApi = {
   formData: [],
 
 
-  getAllForms: function() {
+  getAllForms: function () {
 
     const isNull = (data) => (data == null || data === 'NULL') ? true : false;
 
@@ -17,11 +17,11 @@ const MemberApi = {
       `${isNull(doc.DocNumber) ? '' : doc.DocNumber} ${isNull(doc.Edition) ? '' : doc.Edition}`
 
     if (this.formData.length < 1)
-      this.formData = forms.map( d => ({ NumberPlus: createFullDocNumber(d), selected: false, ...d}));
+      this.formData = forms.map(d => ({ NumberPlus: createFullDocNumber(d), selected: false, ...d }));
 
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(Object.assign([], this.formData.slice(0,500)));
+        resolve(Object.assign([], this.formData.slice(0, 500)));
       }, delay);
     });
   }

@@ -18,7 +18,7 @@ const initialState: ISearchExampleState = {
   results: []
 };
 
-export default class IApp extends React.Component<object, ISearchExampleState> {
+export default class SearchExample extends React.Component<object, ISearchExampleState> {
   public state: Readonly<ISearchExampleState> = initialState;
   private searchService: SearchService;
   private searchSubscription: Subscription;

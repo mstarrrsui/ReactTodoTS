@@ -9,7 +9,7 @@ const TodoItemRowClasses =
             line-height: 50px;
             margin: 15px;
         `])
-;
+    ;
 
 const TodoItemBoxClasses =
     cx('col-md-8', 'offset-md-2',
@@ -18,7 +18,7 @@ const TodoItemBoxClasses =
             align-items: center;
             box-shadow: 0px 5px 20px 0px #6a8491;
         `])
-;
+    ;
 
 const TodoItemTextClassBase =
     cx('mr-auto',
@@ -26,7 +26,7 @@ const TodoItemTextClassBase =
             font-weight: 400;
             font-size: 24px;
         `])
-;
+    ;
 
 const TodoItemCompletedTextClass = css`
     opacity: .3;

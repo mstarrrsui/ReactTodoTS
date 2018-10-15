@@ -13,7 +13,7 @@ const crypto: Crypto = window.crypto ||
       }
       return array;
     },
-    subtle: null,  // to make compatible with Crypto interface
+    subtle: null  // to make compatible with Crypto interface
   };
 
 // dec2hex :: Integer -> String
