@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "prettier": {
-    "printWidth": 120,
+    "printWidth": 100,
     "singleQuote": true
   },
   "dependencies": {

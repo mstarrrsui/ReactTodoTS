@@ -13,7 +13,21 @@ export default class MapContainer extends Component {
   public componentDidMount() {
     log.debug('MapContainer Mounted');
     loadGoogleMapsApi({ key: 'AIzaSyAip9DBdARvtEczeNFaQyZGEtALAFDpO6M' }).then(api => {
-      log.debug('Google API loaded');
+      this.createMap(api);
+    });
+  }
+
+  public render() {
+    return (
+      <div style={mapStyle} ref={this.mapRef}>
+        Loading map...
+      </div>
+    );
+  }
+
+  private createMap(api: any) {
+    log.debug('Google API loaded');
+    try {
       const m = this.mapRef.current;
       const mikeHouse = { lat: 33.8519204, lng: -84.2767984 };
       const map = new api.Map(m, {
@@ -24,14 +38,9 @@ export default class MapContainer extends Component {
       coordInfoWindow.setContent('MIKE!');
       coordInfoWindow.setPosition(mikeHouse);
       coordInfoWindow.open(map);
-    });
-  }
-
-  public render() {
-    return (
-      <div style={mapStyle} ref={this.mapRef}>
-        Loading map...
-      </div>
-    );
+    } catch (e) {
+      log.error('Error occurred creating map');
+      log.error(e);
+    }
   }
 }
