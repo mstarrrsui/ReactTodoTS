@@ -43,4 +43,4 @@ export const loadGoogleMapsApi = options => {
   }
 
   return promise;
-});
+};
