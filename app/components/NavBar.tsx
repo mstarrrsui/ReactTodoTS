@@ -36,6 +36,11 @@ export default class NavBar extends React.Component<object, State> {
                   Reddit Search
                 </NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} exact={true} to="/map">
+                  Map
+                </NavLink>
+              </NavItem>
             </Nav>
           </Collapse>
         </Navbar>
