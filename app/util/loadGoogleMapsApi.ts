@@ -1,17 +1,25 @@
-var CALLBACK_NAME = '__googleMapsApiOnLoadCallback';
+declare global {
+  // tslint:disable-next-line
+  interface Window {
+    [method: string]: any;
+    google: any;
+  }
+}
 
-var OPTIONS_KEYS = ['channel', 'client', 'key', 'language', 'region', 'v'];
+const CALLBACK_NAME = '__googleMapsApiOnLoadCallback';
 
-var promise = null;
+const OPTIONS_KEYS = ['channel', 'client', 'key', 'language', 'region', 'v'];
 
-export const loadGoogleMapsApi = options => {
+let promise: Promise<any> = null;
+
+export const loadGoogleMapsApi = (options: any): Promise<any> => {
   options = options || {};
 
   if (!promise) {
     promise = new Promise((resolve, reject) => {
       // Reject the promise after a timeout
-      var timeoutId = setTimeout(() => {
-        window[CALLBACK_NAME] = () => {}; // Set the on load callback to a no-op
+      const timeoutId = setTimeout(() => {
+        window[CALLBACK_NAME] = () => ({}); // Set the on load callback to a no-op
         reject(new Error('Could not load the Google Maps API'));
       }, options.timeout || 10000);
 
@@ -25,9 +33,11 @@ export const loadGoogleMapsApi = options => {
       };
 
       // Prepare the `script` tag to be inserted into the page
-      var scriptElement = document.createElement('script');
-      var params = ['callback=' + CALLBACK_NAME];
-      OPTIONS_KEYS.forEach(function(key) {
+      const scriptElement = document.createElement('script');
+      scriptElement.defer = true;
+      scriptElement.async = true;
+      const params = ['callback=' + CALLBACK_NAME];
+      OPTIONS_KEYS.forEach(key => {
         if (options[key]) {
           params.push(key + '=' + options[key]);
         }
