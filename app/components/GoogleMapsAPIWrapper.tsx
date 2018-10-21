@@ -19,10 +19,10 @@ interface IChildProps {
   apiIsLoading: boolean;
 }
 
-type Props = Partial<{
+interface Props {
   children?: RenderCallback;
   render?: RenderCallback;
-}>;
+}
 
 type RenderCallback = (args: IChildProps) => ReactNode;
 
