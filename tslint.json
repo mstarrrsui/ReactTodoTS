@@ -1,49 +1,25 @@
 {
-    "extends": [
-        "tslint:latest",
-        "tslint-react"
-    ],
-    "defaultSeverity": "warning",
-    "linterOptions": {
-        "jsx-self-close": true,
-        "exclude": [
-            "webpack.config.js",
-            "node_modules/**/*.ts",
-            "dist/**",
-            "app/data/**"
-        ]
-    },
-    "rules": {
-        "quotemark": [
-            true,
-            "single",
-            "jsx-double",
-            "avoid-escape",
-            "avoid-template"
-        ],
-        "prefer-object-spread": true,
-        "no-submodule-imports": [
-            true,
-            "rxjs",
-            "core-js"
-        ],
-        "jsx-no-multiline-js": false,
-        "arrow-parens": [
-            true,
-            "ban-single-arg-parens"
-        ],
-        "semicolon": [
-            true,
-            "always",
-            "ignore-bound-class-methods"
-        ],
-        "trailing-comma": [
-            true,
-            {
-                "multiline": "never",
-                "singleline": "never",
-                "esSpecCompliant": true
-            }
-        ]
-    }
+  "extends": ["tslint:latest", "tslint-react"],
+  "defaultSeverity": "warning",
+  "linterOptions": {
+    "jsx-self-close": true,
+    "exclude": ["webpack.config.js", "node_modules/**/*.ts", "dist/**", "app/data/**"]
+  },
+  "rules": {
+    "quotemark": [true, "single", "jsx-double", "avoid-escape", "avoid-template"],
+    "interface-name": [false, "never-prefix"],
+    "prefer-object-spread": true,
+    "no-submodule-imports": [true, "rxjs", "core-js"],
+    "jsx-no-multiline-js": false,
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never",
+        "esSpecCompliant": true
+      }
+    ]
+  }
 }
