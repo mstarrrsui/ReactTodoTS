@@ -5,9 +5,16 @@ import Map from './Map';
 
 const MapContainer = () => (
   <GoogleMapsAPIWrapper>
-    {({ googleApi, apiIsLoading }) => (
-      <div>{apiIsLoading ? 'Loading' : <Map googleApi={googleApi} />}</div>
-    )}
+    {({ googleApi, apiIsLoading }) => {
+      if (apiIsLoading) {
+        return <div>Loading...</div>;
+      }
+      return (
+        <div>
+          <Map googleApi={googleApi} />
+        </div>
+      );
+    }}
   </GoogleMapsAPIWrapper>
 );
 
