@@ -1,21 +1,17 @@
 import React, { Component, createRef } from 'react';
-import { Position, POV } from '../types/GoogleMaps';
+import { Location } from '../types/GoogleMaps';
 
 import log from 'loglevel';
 
 interface Props {
   googleApi: any;
   style: React.CSSProperties;
-  location: {
-    position: Position;
-    pov: POV;
-  };
+  location: Location;
   onMapCreate(map: any): void;
 }
 
 export default class Map extends Component<Props> {
   private mapRef = createRef<HTMLDivElement>();
-  private panoRef = createRef<HTMLDivElement>();
 
   public componentDidMount() {
     const m = this.createMap();

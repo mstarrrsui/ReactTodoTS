@@ -1,15 +1,12 @@
 import React, { Component, createRef } from 'react';
-import { Position, POV } from '../types/GoogleMaps';
+import { Location } from '../types/GoogleMaps';
 
 import log from 'loglevel';
 
 interface Props {
   googleApi: any;
   style: React.CSSProperties;
-  location: {
-    position: Position;
-    pov: POV;
-  };
+  location: Location;
   map: any;
 }
 
@@ -17,7 +14,6 @@ export default class Pano extends Component<Props> {
   private panoRef = createRef<HTMLDivElement>();
 
   public componentDidUpdate() {
-    log.debug('Pano - component did update!!');
     if (this.props.map) {
       this.createPano();
     }

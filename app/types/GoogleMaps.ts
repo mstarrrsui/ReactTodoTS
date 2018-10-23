@@ -1,9 +1,14 @@
-export interface Position {
+interface Position {
   lat: number;
   lng: number;
 }
 
-export interface POV {
+interface POV {
   heading: number;
   pitch: number;
+}
+
+export interface Location {
+  position: Position;
+  pov: POV;
 }

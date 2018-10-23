@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Position, POV } from '../types/GoogleMaps';
+import { Location } from '../types/GoogleMaps';
 import GoogleMapsAPIWrapper from './GoogleMapsAPIWrapper';
 
 import Map from './Map';
@@ -10,16 +10,11 @@ import log from 'loglevel';
 
 const mapStyle: React.CSSProperties = {
   height: '50vh',
-  width: '90%',
-  marginTop: '20px',
-  padding: '5px'
+  width: '100%'
 };
 
 interface State {
-  location: {
-    position: Position;
-    pov: POV;
-  };
+  location: Location;
   map: any;
 }
 
@@ -34,7 +29,7 @@ const initialState: State = {
   map: null
 };
 
-export default class MapContainer extends Component {
+export default class MapContainer extends Component<object, State> {
   public state: State = initialState;
 
   public onMapCreate = (map: any) => {

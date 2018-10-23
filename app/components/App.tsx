@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import Home from './Home';
-import MapContainer from './MapContainer';
+import LocationFinder from './LocationFinder';
 import NavBar from './NavBar';
 import SearchExample from './SearchExample';
 import TodoList from './TodoList';
@@ -26,7 +26,7 @@ export default class App extends React.Component {
             <Route exact={true} path="/" component={Home} />
             <Route exact={true} path="/todo" component={TodoList} />
             <Route exact={true} path="/search" component={SearchExample} />
-            <Route exact={true} path="/map" component={MapContainer} />
+            <Route exact={true} path="/map" component={LocationFinder} />
             <Route render={this.returnNotFound} />
           </Switch>
         </div>
