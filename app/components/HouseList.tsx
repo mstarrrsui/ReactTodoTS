@@ -5,34 +5,30 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 
 import log from 'loglevel';
 
+import { houses } from '../data/houses';
+
 interface Props {
   onSelectHouse(loc: Location): void;
 }
 
 export default class HouseList extends Component<Props> {
   public onItemClick = (e: React.MouseEvent<HTMLElement>) => {
-    const { param } = e.currentTarget.dataset;
+    const { index } = e.currentTarget.dataset;
+    const house = houses[index];
     log.debug('Item clicked');
-    log.debug(e);
-    log.debug(param);
+    log.debug(index);
+    log.debug(house.name);
   };
 
   public render() {
     return (
       <div>
         <ListGroup>
-          <ListGroupItem data-param="item1" active tag="button" action onClick={this.onItemClick}>
-            Mike
-          </ListGroupItem>
-          <ListGroupItem tag="button" action onClick={this.onItemClick}>
-            Trey
-          </ListGroupItem>
-          <ListGroupItem tag="button" action>
-            Robin
-          </ListGroupItem>
-          <ListGroupItem tag="button" action>
-            Matt
-          </ListGroupItem>
+          {houses.map((h, idx) => (
+            <ListGroupItem data-index={idx} tag="button" action={true} onClick={this.onItemClick}>
+              {h.name}
+            </ListGroupItem>
+          ))}
         </ListGroup>
       </div>
     );
