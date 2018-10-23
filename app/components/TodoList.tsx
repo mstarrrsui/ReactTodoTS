@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ITask } from '../models/ITask';
+import { ITask } from '../types/ITask';
 import TodoRepo from '../util/TodoRepo';
 import Spinner from './Spinner';
 import TodoForm from './TodoForm';
@@ -60,7 +60,9 @@ export default class TodoList extends React.Component<object, ITodoListState> {
 
   public handleClearItem = (item: ITask) => {
     log.debug(`task cleared is ${item.description}`);
-    const newitems = this.state.todoItems.map(i => (i.id === item.id ? { ...i, completed: !i.completed } : i));
+    const newitems = this.state.todoItems.map(
+      i => (i.id === item.id ? { ...i, completed: !i.completed } : i)
+    );
     this.setState(() => ({
       todoItems: newitems
     }));
@@ -72,7 +74,11 @@ export default class TodoList extends React.Component<object, ITodoListState> {
     return (
       <div className="container todolist">
         <TodoForm onSubmit={this.handleSubmit} onClear={this.handleClearCompleted} />
-        {isLoading ? <Spinner /> : <TodoItems items={todoItems} onClearItem={this.handleClearItem} />}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <TodoItems items={todoItems} onClearItem={this.handleClearItem} />
+        )}
       </div>
     );
   }

@@ -1,15 +1,7 @@
 import React, { Component, createRef } from 'react';
+import { Position, POV } from '../types/GoogleMaps';
 
 import log from 'loglevel';
-
-interface Position {
-  lat: number;
-  lng: number;
-}
-interface POV {
-  heading: number;
-  pitch: number;
-}
 
 const mapStyle = {
   height: '50vh',
@@ -18,24 +10,14 @@ const mapStyle = {
 
 interface Props {
   googleApi: any;
+  location: {
+    position: Position;
+    pov: POV;
+  };
+  onMapCreate(map: any): void;
 }
 
-interface State {
-  position: Position;
-  pov: POV;
-}
-
-const initialState: State = {
-  position: { lat: 33.8520094, lng: -84.2745642 },
-  pov: {
-    heading: 108,
-    pitch: 5
-  }
-};
-
-export default class Map extends Component<Props, State> {
-  public state: State = initialState;
-
+export default class Map extends Component<Props> {
   private mapRef = createRef<HTMLDivElement>();
   private panoRef = createRef<HTMLDivElement>();
 
@@ -54,12 +36,16 @@ export default class Map extends Component<Props, State> {
   }
 
   private createMap() {
+    const { location } = this.props;
     try {
       const m = this.mapRef.current;
       const map = new this.props.googleApi.Map(m, {
-        center: this.state.position,
+        center: location.position,
         zoom: 14
       });
+      if (this.props.onMapCreate) {
+        this.props.onMapCreate(map);
+      }
       return map;
       // const coordInfoWindow = new api.InfoWindow();
       // coordInfoWindow.setContent('MIKE!');
@@ -72,13 +58,14 @@ export default class Map extends Component<Props, State> {
   }
 
   private createPano(map: any) {
+    const { location } = this.props;
     try {
       const panoDiv = this.panoRef.current;
       const panorama = new this.props.googleApi.StreetViewPanorama(panoDiv, {
-        position: this.state.position,
+        position: location.position,
         pov: {
-          heading: this.state.pov.heading,
-          pitch: this.state.pov.pitch,
+          heading: location.pov.heading,
+          pitch: location.pov.pitch,
           zoom: 1
         }
       });
