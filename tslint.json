@@ -8,6 +8,7 @@
   "rules": {
     "quotemark": [true, "single", "jsx-double", "avoid-escape", "avoid-template"],
     "interface-name": [false, "never-prefix"],
+    "object-literal-sort-keys": false,
     "prefer-object-spread": true,
     "no-submodule-imports": [true, "rxjs", "core-js"],
     "jsx-no-multiline-js": false,

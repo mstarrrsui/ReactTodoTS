@@ -4,12 +4,15 @@ import { Position, POV } from '../types/GoogleMaps';
 import GoogleMapsAPIWrapper from './GoogleMapsAPIWrapper';
 
 import Map from './Map';
+import Pano from './Pano';
 
 import log from 'loglevel';
 
-const mapStyle = {
+const mapStyle: React.CSSProperties = {
   height: '50vh',
-  width: '80%'
+  width: '90%',
+  marginTop: '20px',
+  padding: '5px'
 };
 
 interface State {
@@ -17,6 +20,7 @@ interface State {
     position: Position;
     pov: POV;
   };
+  map: any;
 }
 
 const initialState: State = {
@@ -26,18 +30,24 @@ const initialState: State = {
       heading: 108,
       pitch: 5
     }
-  }
+  },
+  map: null
 };
 
 export default class MapContainer extends Component {
   public state: State = initialState;
 
-  public onMapCreate(map: any) {
+  public onMapCreate = (map: any) => {
     log.debug('MapContainer - onMapCreate');
     log.debug(map);
-  }
+    this.setState(() => ({
+      map
+    }));
+  };
 
   public render() {
+    const { location, map } = this.state;
+
     return (
       <GoogleMapsAPIWrapper>
         {({ googleApi, apiIsLoading }) => {
@@ -50,8 +60,9 @@ export default class MapContainer extends Component {
                 style={mapStyle}
                 googleApi={googleApi}
                 onMapCreate={this.onMapCreate}
-                location={this.state.location}
+                location={location}
               />
+              <Pano style={mapStyle} googleApi={googleApi} map={map} location={location} />
             </div>
           );
         }}

@@ -19,7 +19,9 @@ export default class Map extends Component<Props> {
 
   public componentDidMount() {
     const m = this.createMap();
-    //this.createPano(m);
+    if (this.props.onMapCreate) {
+      this.props.onMapCreate(m);
+    }
   }
 
   public render() {
@@ -34,9 +36,7 @@ export default class Map extends Component<Props> {
         center: location.position,
         zoom: 14
       });
-      if (this.props.onMapCreate) {
-        this.props.onMapCreate(map);
-      }
+
       return map;
       // const coordInfoWindow = new api.InfoWindow();
       // coordInfoWindow.setContent('MIKE!');
@@ -44,25 +44,6 @@ export default class Map extends Component<Props> {
       // coordInfoWindow.open(map);
     } catch (e) {
       log.error('Error occurred creating map');
-      log.error(e);
-    }
-  }
-
-  private createPano(map: any) {
-    const { location } = this.props;
-    try {
-      const panoDiv = this.panoRef.current;
-      const panorama = new this.props.googleApi.StreetViewPanorama(panoDiv, {
-        position: location.position,
-        pov: {
-          heading: location.pov.heading,
-          pitch: location.pov.pitch,
-          zoom: 1
-        }
-      });
-      map.setStreetView(panorama);
-    } catch (e) {
-      log.error('Error occurred creating pano');
       log.error(e);
     }
   }
