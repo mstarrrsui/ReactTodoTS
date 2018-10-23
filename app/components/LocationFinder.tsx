@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import { Location } from '../types/GoogleMaps';
 import HouseList from './HouseList';
 import MapContainer from './MapContainer';
 
 import log from 'loglevel';
 
 export default class LocationFinder extends Component {
-  public onHouseSelect = (index: any) => {
-    log.debug('On house select:' + index);
+  public onHouseSelect = (loc: Location) => {
+    log.debug('On house select:' + loc.position.lat);
   };
 
   public render() {

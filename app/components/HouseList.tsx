@@ -13,11 +13,12 @@ interface Props {
 
 export default class HouseList extends Component<Props> {
   public onItemClick = (e: React.MouseEvent<HTMLElement>) => {
-    const { index } = e.currentTarget.dataset;
-    const house = houses[index];
+    const idx = +e.currentTarget.dataset.index;
+    const house = houses[idx];
     log.debug('Item clicked');
-    log.debug(index);
+    log.debug(idx);
     log.debug(house.name);
+    this.props.onSelectHouse(house.location);
   };
 
   public render() {
