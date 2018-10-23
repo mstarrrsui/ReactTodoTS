@@ -7,6 +7,11 @@ import Map from './Map';
 
 import log from 'loglevel';
 
+const mapStyle = {
+  height: '50vh',
+  width: '80%'
+};
+
 interface State {
   location: {
     position: Position;
@@ -40,8 +45,9 @@ export default class MapContainer extends Component {
             return <div>Loading...</div>;
           }
           return (
-            <div>
+            <div style={mapStyle}>
               <Map
+                style={mapStyle}
                 googleApi={googleApi}
                 onMapCreate={this.onMapCreate}
                 location={this.state.location}

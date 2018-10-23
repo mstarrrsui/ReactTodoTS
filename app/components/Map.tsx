@@ -3,13 +3,9 @@ import { Position, POV } from '../types/GoogleMaps';
 
 import log from 'loglevel';
 
-const mapStyle = {
-  height: '50vh',
-  width: '80%'
-};
-
 interface Props {
   googleApi: any;
+  style: React.CSSProperties;
   location: {
     position: Position;
     pov: POV;
@@ -23,16 +19,11 @@ export default class Map extends Component<Props> {
 
   public componentDidMount() {
     const m = this.createMap();
-    this.createPano(m);
+    //this.createPano(m);
   }
 
   public render() {
-    return (
-      <div>
-        <div style={mapStyle} ref={this.mapRef} />
-        <div style={mapStyle} ref={this.panoRef} />
-      </div>
-    );
+    return <div style={this.props.style} ref={this.mapRef} />;
   }
 
   private createMap() {
