@@ -5,16 +5,15 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 
 import log from 'loglevel';
 
-import { houses } from '../data/houses';
-
 interface Props {
+  houses: any[];
   onSelectHouse(loc: Location): void;
 }
 
 export default class HouseList extends Component<Props> {
   public onItemClick = (e: React.MouseEvent<HTMLElement>) => {
     const idx = +e.currentTarget.dataset.index;
-    const house = houses[idx];
+    const house = this.props.houses[idx];
     log.debug('Item clicked');
     log.debug(idx);
     log.debug(house.name);
@@ -25,7 +24,7 @@ export default class HouseList extends Component<Props> {
     return (
       <div>
         <ListGroup>
-          {houses.map((h, idx) => (
+          {this.props.houses.map((h, idx) => (
             <ListGroupItem data-index={idx} tag="button" action={true} onClick={this.onItemClick}>
               {h.name}
             </ListGroupItem>
