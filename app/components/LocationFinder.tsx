@@ -19,6 +19,9 @@ export default class LocationFinder extends Component {
 
   public onHouseSelect = (loc: Location) => {
     log.debug('On house select:' + loc.position.lat);
+    this.setState(() => ({
+      location: loc
+    }));
   };
 
   public render() {
@@ -26,7 +29,7 @@ export default class LocationFinder extends Component {
       <div className="container">
         <div className="row">
           <div className="col-md-10" style={{ marginTop: '20px' }}>
-            <MapContainer />
+            <MapContainer location={this.state.location} />
           </div>
           <div className="col-md-2" style={{ marginTop: '35px' }}>
             <h4>Houses</h4>

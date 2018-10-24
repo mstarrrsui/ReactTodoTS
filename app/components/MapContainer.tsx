@@ -13,23 +13,19 @@ const mapStyle: React.CSSProperties = {
   width: '100%'
 };
 
-interface State {
+interface Props {
   location: Location;
+}
+
+interface State {
   map: any;
 }
 
 const initialState: State = {
-  location: {
-    position: { lat: 33.8520094, lng: -84.2745642 },
-    pov: {
-      heading: 108,
-      pitch: 5
-    }
-  },
   map: null
 };
 
-export default class MapContainer extends Component<object, State> {
+export default class MapContainer extends Component<Props, State> {
   public state: State = initialState;
 
   public onMapCreate = (map: any) => {
@@ -41,7 +37,8 @@ export default class MapContainer extends Component<object, State> {
   };
 
   public render() {
-    const { location, map } = this.state;
+    const { location } = this.props;
+    const { map } = this.state;
 
     return (
       <GoogleMapsAPIWrapper>

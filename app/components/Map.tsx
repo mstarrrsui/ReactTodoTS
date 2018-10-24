@@ -30,7 +30,7 @@ export default class Map extends Component<Props> {
       const m = this.mapRef.current;
       const map = new this.props.googleApi.Map(m, {
         center: location.position,
-        zoom: 14
+        zoom: 16
       });
 
       return map;
