@@ -18,7 +18,7 @@ interface Props {
 }
 
 interface State {
-  map: any;
+  map: google.maps.Map;
 }
 
 const initialState: State = {
@@ -28,7 +28,7 @@ const initialState: State = {
 export default class MapContainer extends Component<Props, State> {
   public state: State = initialState;
 
-  public onMapCreate = (map: any) => {
+  public onMapCreate = (map: google.maps.Map) => {
     log.debug('MapContainer - onMapCreate');
     log.debug(map);
     this.setState(() => ({

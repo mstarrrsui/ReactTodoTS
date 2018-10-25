@@ -7,7 +7,7 @@ interface Props {
   googleApi: any;
   style: React.CSSProperties;
   location: Location;
-  onMapCreate(map: any): void;
+  onMapCreate(map: google.maps.Map): void;
 }
 
 export default class Map extends Component<Props> {
@@ -24,11 +24,11 @@ export default class Map extends Component<Props> {
     return <div style={this.props.style} ref={this.mapRef} />;
   }
 
-  private createMap() {
+  private createMap(): google.maps.Map {
     const { location } = this.props;
     try {
       const m = this.mapRef.current;
-      const map = new this.props.googleApi.Map(m, {
+      const map: google.maps.Map = new this.props.googleApi.Map(m, {
         center: location.position,
         zoom: 16
       });
