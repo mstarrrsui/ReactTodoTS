@@ -1,4 +1,4 @@
-import { ITask } from '../models/ITask';
+import { ITask } from '../types/ITask';
 
 // simulated delay
 const delay: number = 3000;

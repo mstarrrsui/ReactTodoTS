@@ -36,6 +36,13 @@ export default class MapContainer extends Component<Props, State> {
     }));
   };
 
+  public componentDidUpdate(prevProps: Props) {
+    log.debug('MapContainer - updated');
+    const { location } = this.props;
+    //move map
+    this.state.map.panTo({ lat: location.position.lat, lng: location.position.lng });
+  }
+
   public render() {
     const { location } = this.props;
     const { map } = this.state;

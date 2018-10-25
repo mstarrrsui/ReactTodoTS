@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import { Location } from '../types/GoogleMaps';
 
 import { ListGroup, ListGroupItem } from 'reactstrap';

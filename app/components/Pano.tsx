@@ -24,6 +24,7 @@ export default class Pano extends Component<Props> {
   }
 
   private createPano() {
+    log.debug('Pano - create Pano');
     const { location, map } = this.props;
     try {
       const panoDiv = this.panoRef.current;

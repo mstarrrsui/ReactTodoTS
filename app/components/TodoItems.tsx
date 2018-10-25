@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ITask } from '../models/ITask';
+import { ITask } from '../types/ITask';
 import TodoItem from './TodoItem';
 
 interface ITodoItemsProps {
