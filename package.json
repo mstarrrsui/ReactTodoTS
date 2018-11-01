@@ -27,6 +27,8 @@
     "bootstrap": "^4.1.1",
     "compression": "^1.7.2",
     "core-js": "^2.5.7",
+    "dotenv": "^6.1.0",
+    "dotenv-webpack": "^1.5.7",
     "emotion": "^9.2.12",
     "es6-promise": "^4.2.5",
     "express": "^4.16.4",

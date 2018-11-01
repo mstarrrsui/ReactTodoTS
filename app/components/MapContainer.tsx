@@ -9,8 +9,9 @@ import Pano from './Pano';
 import log from 'loglevel';
 
 const mapStyle: React.CSSProperties = {
-  height: '50vh',
-  width: '100%'
+  height: '40vh',
+  width: '100%',
+  marginBottom: '20px'
 };
 
 interface Props {

@@ -31,7 +31,7 @@ export default class GoogleMapsAPI extends Component<Props, State> {
 
   public componentDidMount() {
     log.debug('GoogleMapsAPIWrapper Mounted');
-    loadGoogleMapsApi({ key: 'AIzaSyAip9DBdARvtEczeNFaQyZGEtALAFDpO6M' }).then(api => {
+    loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY }).then(api => {
       // this.createMap(api);
       log.debug('GoogleMapsAPIWrapper: Maps API loaded');
       this.setState(() => ({
