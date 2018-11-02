@@ -3,6 +3,7 @@ import { houses } from '../data/houses';
 import { Location } from '../types/GoogleMaps';
 import HouseList from './HouseList';
 import MapContainer from './MapContainer';
+import { RouteComponentProps } from '@reach/router';
 
 import log from 'loglevel';
 
@@ -14,7 +15,7 @@ const initialState: State = {
   location: houses[0].location
 };
 
-export default class LocationFinder extends Component {
+export default class LocationFinder extends Component<RouteComponentProps> {
   public state: State = initialState;
 
   public onHouseSelect = (loc: Location) => {

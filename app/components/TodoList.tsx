@@ -7,6 +7,7 @@ import TodoItems from './TodoItems';
 
 import log from 'loglevel';
 import shortid from 'shortid';
+import { RouteComponentProps } from '@reach/router';
 
 interface ITodoListState {
   todoItems: ITask[];
@@ -18,7 +19,7 @@ const initialState: ITodoListState = {
   todoItems: []
 };
 
-export default class TodoList extends React.Component<object, ITodoListState> {
+export default class TodoList extends React.Component<RouteComponentProps, ITodoListState> {
   public state: Readonly<ITodoListState> = initialState;
 
   public componentDidMount() {
