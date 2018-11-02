@@ -4,6 +4,12 @@ import SearchService from './SearchService';
 
 import { css, cx } from 'emotion';
 import log from 'loglevel';
+import pf from '../util/petfinder';
+
+const petfinder = pf({
+  key: process.env.PETFINDER_API_KEY,
+  secret: process.env.PETFINDER_API_SECRET
+});
 
 const SearchExampleClasses = cx('container', 'form-group', 'col-md-8', [
   css`
@@ -48,6 +54,10 @@ export default class SearchExample extends React.Component<object, ISearchExampl
     this.searchService.search(searchtext);
   };
 
+  public getBreeds = () => {
+    petfinder.breed.list({ animal: 'dog' }).then((data: any) => log.debug(data));
+  };
+
   public render() {
     const results = this.state.results.map(res => {
       return (
@@ -60,8 +70,16 @@ export default class SearchExample extends React.Component<object, ISearchExampl
     return (
       <div className={SearchExampleClasses}>
         <h4>Search On Reddit</h4>
-        <input className="form-control" placeholder="Search Term" type="text" onChange={this.search} />
+        <input
+          className="form-control"
+          placeholder="Search Term"
+          type="text"
+          onChange={this.search}
+        />
         <ul className="list-group">{results}</ul>
+        <button type="button" onClick={this.getBreeds} className="btn btn-success m-1">
+          Get Breeds
+        </button>
       </div>
     );
   }
