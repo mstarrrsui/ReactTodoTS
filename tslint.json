@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint:latest", "tslint-react"],
+  "extends": ["tslint:latest", "tslint-react", "tslint-config-prettier"],
   "defaultSeverity": "warning",
   "linterOptions": {
     "jsx-self-close": true,
@@ -8,6 +8,8 @@
   "rules": {
     "quotemark": [true, "single", "jsx-double", "avoid-escape", "avoid-template"],
     "interface-name": [false, "never-prefix"],
+    "ordered-imports": false,
+    "member-ordering": false,
     "object-literal-sort-keys": false,
     "prefer-object-spread": true,
     "no-submodule-imports": [true, "rxjs", "core-js"],

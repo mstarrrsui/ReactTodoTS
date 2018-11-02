@@ -1,4 +1,6 @@
-export const houses = [
+import { House } from '../types/GoogleMaps';
+
+export const houses: House[] = [
   {
     name: 'Mike',
     location: {

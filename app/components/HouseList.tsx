@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Location } from '../types/GoogleMaps';
+import { House, Location } from '../types/GoogleMaps';
 
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
 import log from 'loglevel';
 
 interface Props {
-  houses: any[];
+  houses: House[];
   onSelectHouse(loc: Location): void;
 }
 
