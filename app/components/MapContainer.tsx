@@ -14,6 +14,11 @@ const mapStyle: React.CSSProperties = {
   marginBottom: '20px'
 };
 
+const panoStyle: React.CSSProperties = {
+  height: '40vh',
+  width: '60%'
+};
+
 interface Props {
   location: Location;
 }
@@ -62,7 +67,7 @@ export default class MapContainer extends Component<Props, State> {
                 onMapCreate={this.onMapCreate}
                 location={location}
               />
-              <Pano style={mapStyle} googleApi={googleApi} map={map} location={location} />
+              <Pano style={panoStyle} googleApi={googleApi} map={map} location={location} />
             </div>
           );
         }}
