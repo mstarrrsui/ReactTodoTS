@@ -11,28 +11,26 @@ import { RouteComponentProps } from '@reach/router';
 
 interface ITodoListState {
   todoItems: ITask[];
-  loader: CancellablePromise<ITask[]>;
   isLoading: boolean;
 }
 
 const initialState: ITodoListState = {
   isLoading: true,
-  loader: null,
   todoItems: []
 };
 
 export default class TodoList extends React.Component<RouteComponentProps, ITodoListState> {
   public state: Readonly<ITodoListState> = initialState;
+  public loader:CancellablePromise<ITask[]> = null;
 
   public componentDidMount() {
     log.debug('TodoList Mounted');
-    const load = TodoRepo.loadTasks();
-    load.promise.then(tasks => {
+    this.loader = TodoRepo.loadTasks();
+    this.loader.promise.then(tasks => {
       log.debug('Setting todolist state');
 
       this.setState(() => ({
         isLoading: false,
-        loader: load,
         todoItems: tasks
       }));
     });
@@ -40,7 +38,7 @@ export default class TodoList extends React.Component<RouteComponentProps, ITodo
 
   public componentWillUnmount() {
     log.debug('TodoList Will Unmount');
-    if (this.state.loader != null) { this.state.loader.cancel(); }
+    if (this.loader != null) { this.loader.cancel(); }
   }
 
   public componentDidUpdate() {
