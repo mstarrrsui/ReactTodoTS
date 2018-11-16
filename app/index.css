@@ -1,4 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900');
+@import url('https://fonts.googleapis.com/css?family=Patua+One');
+
+h1, h2, h3, h4 {
+  font-family: 'Patua One'
+}
 
 .nav-link.active {
   font-weight: bolder;

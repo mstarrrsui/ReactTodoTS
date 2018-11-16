@@ -81,9 +81,9 @@ export default class SearchExample extends React.Component<
           onChange={this.search}
         />
         <ul className="list-group">{results}</ul>
-        <button type="button" onClick={this.getBreeds} className="btn btn-success m-1">
+        {/* <button type="button" onClick={this.getBreeds} className="btn btn-success m-1">
           Get Breeds
-        </button>
+        </button> */}
       </div>
     );
   }
