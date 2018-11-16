@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ITask } from '../types/ITask';
-import TodoRepo from '../util/TodoRepo';
+import TodoRepo, { CancellablePromise } from '../util/TodoRepo';
 import Spinner from './Spinner';
 import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
@@ -11,11 +11,13 @@ import { RouteComponentProps } from '@reach/router';
 
 interface ITodoListState {
   todoItems: ITask[];
+  loader: CancellablePromise<ITask[]>;
   isLoading: boolean;
 }
 
 const initialState: ITodoListState = {
   isLoading: true,
+  loader: null,
   todoItems: []
 };
 
@@ -24,14 +26,21 @@ export default class TodoList extends React.Component<RouteComponentProps, ITodo
 
   public componentDidMount() {
     log.debug('TodoList Mounted');
-    TodoRepo.loadTasks().then(tasks => {
+    const load = TodoRepo.loadTasks();
+    load.promise.then(tasks => {
       log.debug('Setting todolist state');
 
       this.setState(() => ({
         isLoading: false,
+        loader: load,
         todoItems: tasks
       }));
     });
+  }
+
+  public componentWillUnmount() {
+    log.debug('TodoList Will Unmount');
+    if (this.state.loader != null) { this.state.loader.cancel(); }
   }
 
   public componentDidUpdate() {
