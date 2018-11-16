@@ -1,9 +1,25 @@
 import * as React from 'react';
-import { NavLink as RRNavLink } from 'react-router-dom';
-import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 
 const initialState = { isOpen: false };
 type State = Readonly<typeof initialState>;
+
+const navLinkStyle: React.CSSProperties = {
+  fontFamily: "'Roboto', sans-serif",
+  fontWeight: 300,
+  marginLeft: '10px',
+  marginRight: '10px'
+};
+
+const activeLinkStyle: React.CSSProperties = {
+  color: '#4b4c4f',
+  fontWeight: 600
+};
+
+const CustomNavLink = props => (
+  <NavLink {...props} style={navLinkStyle} activeStyle={activeLinkStyle} />
+);
 
 export default class NavBar extends React.Component<object, State> {
   public readonly state: State = initialState;
@@ -22,24 +38,18 @@ export default class NavBar extends React.Component<object, State> {
           <Collapse isOpen={this.state.isOpen} navbar={true}>
             <Nav className="ml-auto" navbar={true}>
               <NavItem>
-                <NavLink tag={RRNavLink} exact={true} to="/">
+                <CustomNavLink exact={true} to="/">
                   Home
-                </NavLink>
+                </CustomNavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={RRNavLink} exact={true} to="/todo">
-                  ToDo
-                </NavLink>
+                <CustomNavLink to="/todo">ToDo</CustomNavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={RRNavLink} exact={true} to="/search">
-                  Reddit Search
-                </NavLink>
+                <CustomNavLink to="/search">Reddit Search</CustomNavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={RRNavLink} exact={true} to="/map">
-                  Map
-                </NavLink>
+                <CustomNavLink to="/map">Map</CustomNavLink>
               </NavItem>
             </Nav>
           </Collapse>
