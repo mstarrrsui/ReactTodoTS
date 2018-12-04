@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --env.mode development",
+    "startwithapi": "concurrently --kill-others \"webpack-dev-server --env.mode development\" \"node server\\apiserver.js\"",
     "servedist": "node ./servedist.js",
     "lint": "tslint --project .",
     "build": "webpack -p --env.mode production",
@@ -67,6 +68,7 @@
     "@types/shortid": "0.0.29",
     "@types/webpack-env": "^1.13.6",
     "autoprefixer": "^9.1.5",
+    "concurrently": "^4.1.0",
     "copyfiles": "^2.1.0",
     "cross-env": "^5.1.4",
     "css-loader": "^1.0.0",
