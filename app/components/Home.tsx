@@ -4,7 +4,7 @@ export default class Home extends React.Component {
   public render() {
     return (
       <div>
-        <h1>Welcome to the React Starter</h1>
+        <h1>Welcome to a React Starter</h1>
         <div className="mainimgcontainer">
           <img
             className="mainimg"

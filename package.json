@@ -25,10 +25,13 @@
   "dependencies": {
     "@reach/router": "^1.2.1",
     "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
     "bootstrap": "^4.1.1",
     "browser-jsonp": "^1.1.5",
     "compression": "^1.7.2",
+    "cookie-parser": "^1.4.3",
     "core-js": "^2.5.7",
+    "cors": "^2.8.5",
     "dotenv": "^6.1.0",
     "dotenv-webpack": "^1.5.7",
     "emotion": "^9.2.12",
@@ -50,7 +53,9 @@
     "reactstrap": "^6.5.0",
     "rxjs": "^6.3.3",
     "serve-favicon": "^2.5.0",
-    "shortid": "^2.2.13"
+    "shortid": "^2.2.13",
+    "webpack-dev-middleware": "^3.4.0",
+    "webpack-hot-middleware": "^2.24.3"
   },
   "devDependencies": {
     "@types/googlemaps": "^3.30.16",

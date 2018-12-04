@@ -26,7 +26,10 @@ module.exports = ({ mode, visualize = false } = { mode: 'development', visualize
       mode: mode,
       entry: {
         polyfills: './app/polyfills.ts',
-        main: './app/index.tsx'
+        index: [
+          'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+          './app/index.tsx'
+        ]
       },
       resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx']
