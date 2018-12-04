@@ -12,7 +12,7 @@ var https = require('https');
 var fs = require('fs');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-const webpackConfigFactory = require('../webpack.config');
+const webpackConfigFactory = require('./webpack.config');
 
 var port = process.env.PORT || 7203;
 var sslport = process.env.SSLPORT || 8444;

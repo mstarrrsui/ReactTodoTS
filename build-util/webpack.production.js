@@ -5,6 +5,9 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 
 module.exports = () => {
   return {
+    entry: {
+      main: './app/index.tsx'
+    },
     devtool: '',
     module: {
       rules: [
