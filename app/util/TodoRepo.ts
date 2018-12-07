@@ -15,10 +15,10 @@ const makeCancelable = <T extends {}>(promise: Promise<T>): CancellablePromise<T
   const wrappedPromise = new Promise<T>((resolve, reject) => {
     promise.then(val => {
       if (hasCanceled) {
-        // console.log('wrappedPromise - resolve but has been CANCELLED');
+        //console.log('wrappedPromise - resolve but has been CANCELLED');
         reject({isCanceled: true});
       } else {
-        // console.log('wrappedPromise - RESOLVING');
+        //console.log('wrappedPromise - RESOLVING');
         resolve(val);
       }
     });
@@ -30,7 +30,7 @@ const makeCancelable = <T extends {}>(promise: Promise<T>): CancellablePromise<T
   return {
     promise: wrappedPromise,
     cancel() {
-      // console.log('CancellablePromise - SETTING CANCELLED FLAG');
+      //console.log('CancellablePromise - SETTING CANCELLED FLAG');
       hasCanceled = true;
     }
   };

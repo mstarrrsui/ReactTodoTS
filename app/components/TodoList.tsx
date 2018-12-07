@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Observable, Subscription } from 'rxjs';
 import { ITask } from '../types/ITask';
 import TodoRepo, { CancellablePromise } from '../util/TodoRepo';
 import Spinner from './Spinner';
@@ -21,12 +22,11 @@ const initialState: ITodoListState = {
 
 export default class TodoList extends React.Component<RouteComponentProps, ITodoListState> {
   public state: Readonly<ITodoListState> = initialState;
-  public loader:CancellablePromise<ITask[]> = null;
+  public subscription: Subscription = null;
 
   public componentDidMount() {
     log.debug('TodoList Mounted');
-    this.loader = TodoRepo.loadTasks();
-    this.loader.promise.then(tasks => {
+    this.subscription = TodoRepo.loadTasks().subscribe(tasks => {
       log.debug('Setting todolist state');
 
       this.setState(() => ({
@@ -38,7 +38,7 @@ export default class TodoList extends React.Component<RouteComponentProps, ITodo
 
   public componentWillUnmount() {
     log.debug('TodoList Will Unmount');
-    if (this.loader != null) { this.loader.cancel(); }
+    if (this.subscription != null) { this.subscription.unsubscribe(); }
   }
 
   public componentDidUpdate() {
