@@ -42,9 +42,9 @@ export default class TodoList extends React.Component<RouteComponentProps, ITodo
 
   public componentWillUnmount() {
     log.debug('TodoList Will Unmount');
+    // use unsubscribe stream to cancel all subscribers (which are using takeUntil)
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-    // if (this.subscription != null) { this.subscription.unsubscribe(); }
   }
 
   public componentDidUpdate() {
