@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ITask } from '../types/ITask';
-import TodoRepo, { CancellablePromise } from '../util/TodoRepo';
+import TodoRepo from '../util/TodoRepo';
 import Spinner from './Spinner';
 import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
