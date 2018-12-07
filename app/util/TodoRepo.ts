@@ -1,8 +1,7 @@
 import { ITask } from '../types/ITask';
-import { Observable, from } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
-// simulated delay
-const delay: number = 3000;
 
 
 export default class TodoRepo {
@@ -10,12 +9,7 @@ export default class TodoRepo {
     const itemsJson: string = localStorage.getItem('todoitems');
     const itemsFromStorage: ITask[] = (itemsJson ? JSON.parse(itemsJson) : []) as ITask[];
 
-    const promise = new Promise<ITask[]>(resolve => {
-      setTimeout(() => {
-        resolve(itemsFromStorage);
-      }, delay);
-    });
-
-    return from(promise);
+    const items$ = of(itemsFromStorage).pipe(delay(3000)); // articifical delay to simulate API call
+    return items$;
   }
 }
