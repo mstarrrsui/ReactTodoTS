@@ -1,4 +1,5 @@
 import { ITask } from '../types/ITask';
+import { Observable, from } from 'rxjs';
 
 // simulated delay
 const delay: number = 3000;
@@ -14,10 +15,10 @@ const makeCancelable = <T extends {}>(promise: Promise<T>): CancellablePromise<T
   const wrappedPromise = new Promise<T>((resolve, reject) => {
     promise.then(val => {
       if (hasCanceled) {
-        console.log('wrappedPromise - resolve but has been CANCELLED');
+        // console.log('wrappedPromise - resolve but has been CANCELLED');
         reject({isCanceled: true});
       } else {
-        console.log('wrappedPromise - RESOLVING');
+        // console.log('wrappedPromise - RESOLVING');
         resolve(val);
       }
     });
@@ -29,14 +30,14 @@ const makeCancelable = <T extends {}>(promise: Promise<T>): CancellablePromise<T
   return {
     promise: wrappedPromise,
     cancel() {
-      console.log('CancellablePromise - SETTING CANCELLED FLAG');
+      // console.log('CancellablePromise - SETTING CANCELLED FLAG');
       hasCanceled = true;
     }
   };
 };
 
 export default class TodoRepo {
-  public static loadTasks(): CancellablePromise<ITask[]> {
+  public static loadTasks(): Observable<ITask[]> {
     const itemsJson: string = localStorage.getItem('todoitems');
     const itemsFromStorage: ITask[] = (itemsJson ? JSON.parse(itemsJson) : []) as ITask[];
 
@@ -46,6 +47,6 @@ export default class TodoRepo {
       }, delay);
     });
 
-    return makeCancelable(promise);
+    return from(promise);
   }
 }
