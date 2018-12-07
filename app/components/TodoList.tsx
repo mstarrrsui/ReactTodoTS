@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ITask } from '../types/ITask';
 import TodoRepo from '../util/TodoRepo';
 import Spinner from './Spinner';
@@ -23,10 +24,13 @@ const initialState: ITodoListState = {
 export default class TodoList extends React.Component<RouteComponentProps, ITodoListState> {
   public state: Readonly<ITodoListState> = initialState;
   public subscription: Subscription = null;
+  private unsubscribe$ = new Subject();
 
   public componentDidMount() {
     log.debug('TodoList Mounted');
-    this.subscription = TodoRepo.loadTasks().subscribe(tasks => {
+    this.subscription = TodoRepo.loadTasks()
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(tasks => {
       log.debug('Setting todolist state');
 
       this.setState(() => ({
@@ -38,7 +42,9 @@ export default class TodoList extends React.Component<RouteComponentProps, ITodo
 
   public componentWillUnmount() {
     log.debug('TodoList Will Unmount');
-    if (this.subscription != null) { this.subscription.unsubscribe(); }
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+    // if (this.subscription != null) { this.subscription.unsubscribe(); }
   }
 
   public componentDidUpdate() {
