@@ -6,7 +6,8 @@ const initialState = { isOpen: false };
 type State = Readonly<typeof initialState>;
 
 // tslint:disable-next-line:variable-name
-const navLinkStyle = ({ isCurrent }: { isCurrent: boolean }): { style: React.CSSProperties } => {
+const navLinkStyle = props => {
+  const {isCurrent} = props;
   return {
     style: {
       color: '#4b4c4f',

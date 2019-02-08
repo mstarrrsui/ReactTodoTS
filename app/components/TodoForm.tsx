@@ -18,7 +18,7 @@ const initialState: ITodoFormState = {
 export default class TodoForm extends React.Component<ITodoFormProps, ITodoFormState> {
   public state: Readonly<ITodoFormState> = initialState;
 
-  public handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  public handleChange = event => {
     const value = event.target.value;
     this.setState(() => ({ todoTask: value }));
   };
@@ -29,7 +29,7 @@ export default class TodoForm extends React.Component<ITodoFormProps, ITodoFormS
     onClear();
   };
 
-  public handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  public handleSubmit = event => {
     const { onSubmit } = this.props;
     log.debug('handleSubmit');
     event.preventDefault();
@@ -56,11 +56,9 @@ export default class TodoForm extends React.Component<ITodoFormProps, ITodoFormS
         </div>
         <div className="col-md-3">
           <button type="submit" className="btn btn-primary m-2" disabled={!todoTask}>
-            {' '}
             Add
           </button>
           <button type="button" onClick={this.handleClear} className="btn btn-success m-1">
-            {' '}
             Clear Completed
           </button>
         </div>

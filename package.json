@@ -8,6 +8,7 @@
     "servedist": "node ./servedist.js",
     "lint": "tslint --project .",
     "build": "webpack -p --env.mode production",
+    "deploy": "aws s3 cp dist/ s3://starrdev.com/ --recursive",
     "clean": "rimraf dist/*",
     "visualize": "npm run build -- --env.visualize true",
     "transpile": "tsc",
