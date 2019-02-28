@@ -5,14 +5,9 @@ import LocationFinder from './LocationFinder';
 import NavBar from './NavBar';
 import SearchExample from './SearchExample';
 import TodoList from './TodoList';
-import { Router, RouteComponentProps } from '@reach/router';
 
 import log from 'loglevel';
-
-// tslint:disable-next-line:variable-name
-const ReturnNotFound = (_props: RouteComponentProps) => {
-  return <p>Not Found</p>;
-};
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 export default class App extends React.Component {
   public componentDidMount() {
@@ -24,16 +19,22 @@ export default class App extends React.Component {
   public render() {
     // log.debug('basename:' + BASENAME);
     return (
-      <div className="container">
-        <NavBar />
-        <Router>
-          <Home path="/" />
-          <TodoList path="/todo" />
-          <SearchExample path="/search" />
-          <LocationFinder path="/map" />
-          <ReturnNotFound default={true} />
-        </Router>
-      </div>
+      <Router>
+        <div className="container">
+          <NavBar />
+          <Switch>
+            <Route exact={true} path="/" component={Home} />
+            <Route exact={true} path="/todo" component={TodoList} />
+            <Route exact={true} path="/search" component={SearchExample} />
+            <Route exact={true} path="/map" component={LocationFinder} />
+            <Route render={this.returnNotFound} />
+          </Switch>
+        </div>
+      </Router>
     );
   }
+
+  private returnNotFound = () => {
+    return <p>Not Found</p>;
+  };
 }

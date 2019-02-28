@@ -5,7 +5,6 @@ import SearchService from './SearchService';
 import { css, cx } from 'emotion';
 import log from 'loglevel';
 import pf from '../util/petfinder';
-import { RouteComponentProps } from '@reach/router';
 
 const petfinder = pf({
   key: process.env.PETFINDER_API_KEY,
@@ -25,10 +24,7 @@ const initialState: ISearchExampleState = {
   results: []
 };
 
-export default class SearchExample extends React.Component<
-  RouteComponentProps,
-  ISearchExampleState
-> {
+export default class SearchExample extends React.Component<object, ISearchExampleState> {
   public state: Readonly<ISearchExampleState> = initialState;
   private searchService: SearchService;
   private searchSubscription: Subscription;

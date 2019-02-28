@@ -46,6 +46,7 @@
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-responsive-modal": "^3.4.0",
+    "react-router-dom": "^4.2.2",
     "react-select": "^2.1.0",
     "reactstrap": "^6.5.0",
     "rxjs": "^6.3.3",
@@ -55,9 +56,9 @@
   "devDependencies": {
     "@types/googlemaps": "^3.30.16",
     "@types/loglevel": "^1.5.3",
-    "@types/reach__router": "^1.2.1",
     "@types/react": "^16.4.16",
     "@types/react-dom": "^16.0.9",
+    "@types/react-router-dom": "^4.3.1",
     "@types/reactstrap": "^6.4.0",
     "@types/shortid": "0.0.29",
     "@types/webpack-env": "^1.13.6",
