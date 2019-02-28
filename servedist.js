@@ -46,7 +46,7 @@ app.get('/ping', function(req, res, next) {
 
 console.log('** REACT SAMPLE  TODO APP - DIST VERSION **');
 app.use(express.static('./dist/'));
-app.use('/*', express.static('./dist/index.html'));
+app.use('/*', express.static('./dist/site/index.html'));
 
 //serve ssl
 https.createServer(sslOptions, app).listen(sslport);

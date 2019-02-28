@@ -19,7 +19,7 @@ export default class App extends React.Component {
   public render() {
     // log.debug('basename:' + BASENAME);
     return (
-      <Router>
+      <Router basename="/site">
         <div className="container">
           <NavBar />
           <Switch>

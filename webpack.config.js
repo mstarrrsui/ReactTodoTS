@@ -53,7 +53,7 @@ module.exports = ({ mode, visualize = false } = { mode: 'development', visualize
         hints: false
       },
       output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist/site'),
         filename: '[name].[hash].js',
         publicPath: ''
       },
