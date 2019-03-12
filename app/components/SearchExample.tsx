@@ -1,15 +1,9 @@
 import * as React from 'react';
-import { Subscription } from 'rxjs';
-import SearchService from './SearchService';
+import { from, Observable, of, Subject, Subscription } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 import { css, cx } from 'emotion';
 import log from 'loglevel';
-import pf from '../util/petfinder';
-
-const petfinder = pf({
-  key: process.env.PETFINDER_API_KEY,
-  secret: process.env.PETFINDER_API_SECRET
-});
 
 const SearchExampleClasses = cx('container', 'form-group', 'col-md-8', [
   css`
@@ -18,47 +12,68 @@ const SearchExampleClasses = cx('container', 'form-group', 'col-md-8', [
 ]);
 
 interface ISearchExampleState {
+  searchSubject: Subject<any>;
   results: any[];
 }
 const initialState: ISearchExampleState = {
+  searchSubject: new Subject<any>(),
   results: []
 };
 
 export default class SearchExample extends React.Component<object, ISearchExampleState> {
   public state: Readonly<ISearchExampleState> = initialState;
-  private searchService: SearchService;
-  private searchSubscription: Subscription;
+  public resultsSubscription: Subscription;
 
   constructor(props: any) {
     super(props);
-    this.searchService = new SearchService();
+    this.search = this.search.bind(this);
   }
 
   public componentDidMount() {
     log.debug('SearchExample mounted');
 
-    this.searchSubscription = this.searchService.getResultSubscription().subscribe(res => {
+    this.resultsSubscription = this.getResultsSubscription().subscribe(res => {
       this.setState({ results: res });
     });
   }
 
   public componentWillUnmount() {
-    if (this.searchSubscription) {
-      this.searchSubscription.unsubscribe();
+    if (this.resultsSubscription) {
+      this.resultsSubscription.unsubscribe();
     }
   }
 
-  public search = (event: React.ChangeEvent<HTMLInputElement>) => {
+  public search(event: React.ChangeEvent<HTMLInputElement>) {
     const searchtext = event.target.value.trim();
-    log.debug(`searching with ${searchtext}`);
-    this.searchService.search(searchtext);
-  };
+    log.debug(`searchtext: ${searchtext}`);
+    this.state.searchSubject.next(searchtext);
+  }
 
-  public getBreeds = () => {
-    petfinder.breed.list({ animal: 'dog' }).then((data: any) => log.debug(data));
-  };
+  public doSearch(term: any): Observable<any> {
+    log.debug(` search api call:${term}`);
+    const promise = fetch(`https://www.reddit.com/search.json?q=${term}`)
+      .then(response => response.json())
+      .then(json => {
+        return json.data.children;
+      });
+
+    return from(promise);
+  }
+
+  public getResultsSubscription(): Observable<any> {
+    return this.state.searchSubject.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap(term => (term ? this.doSearch(term) : of([]))),
+      catchError(error => {
+        log.error(error);
+        return of([]);
+      })
+    );
+  }
 
   public render() {
+
     const results = this.state.results.map(res => {
       return (
         <li className="list-group-item" key={res.data.id}>
@@ -77,9 +92,6 @@ export default class SearchExample extends React.Component<object, ISearchExampl
           onChange={this.search}
         />
         <ul className="list-group">{results}</ul>
-        {/* <button type="button" onClick={this.getBreeds} className="btn btn-success m-1">
-          Get Breeds
-        </button> */}
       </div>
     );
   }
