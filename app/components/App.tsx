@@ -18,8 +18,10 @@ export default class App extends React.Component {
 
   public render() {
     // log.debug('basename:' + BASENAME);
+    const modeName = process.env.NODE_ENV;
+    log.debug('modeName:' + modeName);
     return (
-      <Router basename="/site">
+      <Router>
         <div className="container">
           <NavBar />
           <Switch>

@@ -29,10 +29,10 @@ app.use(logger('combined'));
 //routes = require('./routes/index')(app);
 
 var sslOptions = {
-    key: fs.readFileSync('ssl/key.pem'),
-    cert: fs.readFileSync('ssl/cert.pem'),
-    passphrase: 'summer'
-  };
+  key: fs.readFileSync('ssl/key.pem'),
+  cert: fs.readFileSync('ssl/cert.pem'),
+  passphrase: 'summer'
+};
 
 console.log('Cranking up express....');
 //console.log('PORT=' + port);
@@ -40,21 +40,21 @@ console.log('Cranking up express....');
 //console.log('NODE_ENV=' + environment);
 
 app.get('/ping', function(req, res, next) {
-    console.log(req.body);
-    res.send('pong');
+  console.log(req.body);
+  res.send('pong');
 });
 
 console.log('** REACT SAMPLE  TODO APP - DIST VERSION **');
 app.use(express.static('./dist/'));
-app.use('/*', express.static('./dist/site/index.html'));
+app.use('/*', express.static('./dist/index.html'));
 
 //serve ssl
 https.createServer(sslOptions, app).listen(sslport);
 
 app.listen(port, function() {
-    console.log('Express server listening on port ' + port);
-    console.log(' HTTPS port ' + sslport);
-    console.log('env = ' + app.get('env') +
-                '\n__dirname = ' + __dirname +
-                '\nprocess.cwd = ' + process.cwd());
+  console.log('Express server listening on port ' + port);
+  console.log(' HTTPS port ' + sslport);
+  console.log(
+    'env = ' + app.get('env') + '\n__dirname = ' + __dirname + '\nprocess.cwd = ' + process.cwd()
+  );
 });

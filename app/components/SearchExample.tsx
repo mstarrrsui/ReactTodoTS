@@ -12,17 +12,18 @@ const SearchExampleClasses = cx('container', 'form-group', 'col-md-8', [
 ]);
 
 interface ISearchExampleState {
-  searchSubject: Subject<any>;
+  searchText: string;
   results: any[];
 }
 const initialState: ISearchExampleState = {
-  searchSubject: new Subject<any>(),
+  searchText: '',
   results: []
 };
 
 export default class SearchExample extends React.Component<object, ISearchExampleState> {
   public state: Readonly<ISearchExampleState> = initialState;
-  public resultsSubscription: Subscription;
+  private searchSubject: Subject<any> = new Subject();
+  private resultsSubscription: Subscription;
 
   constructor(props: any) {
     super(props);
@@ -46,7 +47,8 @@ export default class SearchExample extends React.Component<object, ISearchExampl
   public search(event: React.ChangeEvent<HTMLInputElement>) {
     const searchtext = event.target.value.trim();
     log.debug(`searchtext: ${searchtext}`);
-    this.state.searchSubject.next(searchtext);
+    this.setState({ searchText: searchtext });
+    this.searchSubject.next(searchtext);
   }
 
   public doSearch(term: any): Observable<any> {
@@ -61,7 +63,7 @@ export default class SearchExample extends React.Component<object, ISearchExampl
   }
 
   public getResultsSubscription(): Observable<any> {
-    return this.state.searchSubject.pipe(
+    return this.searchSubject.pipe(
       debounceTime(500),
       distinctUntilChanged(),
       switchMap(term => (term ? this.doSearch(term) : of([]))),
@@ -73,7 +75,6 @@ export default class SearchExample extends React.Component<object, ISearchExampl
   }
 
   public render() {
-
     const results = this.state.results.map(res => {
       return (
         <li className="list-group-item" key={res.data.id}>

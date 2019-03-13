@@ -53,7 +53,7 @@ module.exports = ({ mode, visualize = false } = { mode: 'development', visualize
         hints: false
       },
       output: {
-        path: path.resolve(__dirname, 'dist/site'),
+        path: path.resolve(__dirname, 'dist'),
         filename: '[name].[hash].js',
         publicPath: ''
       },
@@ -82,7 +82,7 @@ module.exports = ({ mode, visualize = false } = { mode: 'development', visualize
           title: 'React Starter App',
           template: 'app/index.html'
         }),
-        new DotEnvPlugin(),
+        //new DotEnvPlugin(),
         new webpack.ProvidePlugin({
           $: 'jquery',
           jQuery: 'jquery',
