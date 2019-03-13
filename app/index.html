@@ -10,14 +10,11 @@
     <div id="app"></div>
 
     <script type="text/javascript">
-      if ('serviceWorker' in navigator) {
+      const isProduction = '<%= process.env.NODE_ENV %>' === 'production'; //HtmlWebpackPlugin replaces the process.env.NODE_ENV value
+      if (isProduction && 'serviceWorker' in navigator) {
         // Use the window load event to keep the page load performant
         window.addEventListener('load', () => {
-          const modeName = '${process.env.NODE_ENV}'; //HtmlWebpackPlugin seems to be replacing this value
-          const isProduction = modeName === 'production';
-          if (isProduction) {
-            navigator.serviceWorker.register('service-worker.js');
-          }
+          navigator.serviceWorker.register('service-worker.js');
         });
       }
     </script>
