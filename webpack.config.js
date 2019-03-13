@@ -82,7 +82,7 @@ module.exports = ({ mode, visualize = false } = { mode: 'development', visualize
           title: 'React Starter App',
           template: 'app/index.html'
         }),
-        //new DotEnvPlugin(),
+        new DotEnvPlugin(),
         new webpack.ProvidePlugin({
           $: 'jquery',
           jQuery: 'jquery',
