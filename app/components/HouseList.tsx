@@ -12,7 +12,8 @@ interface Props {
 
 export default class HouseList extends Component<Props> {
   public onItemClick = (e: React.MouseEvent<HTMLElement>) => {
-    const idx = +e.currentTarget.dataset.index;
+
+    const idx = +e.currentTarget.dataset.index!;
     const house = this.props.houses[idx];
     log.debug('Item clicked');
     log.debug(idx);

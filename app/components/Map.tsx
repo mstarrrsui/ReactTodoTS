@@ -7,7 +7,7 @@ interface Props {
   googleApi: any;
   style: React.CSSProperties;
   location: Location;
-  onMapCreate(map: google.maps.Map): void;
+  onMapCreate(map: google.maps.Map | undefined): void;
 }
 
 export default class Map extends Component<Props> {
@@ -24,7 +24,7 @@ export default class Map extends Component<Props> {
     return <div style={this.props.style} ref={this.mapRef} />;
   }
 
-  private createMap(): google.maps.Map {
+  private createMap(): google.maps.Map | undefined {
     const { location } = this.props;
     try {
       const m = this.mapRef.current;
@@ -41,6 +41,7 @@ export default class Map extends Component<Props> {
     } catch (e) {
       log.error('Error occurred creating map');
       log.error(e);
+      return undefined;
     }
   }
 }

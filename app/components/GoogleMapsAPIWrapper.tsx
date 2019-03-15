@@ -52,6 +52,6 @@ export default class GoogleMapsAPI extends Component<Props, State> {
       return render(renderProps);
     }
 
-    return isFunction(children) ? children(renderProps) : null;
+    return children && isFunction(children) ? children(renderProps) : null;
   }
 }

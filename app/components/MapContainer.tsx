@@ -24,7 +24,7 @@ interface Props {
 }
 
 interface State {
-  map: google.maps.Map;
+  map: google.maps.Map | null;
 }
 
 const initialState: State = {
@@ -46,7 +46,9 @@ export default class MapContainer extends Component<Props, State> {
     log.debug('MapContainer - updated');
     const { location } = this.props;
     // move map
-    this.state.map.panTo({ lat: location.position.lat, lng: location.position.lng });
+    if (this.state.map) {
+      this.state.map.panTo({ lat: location.position.lat, lng: location.position.lng });
+    }
   }
 
   public render() {

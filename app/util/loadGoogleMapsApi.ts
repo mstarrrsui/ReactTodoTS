@@ -10,7 +10,7 @@ const CALLBACK_NAME = '__googleMapsApiOnLoadCallback';
 
 const OPTIONS_KEYS = ['channel', 'client', 'key', 'language', 'region', 'v'];
 
-let promise: Promise<any> = null;
+let promise: Promise<any>;
 
 export const loadGoogleMapsApi = (options: any): Promise<any> => {
   options = options || {};

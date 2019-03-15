@@ -22,7 +22,7 @@ const initialState: ITodoListState = {
 
 export default class TodoList extends React.Component<object, ITodoListState> {
   public state: Readonly<ITodoListState> = initialState;
-  public subscription: Subscription = null;
+  public subscription: Subscription | undefined;
   private unsubscribe$ = new Subject();
 
   public componentDidMount() {

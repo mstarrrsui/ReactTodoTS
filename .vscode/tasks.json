@@ -8,15 +8,15 @@
             "script": "lint",
             "problemMatcher": {
                 "base": "$tslint5",
-                "fileLocation": "relative"
+                "fileLocation": "absolute"
             }
         },
         {
-            "type": "gulp",
-            "task": "tslint",
+            "type": "npm",
+            "script": "check",
             "problemMatcher": [
-                "$tslint5"
+              "$tsc"
             ]
-        }
+          }
     ]
 }

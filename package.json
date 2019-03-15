@@ -7,6 +7,7 @@
     "start": "webpack-dev-server --env.mode development",
     "servedist": "node ./servedist.js",
     "lint": "tslint --project .",
+    "check": "tsc --noEmit",
     "build": "webpack -p --env.mode production",
     "deploy": "aws s3 cp dist/ s3://starrdev.com/ --recursive",
     "clean": "rimraf dist/*",

@@ -13,7 +13,7 @@ interface ILoadingProps {
 }
 
 interface ILoadingState {
-  text: string;
+  text: string | undefined;
 }
 
 export default class Loading extends React.Component<ILoadingProps, ILoadingState> {
@@ -22,7 +22,7 @@ export default class Loading extends React.Component<ILoadingProps, ILoadingStat
     text: 'Loading'
   };
 
-  private interval: number;
+  private interval!: number;
 
   constructor(props: ILoadingProps) {
     super(props);
@@ -36,25 +36,17 @@ export default class Loading extends React.Component<ILoadingProps, ILoadingStat
     const { text, speed } = this.props;
 
     const stopper = text + '........';
-    this.interval = window.setInterval(() => {
+    this.interval = setInterval(() => {
       if (this.state.text === stopper) {
-        this.setState(() => {
-          return {
-            text
-          };
-        });
+        this.setState(() => ({ text }));
       } else {
-        this.setState((prevState: ILoadingState) => {
-          return {
-            text: prevState.text + '.'
-          };
-        });
+        this.setState((prevState: ILoadingState) => ({ text: prevState.text + '.' }));
       }
     }, speed);
   }
 
   public componentWillUnmount() {
-    window.clearInterval(this.interval);
+    clearInterval(this.interval);
   }
 
   public render() {

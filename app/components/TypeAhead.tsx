@@ -24,7 +24,7 @@ const initialState: ITypeAheadState = {
 export default class TypeAhead extends React.Component<IProps, ITypeAheadState> {
   public state: Readonly<ITypeAheadState> = initialState;
   private searchSubject: Subject<any> = new Subject();
-  private resultsSubscription: Subscription;
+  private resultsSubscription: Subscription | undefined;
 
   constructor(props: IProps) {
     super(props);
