@@ -1,34 +1,35 @@
 import * as React from 'react';
-import { from, Observable, of, Subject, Subscription } from 'rxjs';
+import { Observable, of, Subject, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { hasChildren, hasRender } from '../util/typeUtil';
 
 import log from 'loglevel';
 
-interface IProps {
-  doSearch: (term: string) => Observable<any> | null;
-  children: (props: ChildProps) => React.ReactNode;
-}
+type Props = { doSearch: (term: string) => Observable<any> | null } & RenderProps;
 
-interface IState {
-  searchText: string;
-  results: any[];
-}
+type State = Readonly<typeof initialState>;
 
-type ChildProps = IState & {
-  onSearchTextChanged: (event: React.ChangeEvent<HTMLInputElement>) => void;
-};
+// this is the shape of the props we pass to our render prop function. The getAPI function
+// allows us to put construction in one place and use it describe the type here
+type API = ReturnType<TypeAhead['getApi']>;
 
-const initialState: IState = {
+// render prop concept can either be a property - usually called render - which is a function, or
+// the child - the children prop - is the render function.  This union type supports both
+type RenderProps =
+  | { children: (props: API) => React.ReactNode }
+  | { render: (props: API) => React.ReactNode };
+
+const initialState = {
   searchText: '',
-  results: []
+  results: [] as any[]
 };
 
-export default class TypeAhead extends React.Component<IProps, IState> {
-  public state: Readonly<IState> = initialState;
+export default class TypeAhead extends React.Component<Props, State> {
+  public state: Readonly<State> = initialState;
   private searchSubject: Subject<any> = new Subject();
   private resultsSubscription: Subscription | undefined;
 
-  constructor(props: IProps) {
+  constructor(props: Props) {
     super(props);
     this.onSearchTextChanged = this.onSearchTextChanged.bind(this);
   }
@@ -54,22 +55,11 @@ export default class TypeAhead extends React.Component<IProps, IState> {
     this.searchSubject.next(searchtext);
   }
 
-  public doSearch(term: string): Observable<any> {
-    log.debug(` search api call:${term}`);
-    const promise = fetch(`https://www.reddit.com/search.json?q=${term}`)
-      .then(response => response.json())
-      .then(json => {
-        return json.data.children;
-      });
-
-    return from(promise);
-  }
-
   public getResultsSubscription(): Observable<any> {
     return this.searchSubject.pipe(
       debounceTime(500),
       distinctUntilChanged(),
-      switchMap(term => (term ? this.doSearch(term) : of([]))),
+      switchMap(term => (term ? this.props.doSearch(term) : of([]))),
       catchError(error => {
         log.error(error);
         return of([]);
@@ -77,20 +67,20 @@ export default class TypeAhead extends React.Component<IProps, IState> {
     );
   }
 
-  public render() {
-    const { children } = this.props;
+  private getApi() {
+    return {
+      results: this.state.results,
+      onSearchTextChanged: this.onSearchTextChanged
+    };
+  }
 
-    if (!(children instanceof Function)) {
-      throw new Error('TypeAhead children needs to be a function.');
+  public render() {
+    if (hasRender(this.props)) {
+      return this.props.render(this.getApi());
     }
 
-    return (
-      <div>
-        {this.props.children({
-          ...this.state,
-          onSearchTextChanged: this.onSearchTextChanged
-        })}
-      </div>
-    );
+    if (hasChildren(this.props)) {
+      return this.props.children(this.getApi());
+    }
   }
 }
