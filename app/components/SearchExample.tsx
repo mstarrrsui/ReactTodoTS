@@ -24,7 +24,7 @@ const doSearch = (term: any): Observable<any> => {
 const SearchExample: React.SFC = () => {
   return (
     <TypeAhead doSearch={doSearch}>
-      {(onSearchTextChanged, results) => (
+      {({ onSearchTextChanged, results }) => (
         <div className={SearchExampleClasses}>
           <h4>Reddit Search</h4>
           <input

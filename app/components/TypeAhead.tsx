@@ -5,24 +5,26 @@ import { catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/
 import log from 'loglevel';
 
 interface IProps {
-  doSearch: (term: string) => Observable<any>;
-  children: (
-    onSearchTextChanged: (event: React.ChangeEvent<HTMLInputElement>) => void,
-    results: any[]
-  ) => React.ReactNode;
+  doSearch: (term: string) => Observable<any> | null;
+  children: (props: ChildProps) => React.ReactNode;
 }
 
-interface ITypeAheadState {
+interface IState {
   searchText: string;
   results: any[];
 }
-const initialState: ITypeAheadState = {
+
+type ChildProps = IState & {
+  onSearchTextChanged: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+const initialState: IState = {
   searchText: '',
   results: []
 };
 
-export default class TypeAhead extends React.Component<IProps, ITypeAheadState> {
-  public state: Readonly<ITypeAheadState> = initialState;
+export default class TypeAhead extends React.Component<IProps, IState> {
+  public state: Readonly<IState> = initialState;
   private searchSubject: Subject<any> = new Subject();
   private resultsSubscription: Subscription | undefined;
 
@@ -82,6 +84,13 @@ export default class TypeAhead extends React.Component<IProps, ITypeAheadState> 
       throw new Error('TypeAhead children needs to be a function.');
     }
 
-    return <div>{this.props.children(this.onSearchTextChanged, this.state.results)}</div>;
+    return (
+      <div>
+        {this.props.children({
+          ...this.state,
+          onSearchTextChanged: this.onSearchTextChanged
+        })}
+      </div>
+    );
   }
 }
