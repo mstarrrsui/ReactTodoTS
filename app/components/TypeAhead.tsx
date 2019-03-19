@@ -5,7 +5,7 @@ import { hasChildren, hasRender } from '../util/typeUtil';
 
 import log from 'loglevel';
 
-type Props = { doSearch: (term: string) => Observable<any> | null } & RenderProps;
+type Props = { doSearch: (term: string) => Observable<any> } & RenderProps;
 
 type State = Readonly<typeof initialState>;
 
@@ -25,7 +25,7 @@ const initialState = {
 };
 
 export default class TypeAhead extends React.Component<Props, State> {
-  public state: Readonly<State> = initialState;
+  public state: State = initialState;
   private searchSubject: Subject<any> = new Subject();
   private resultsSubscription: Subscription | undefined;
 
