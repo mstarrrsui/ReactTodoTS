@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
 import { Location } from '../types/GoogleMaps';
-// import GoogleMapsAPIWrapper from './GoogleMapsAPIWrapper';
-import withGoogleMapsAPI, { IGoogleMapsProps } from './hoc/withGoogleMapsAPI';
+import GoogleMapsAPIWrapper from './GoogleMapsAPIWrapper';
 
 import Map from './Map';
 import Pano from './Pano';
@@ -20,7 +19,7 @@ const panoStyle: React.CSSProperties = {
   width: '60%'
 };
 
-interface Props extends IGoogleMapsProps {
+interface Props {
   location: Location;
 }
 
@@ -32,7 +31,7 @@ const initialState: State = {
   map: null
 };
 
-class MapContainer extends Component<Props, State> {
+export default class MapContainer extends Component<Props, State> {
   public state: State = initialState;
 
   public onMapCreate = (map: google.maps.Map) => {
@@ -53,25 +52,28 @@ class MapContainer extends Component<Props, State> {
   }
 
   public render() {
-    const { location, googleApi, apiIsLoading } = this.props;
+    const { location } = this.props;
     const { map } = this.state;
 
-    if (apiIsLoading) {
-      return <div>Loading...</div>;
-    } else {
-      return (
-        <div style={mapStyle}>
-          <Map
-            style={mapStyle}
-            googleApi={googleApi}
-            onMapCreate={this.onMapCreate}
-            location={location}
-          />
-          <Pano style={panoStyle} googleApi={googleApi} map={map} location={location} />
-        </div>
-      );
-    }
+    return (
+      <GoogleMapsAPIWrapper>
+        {({ googleApi, apiIsLoading }) => {
+          if (apiIsLoading) {
+            return <div>Loading...</div>;
+          }
+          return (
+            <div style={mapStyle}>
+              <Map
+                style={mapStyle}
+                googleApi={googleApi}
+                onMapCreate={this.onMapCreate}
+                location={location}
+              />
+              <Pano style={panoStyle} googleApi={googleApi} map={map} location={location} />
+            </div>
+          );
+        }}
+      </GoogleMapsAPIWrapper>
+    );
   }
 }
-
-export default withGoogleMapsAPI(MapContainer);
