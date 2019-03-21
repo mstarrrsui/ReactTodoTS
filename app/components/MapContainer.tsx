@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Location } from '../types/GoogleMaps';
-import GoogleMapsAPIWrapper from './GoogleMapsAPIWrapper';
+import GoogleMapsAPIProvider from './GoogleMapsAPIProvider';
 
 import Map from './Map';
 import Pano from './Pano';
@@ -56,7 +56,7 @@ export default class MapContainer extends Component<Props, State> {
     const { map } = this.state;
 
     return (
-      <GoogleMapsAPIWrapper>
+      <GoogleMapsAPIProvider>
         {({ googleApi, apiIsLoading }) => {
           if (apiIsLoading) {
             return <div>Loading...</div>;
@@ -73,7 +73,7 @@ export default class MapContainer extends Component<Props, State> {
             </div>
           );
         }}
-      </GoogleMapsAPIWrapper>
+      </GoogleMapsAPIProvider>
     );
   }
 }
