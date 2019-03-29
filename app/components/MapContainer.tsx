@@ -44,6 +44,8 @@ class MapContainer extends Component<Props, State> {
     }));
   };
 
+
+
   componentDidUpdate() {
     log.debug('MapContainer - updated');
     const { location } = this.props;

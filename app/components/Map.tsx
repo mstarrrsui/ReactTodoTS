@@ -20,10 +20,6 @@ export default class Map extends Component<Props> {
     }
   }
 
-  render() {
-    return <div style={this.props.style} ref={this.mapRef} />;
-  }
-
   private createMap(): google.maps.Map | undefined {
     const { location } = this.props;
     try {
@@ -44,4 +40,9 @@ export default class Map extends Component<Props> {
       return undefined;
     }
   }
+
+  render() {
+    return <div style={this.props.style} ref={this.mapRef} />;
+  }
+
 }
