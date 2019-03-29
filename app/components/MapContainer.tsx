@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Location } from '../types/GoogleMaps';
-import GoogleMapsAPIProvider from './GoogleMapsAPIProvider';
+import injectGoogleMapsAPI, { IGoogleMapsProps } from './hoc/injectGoogleMapsAPI';
 
 import Map from './Map';
 import Pano from './Pano';
@@ -19,7 +19,7 @@ const panoStyle: React.CSSProperties = {
   width: '60%'
 };
 
-interface Props {
+interface Props extends IGoogleMapsProps {
   location: Location;
 }
 
@@ -31,7 +31,7 @@ const initialState: State = {
   map: null
 };
 
-export default class MapContainer extends Component<Props, State> {
+class MapContainer extends Component<Props, State> {
   public state: State = initialState;
 
   public onMapCreate = (map: google.maps.Map) => {
@@ -52,28 +52,25 @@ export default class MapContainer extends Component<Props, State> {
   }
 
   public render() {
-    const { location } = this.props;
+    const { location, googleApi, apiIsLoading } = this.props;
     const { map } = this.state;
 
-    return (
-      <GoogleMapsAPIProvider>
-        {({ googleApi, apiIsLoading }) => {
-          if (apiIsLoading) {
-            return <div>Loading...</div>;
-          }
-          return (
-            <div style={mapStyle}>
-              <Map
-                style={mapStyle}
-                googleApi={googleApi}
-                onMapCreate={this.onMapCreate}
-                location={location}
-              />
-              <Pano style={panoStyle} googleApi={googleApi} map={map} location={location} />
-            </div>
-          );
-        }}
-      </GoogleMapsAPIProvider>
-    );
+    if (apiIsLoading) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+        <div style={mapStyle}>
+          <Map
+            style={mapStyle}
+            googleApi={googleApi}
+            onMapCreate={this.onMapCreate}
+            location={location}
+          />
+          <Pano style={panoStyle} googleApi={googleApi} map={map} location={location} />
+        </div>
+      );
+    }
   }
 }
+
+export default injectGoogleMapsAPI(MapContainer);
