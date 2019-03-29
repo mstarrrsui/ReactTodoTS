@@ -25,7 +25,8 @@ const initialState = {
 };
 
 export default class TypeAhead extends React.Component<Props, State> {
-  public state: State = initialState;
+  state: State = initialState;
+
   private searchSubject: Subject<any> = new Subject();
   private resultsSubscription: Subscription | undefined;
 
@@ -34,7 +35,7 @@ export default class TypeAhead extends React.Component<Props, State> {
     this.onSearchTextChanged = this.onSearchTextChanged.bind(this);
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     log.debug('SearchExample mounted');
 
     this.resultsSubscription = this.getResultsSubscription().subscribe(res => {
@@ -42,20 +43,20 @@ export default class TypeAhead extends React.Component<Props, State> {
     });
   }
 
-  public componentWillUnmount() {
+  componentWillUnmount() {
     if (this.resultsSubscription) {
       this.resultsSubscription.unsubscribe();
     }
   }
 
-  public onSearchTextChanged(event: React.ChangeEvent<HTMLInputElement>) {
+  onSearchTextChanged(event: React.ChangeEvent<HTMLInputElement>) {
     const searchtext = event.target.value.trim();
     log.debug(`searchtext: ${searchtext}`);
     this.setState({ searchText: searchtext });
     this.searchSubject.next(searchtext);
   }
 
-  public getResultsSubscription(): Observable<any> {
+  getResultsSubscription(): Observable<any> {
     return this.searchSubject.pipe(
       debounceTime(500),
       distinctUntilChanged(),
@@ -74,7 +75,7 @@ export default class TypeAhead extends React.Component<Props, State> {
     };
   }
 
-  public render() {
+  render() {
     if (hasRender(this.props)) {
       return this.props.render(this.getApi());
     }

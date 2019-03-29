@@ -17,7 +17,7 @@ interface ILoadingState {
 }
 
 export default class Loading extends React.Component<ILoadingProps, ILoadingState> {
-  public static defaultProps: ILoadingProps = {
+  static defaultProps: ILoadingProps = {
     speed: 300,
     text: 'Loading'
   };
@@ -32,7 +32,7 @@ export default class Loading extends React.Component<ILoadingProps, ILoadingStat
     };
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     const { text, speed } = this.props;
 
     const stopper = text + '........';
@@ -45,11 +45,11 @@ export default class Loading extends React.Component<ILoadingProps, ILoadingStat
     }, speed);
   }
 
-  public componentWillUnmount() {
+  componentWillUnmount() {
     clearInterval(this.interval);
   }
 
-  public render() {
+  render() {
     return <div style={loadingstyle}>{this.state.text}</div>;
   }
 }

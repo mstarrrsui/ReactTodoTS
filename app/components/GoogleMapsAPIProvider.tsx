@@ -27,9 +27,9 @@ interface Props {
 type RenderCallback = (args: IChildProps) => ReactNode;
 
 export default class GoogleMapsAPIProvider extends Component<Props, State> {
-  public state: State = initialState;
+  state: State = initialState;
 
-  public componentDidMount() {
+  componentDidMount() {
     log.debug('GoogleMapsAPIProvider Mounted');
     loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY }).then(api => {
       // this.createMap(api);
@@ -41,7 +41,7 @@ export default class GoogleMapsAPIProvider extends Component<Props, State> {
     });
   }
 
-  public render() {
+  render() {
     const { children, render } = this.props;
     const renderProps = {
       apiIsLoading: this.state.isLoading,

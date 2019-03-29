@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default class HouseList extends Component<Props> {
-  public onItemClick = (e: React.MouseEvent<HTMLElement>) => {
+  onItemClick = (e: React.MouseEvent<HTMLElement>) => {
 
     const idx = +e.currentTarget.dataset.index!;
     const house = this.props.houses[idx];
@@ -21,7 +21,7 @@ export default class HouseList extends Component<Props> {
     this.props.onSelectHouse(house.location);
   };
 
-  public render() {
+  render() {
     return (
       <div>
         <ListGroup>

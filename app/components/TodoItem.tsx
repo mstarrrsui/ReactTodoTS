@@ -48,9 +48,9 @@ interface ITodoItemProps {
 }
 
 export default class TodoItem extends React.PureComponent<ITodoItemProps> {
-  public onClickHandler = (e: React.MouseEvent) => this.props.onClick(this.props.item, e);
+  onClickHandler = (e: React.MouseEvent) => this.props.onClick(this.props.item, e);
 
-  public render() {
+  render() {
     const { item } = this.props;
 
     const itemclasses = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: item.completed });

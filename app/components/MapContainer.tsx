@@ -19,9 +19,9 @@ const panoStyle: React.CSSProperties = {
   width: '60%'
 };
 
-interface Props extends IGoogleMapsProps {
+type Props = {
   location: Location;
-}
+} & IGoogleMapsProps;
 
 interface State {
   map: google.maps.Map | null;
@@ -32,9 +32,11 @@ const initialState: State = {
 };
 
 class MapContainer extends Component<Props, State> {
-  public state: State = initialState;
+  readonly state: State = initialState;
 
-  public onMapCreate = (map: google.maps.Map) => {
+
+
+  onMapCreate = (map: google.maps.Map) => {
     log.debug('MapContainer - onMapCreate');
     log.debug(map);
     this.setState(() => ({
@@ -42,7 +44,7 @@ class MapContainer extends Component<Props, State> {
     }));
   };
 
-  public componentDidUpdate() {
+  componentDidUpdate() {
     log.debug('MapContainer - updated');
     const { location } = this.props;
     // move map
@@ -51,7 +53,7 @@ class MapContainer extends Component<Props, State> {
     }
   }
 
-  public render() {
+  render() {
     const { location, googleApi, apiIsLoading } = this.props;
     const { map } = this.state;
 

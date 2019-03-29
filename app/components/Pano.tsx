@@ -13,13 +13,13 @@ interface Props {
 export default class Pano extends Component<Props> {
   private panoRef = createRef<HTMLDivElement>();
 
-  public componentDidUpdate() {
+  componentDidUpdate() {
     if (this.props.map) {
       this.createPano();
     }
   }
 
-  public render() {
+  render() {
     return <div style={this.props.style} ref={this.panoRef} />;
   }
 

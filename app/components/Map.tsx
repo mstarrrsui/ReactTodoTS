@@ -3,24 +3,24 @@ import { Location } from '../types/GoogleMaps';
 
 import log from 'loglevel';
 
-interface Props {
+type Props = {
   googleApi: any;
   style: React.CSSProperties;
   location: Location;
   onMapCreate(map: google.maps.Map | undefined): void;
-}
+};
 
 export default class Map extends Component<Props> {
   private mapRef = createRef<HTMLDivElement>();
 
-  public componentDidMount() {
+  componentDidMount() {
     const m = this.createMap();
     if (this.props.onMapCreate) {
       this.props.onMapCreate(m);
     }
   }
 
-  public render() {
+  render() {
     return <div style={this.props.style} ref={this.mapRef} />;
   }
 

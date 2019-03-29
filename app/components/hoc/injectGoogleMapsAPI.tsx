@@ -20,9 +20,9 @@ export default function injectGoogleMapsAPI<P extends IGoogleMapsProps>
   };
 
   return class extends React.Component<Subtract<P,IGoogleMapsProps>> {
-    public state: State = initialState;
+    state: State = initialState;
 
-    public componentDidMount() {
+    componentDidMount() {
       log.debug('GoogleMapsAPI HOC Mounted');
       loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY }).then(api => {
         log.debug('GoogleMapsAPI HOC: Maps API loaded');
@@ -33,7 +33,7 @@ export default function injectGoogleMapsAPI<P extends IGoogleMapsProps>
       });
     }
 
-    public render() {
+    render() {
       const props = {
         googleApi: this.state.googleApi,
         apiIsLoading: this.state.isLoading,

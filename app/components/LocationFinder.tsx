@@ -15,16 +15,16 @@ const initialState: State = {
 };
 
 export default class LocationFinder extends Component {
-  public state: State = initialState;
+  state: State = initialState;
 
-  public onHouseSelect = (loc: Location) => {
+  onHouseSelect = (loc: Location) => {
     log.debug('On house select:' + loc.position.lat);
     this.setState(() => ({
       location: loc
     }));
   };
 
-  public render() {
+  render() {
     return (
       <div className="container">
         <div className="row">

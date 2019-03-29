@@ -16,20 +16,20 @@ const initialState: ITodoFormState = {
 };
 
 export default class TodoForm extends React.Component<ITodoFormProps, ITodoFormState> {
-  public state: Readonly<ITodoFormState> = initialState;
+  state: Readonly<ITodoFormState> = initialState;
 
-  public handleChange = event => {
+  handleChange = event => {
     const value = event.target.value;
     this.setState(() => ({ todoTask: value }));
   };
 
-  public handleClear = () => {
+  handleClear = () => {
     const { onClear } = this.props;
     log.debug('handleClear');
     onClear();
   };
 
-  public handleSubmit = event => {
+  handleSubmit = event => {
     const { onSubmit } = this.props;
     log.debug('handleSubmit');
     event.preventDefault();
@@ -40,7 +40,7 @@ export default class TodoForm extends React.Component<ITodoFormProps, ITodoFormS
     }
   };
 
-  public render() {
+  render() {
     const { todoTask } = this.state;
     return (
       <form className="form-inline form-row" onSubmit={this.handleSubmit}>

@@ -10,13 +10,13 @@ import log from 'loglevel';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 export default class App extends React.Component {
-  public componentDidMount() {
+  componentDidMount() {
     log.setDefaultLevel(3);
     log.setLevel(1, true);
     log.debug('App Mounted');
   }
 
-  public render() {
+  render() {
     // log.debug('basename:' + BASENAME);
     const modeName = process.env.NODE_ENV;
     log.debug('modeName:' + modeName);

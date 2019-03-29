@@ -21,11 +21,11 @@ const initialState: ITodoListState = {
 };
 
 export default class TodoList extends React.Component<object, ITodoListState> {
-  public state: Readonly<ITodoListState> = initialState;
-  public subscription: Subscription | undefined;
-  private unsubscribe$ = new Subject();
+  state: Readonly<ITodoListState> = initialState;
+  subscription: Subscription | undefined;
+  unsubscribe$ = new Subject();
 
-  public componentDidMount() {
+  componentDidMount() {
     log.debug('TodoList Mounted');
     this.subscription = TodoRepo.loadTasks()
     .pipe(takeUntil(this.unsubscribe$))
@@ -39,19 +39,19 @@ export default class TodoList extends React.Component<object, ITodoListState> {
     });
   }
 
-  public componentWillUnmount() {
+  componentWillUnmount() {
     log.debug('TodoList Will Unmount');
     // use unsubscribe stream to cancel all subscribers (which are using takeUntil)
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
-  public componentDidUpdate() {
+  componentDidUpdate() {
     log.debug('TodoList - component did update');
     localStorage.setItem('todoitems', JSON.stringify(this.state.todoItems));
   }
 
-  public handleSubmit = (newtaskdescription: string) => {
+  handleSubmit = (newtaskdescription: string) => {
     log.debug(`task is ${newtaskdescription}`);
     const newtask: ITask = {
       completed: false,
@@ -64,14 +64,14 @@ export default class TodoList extends React.Component<object, ITodoListState> {
     }));
   };
 
-  public handleClearCompleted = () => {
+  handleClearCompleted = () => {
     const nonCompletedItems = this.state.todoItems.filter(i => !i.completed);
     this.setState(() => ({
       todoItems: nonCompletedItems
     }));
   };
 
-  public handleClearItem = (item: ITask) => {
+  handleClearItem = (item: ITask) => {
     log.debug(`task cleared is ${item.description}`);
     const newitems = this.state.todoItems.map(
       i => (i.id === item.id ? { ...i, completed: !i.completed } : i)
@@ -81,7 +81,7 @@ export default class TodoList extends React.Component<object, ITodoListState> {
     }));
   };
 
-  public render() {
+  render() {
     const { todoItems, isLoading } = this.state;
 
     return (

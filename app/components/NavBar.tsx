@@ -6,14 +6,14 @@ const initialState = { isOpen: false };
 type State = Readonly<typeof initialState>;
 
 export default class NavBar extends React.Component<object, State> {
-  public readonly state: State = initialState;
+  readonly state: State = initialState;
 
   constructor(props: any) {
     super(props);
     this.toggle = this.toggle.bind(this);
   }
 
-  public render() {
+  render() {
     return (
       <div>
         <Navbar color="light" light={true} expand="md">
