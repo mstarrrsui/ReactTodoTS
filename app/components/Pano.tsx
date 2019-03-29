@@ -3,9 +3,14 @@ import { Location } from '../types/GoogleMaps';
 
 import log from 'loglevel';
 
+
+const panoStyle: React.CSSProperties = {
+  height: '40vh',
+  width: '100%'
+};
+
 interface Props {
   googleApi: any;
-  style: React.CSSProperties;
   location: Location;
   map: any;
 }
@@ -20,7 +25,7 @@ export default class Pano extends Component<Props> {
   }
 
   render() {
-    return <div style={this.props.style} ref={this.panoRef} />;
+    return <div style={panoStyle} ref={this.panoRef} />;
   }
 
   private createPano() {

@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 
 import { Location } from '../types/GoogleMaps';
 import injectGoogleMapsAPI, { IGoogleMapsProps } from './hoc/injectGoogleMapsAPI';
 
-import Map from './Map';
 import Pano from './Pano';
 
 import log from 'loglevel';
@@ -14,46 +13,67 @@ const mapStyle: React.CSSProperties = {
   marginBottom: '20px'
 };
 
-const panoStyle: React.CSSProperties = {
-  height: '40vh',
-  width: '60%'
-};
 
 type Props = {
   location: Location;
 } & IGoogleMapsProps;
 
 interface State {
-  map: google.maps.Map | null;
+  map: google.maps.Map | undefined;
 }
 
 const initialState: State = {
-  map: null
+  map: undefined
 };
 
 class MapContainer extends Component<Props, State> {
   readonly state: State = initialState;
+  private mapRef = createRef<HTMLDivElement>();
 
-
-
-  onMapCreate = (map: google.maps.Map) => {
-    log.debug('MapContainer - onMapCreate');
-    log.debug(map);
-    this.setState(() => ({
-      map
-    }));
-  };
-
-
+  constructor(props: Props) {
+    super(props);
+    this.createMap = this.createMap.bind(this);
+  }
 
   componentDidUpdate() {
-    log.debug('MapContainer - updated');
     const { location } = this.props;
-    // move map
+    // create or move map
     if (this.state.map) {
       this.state.map.panTo({ lat: location.position.lat, lng: location.position.lng });
+    } else {
+      if (this.mapRef) {
+        const map = this.createMap();
+        log.debug(map);
+          this.setState(() => ({
+        map
+        }));
+      }
     }
   }
+
+
+  private createMap(): google.maps.Map | undefined {
+    const { location } = this.props;
+    try {
+      const m = this.mapRef.current;
+      const map: google.maps.Map = new this.props.googleApi.Map(m, {
+        center: location.position,
+        zoom: 16
+      });
+
+      return map;
+      // const coordInfoWindow = new api.InfoWindow();
+      // coordInfoWindow.setContent('MIKE!');
+      // coordInfoWindow.setPosition(mikeHouse);
+      // coordInfoWindow.open(map);
+    } catch (e) {
+      log.error('Error occurred creating map');
+      log.error(e);
+      return undefined;
+    }
+  }
+
+
 
   render() {
     const { location, googleApi, apiIsLoading } = this.props;
@@ -63,14 +83,9 @@ class MapContainer extends Component<Props, State> {
       return <div>Loading...</div>;
     } else {
       return (
-        <div style={mapStyle}>
-          <Map
-            style={mapStyle}
-            googleApi={googleApi}
-            onMapCreate={this.onMapCreate}
-            location={location}
-          />
-          <Pano style={panoStyle} googleApi={googleApi} map={map} location={location} />
+        <div>
+          <div style={mapStyle} ref={this.mapRef} />
+          <Pano googleApi={googleApi} map={map} location={location} />
         </div>
       );
     }
