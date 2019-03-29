@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { houses } from '../data/houses';
-import { Location } from '../types/GoogleMaps';
+import { Location, House } from '../types/GoogleMaps';
 import HouseList from './HouseList';
 import MapContainer from './MapContainer';
 
@@ -8,21 +8,30 @@ import log from 'loglevel';
 
 interface State {
   location: Location;
+  selectedId: number;
 }
 
 const initialState: State = {
-  location: houses[0].location
+  location: houses[0].location,
+  selectedId: 1
 };
 
 export default class LocationFinder extends Component {
   state: State = initialState;
 
-  onHouseSelect = (loc: Location) => {
+  onHouseSelect = (selectedId: number) => {
+    const loc = this.getLocationForId(selectedId);
     log.debug('On house select:' + loc.position.lat);
     this.setState(() => ({
-      location: loc
+      location: loc,
+      selectedId
     }));
   };
+
+  private getLocationForId(id: number): Location {
+    const found = houses.find(h => h.id === id) as House;
+    return found.location;
+  }
 
   render() {
     return (
@@ -33,7 +42,11 @@ export default class LocationFinder extends Component {
           </div>
           <div className="col-md-2" style={{ marginTop: '35px' }}>
             <h4>Houses</h4>
-            <HouseList houses={houses} onSelectHouse={this.onHouseSelect} />
+            <HouseList
+              houses={houses}
+              selectedId={this.state.selectedId}
+              onSelectHouse={this.onHouseSelect}
+            />
           </div>
         </div>
       </div>

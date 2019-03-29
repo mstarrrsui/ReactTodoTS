@@ -2,6 +2,7 @@ import { House } from '../types/GoogleMaps';
 
 export const houses: House[] = [
   {
+    id: 1,
     name: 'Mike',
     location: {
       position: { lat: 33.8520094, lng: -84.2745642 },
@@ -12,6 +13,7 @@ export const houses: House[] = [
     }
   },
   {
+    id: 2,
     name: 'Robin',
     location: {
       position: { lat: 33.8392359, lng: -84.2744222 },
@@ -22,6 +24,7 @@ export const houses: House[] = [
     }
   },
   {
+    id: 3,
     name: 'Trey',
     location: {
       position: { lat: 33.837296, lng: -84.284807 },
@@ -32,6 +35,7 @@ export const houses: House[] = [
     }
   },
   {
+    id: 4,
     name: 'Matt',
     location: {
       position: { lat: 33.8221623, lng: -84.2780801 },
@@ -42,6 +46,7 @@ export const houses: House[] = [
     }
   },
   {
+    id: 5,
     name: 'Sri',
     location: {
       position: { lat: 33.8179015, lng: -84.2879042 },

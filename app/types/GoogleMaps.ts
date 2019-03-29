@@ -14,6 +14,7 @@ export interface Location {
 }
 
 export interface House {
+  id: number;
   name: string;
   location: Location;
 }
