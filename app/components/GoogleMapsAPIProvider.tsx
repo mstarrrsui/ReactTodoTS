@@ -20,11 +20,11 @@ interface IChildProps {
 }
 
 interface Props {
-  children?: RenderCallback;
-  render?: RenderCallback;
+  children?: InnerRenderFunction;
+  render?: InnerRenderFunction;
 }
 
-type RenderCallback = (args: IChildProps) => ReactNode;
+type InnerRenderFunction = (args: IChildProps) => ReactNode;
 
 export default class GoogleMapsAPIProvider extends Component<Props, State> {
   state: State = initialState;
