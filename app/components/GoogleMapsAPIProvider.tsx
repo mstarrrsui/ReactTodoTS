@@ -5,53 +5,53 @@ import { isFunction } from 'util';
 import { loadGoogleMapsApi } from '../util/loadGoogleMapsApi';
 
 interface State {
-    googleApi: any;
-    isLoading: boolean;
+  googleApi: any;
+  isLoading: boolean;
 }
 
 const initialState: State = {
-    googleApi: null,
-    isLoading: true,
+  googleApi: null,
+  isLoading: true
 };
 
 interface IChildProps {
-    googleApi: any;
-    apiIsLoading: boolean;
+  googleApi: any;
+  apiIsLoading: boolean;
 }
 
 interface Props {
-    children?: InnerRenderFunction;
-    render?: InnerRenderFunction;
+  children?: InnerRenderFunction;
+  render?: InnerRenderFunction;
 }
 
 type InnerRenderFunction = (args: IChildProps) => ReactNode;
 
 export default class GoogleMapsAPIProvider extends Component<Props, State> {
-    state: State = initialState;
+  state: State = initialState;
 
-    componentDidMount() {
-        log.debug('GoogleMapsAPIProvider Mounted');
-        loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY }).then((api) => {
-            // this.createMap(api);
-            log.debug('GoogleMapsAPIProvider: Maps API loaded');
-            this.setState(() => ({
-                googleApi: api,
-                isLoading: false,
-            }));
-        });
+  componentDidMount() {
+    log.debug('GoogleMapsAPIProvider Mounted');
+    loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY }).then(api => {
+      // this.createMap(api);
+      log.debug('GoogleMapsAPIProvider: Maps API loaded');
+      this.setState(() => ({
+        googleApi: api,
+        isLoading: false
+      }));
+    });
+  }
+
+  render() {
+    const { children, render } = this.props;
+    const renderProps = {
+      apiIsLoading: this.state.isLoading,
+      googleApi: this.state.googleApi
+    };
+
+    if (render) {
+      return render(renderProps);
     }
 
-    render() {
-        const { children, render } = this.props;
-        const renderProps = {
-            apiIsLoading: this.state.isLoading,
-            googleApi: this.state.googleApi,
-        };
-
-        if (render) {
-            return render(renderProps);
-        }
-
-        return children && isFunction(children) ? children(renderProps) : null;
-    }
+    return children && isFunction(children) ? children(renderProps) : null;
+  }
 }

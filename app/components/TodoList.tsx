@@ -9,92 +9,91 @@ import Spinner from './Spinner';
 import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
 
-
 interface ITodoListState {
-    todoItems: ITask[];
-    isLoading: boolean;
+  todoItems: ITask[];
+  isLoading: boolean;
 }
 
 const initialState: ITodoListState = {
-    isLoading: true,
-    todoItems: [],
+  isLoading: true,
+  todoItems: []
 };
 
 export default class TodoList extends React.Component<object, ITodoListState> {
-    state: Readonly<ITodoListState> = initialState;
+  state: Readonly<ITodoListState> = initialState;
 
-    subscription: Subscription | undefined;
+  subscription: Subscription | undefined;
 
-    unsubscribe$ = new Subject();
+  unsubscribe$ = new Subject();
 
-    componentDidMount() {
-        log.debug('TodoList Mounted');
-        this.subscription = TodoRepo.loadTasks()
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((tasks) => {
-                log.debug('Setting todolist state');
+  componentDidMount() {
+    log.debug('TodoList Mounted');
+    this.subscription = TodoRepo.loadTasks()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(tasks => {
+        log.debug('Setting todolist state');
 
-                this.setState(() => ({
-                    isLoading: false,
-                    todoItems: tasks,
-                }));
-            });
-    }
-
-    componentWillUnmount() {
-        log.debug('TodoList Will Unmount');
-        // use unsubscribe stream to cancel all subscribers (which are using takeUntil)
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
-    }
-
-    componentDidUpdate() {
-        log.debug('TodoList - component did update');
-        localStorage.setItem('todoitems', JSON.stringify(this.state.todoItems));
-    }
-
-    handleSubmit = (newtaskdescription: string) => {
-        log.debug(`task is ${newtaskdescription}`);
-        const newtask: ITask = {
-            completed: false,
-            description: newtaskdescription,
-            id: shortid.generate(),
-        };
-
-        this.setState(prevState => ({
-            todoItems: [...prevState.todoItems, newtask],
-        }));
-    };
-
-    handleClearCompleted = () => {
-        const nonCompletedItems = this.state.todoItems.filter(i => !i.completed);
         this.setState(() => ({
-            todoItems: nonCompletedItems,
+          isLoading: false,
+          todoItems: tasks
         }));
+      });
+  }
+
+  componentWillUnmount() {
+    log.debug('TodoList Will Unmount');
+    // use unsubscribe stream to cancel all subscribers (which are using takeUntil)
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  componentDidUpdate() {
+    log.debug('TodoList - component did update');
+    localStorage.setItem('todoitems', JSON.stringify(this.state.todoItems));
+  }
+
+  handleSubmit = (newtaskdescription: string) => {
+    log.debug(`task is ${newtaskdescription}`);
+    const newtask: ITask = {
+      completed: false,
+      description: newtaskdescription,
+      id: shortid.generate()
     };
 
-    handleClearItem = (item: ITask) => {
-        log.debug(`task cleared is ${item.description}`);
-        const newitems = this.state.todoItems.map(
-            i => (i.id === item.id ? { ...i, completed: !i.completed } : i),
-        );
-        this.setState(() => ({
-            todoItems: newitems,
-        }));
-    };
+    this.setState(prevState => ({
+      todoItems: [...prevState.todoItems, newtask]
+    }));
+  };
 
-    render() {
-        const { todoItems, isLoading } = this.state;
+  handleClearCompleted = () => {
+    const nonCompletedItems = this.state.todoItems.filter(i => !i.completed);
+    this.setState(() => ({
+      todoItems: nonCompletedItems
+    }));
+  };
 
-        return (
-          <div className="container todolist">
-              <TodoForm onSubmit={this.handleSubmit} onClear={this.handleClearCompleted} />
-              {isLoading ? (
-                  <Spinner />
-                ) : (
-                  <TodoItems items={todoItems} onClearItem={this.handleClearItem} />
-                )}
-            </div>
-        );
-    }
+  handleClearItem = (item: ITask) => {
+    log.debug(`task cleared is ${item.description}`);
+    const newitems = this.state.todoItems.map(
+      i => (i.id === item.id ? { ...i, completed: !i.completed } : i)
+    );
+    this.setState(() => ({
+      todoItems: newitems
+    }));
+  };
+
+  render() {
+    const { todoItems, isLoading } = this.state;
+
+    return (
+      <div className="container todolist">
+        <TodoForm onSubmit={this.handleSubmit} onClear={this.handleClearCompleted} />
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <TodoItems items={todoItems} onClearItem={this.handleClearItem} />
+        )}
+      </div>
+    );
+  }
 }

@@ -1,13 +1,8 @@
 import * as React from 'react';
-import {
-    Observable, of, Subject, Subscription,
-} from 'rxjs';
-import {
-    catchError, debounceTime, distinctUntilChanged, switchMap,
-} from 'rxjs/operators';
+import { Observable, of, Subject, Subscription } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import log from 'loglevel';
 import { hasChildren, hasRender } from '../util/typeUtil';
-
 
 type Props = { doSearch: (term: string) => Observable<any> } & RenderProps;
 
@@ -24,69 +19,69 @@ type RenderProps =
   | { render: (props: API) => React.ReactNode };
 
 const initialState = {
-    searchText: '',
-    results: [] as any[],
+  searchText: '',
+  results: [] as any[]
 };
 
 export default class TypeAhead extends React.Component<Props, State> {
-    state: State = initialState;
+  state: State = initialState;
 
-    private searchSubject: Subject<any> = new Subject();
+  private searchSubject: Subject<any> = new Subject();
 
-    private resultsSubscription: Subscription | undefined;
+  private resultsSubscription: Subscription | undefined;
 
-    constructor(props: Props) {
-        super(props);
-        this.onSearchTextChanged = this.onSearchTextChanged.bind(this);
+  constructor(props: Props) {
+    super(props);
+    this.onSearchTextChanged = this.onSearchTextChanged.bind(this);
+  }
+
+  componentDidMount() {
+    log.debug('SearchExample mounted');
+
+    this.resultsSubscription = this.getResultsSubscription().subscribe(res => {
+      this.setState({ results: res });
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.resultsSubscription) {
+      this.resultsSubscription.unsubscribe();
+    }
+  }
+
+  onSearchTextChanged(event: React.ChangeEvent<HTMLInputElement>) {
+    const searchtext = event.target.value.trim();
+    log.debug(`searchtext: ${searchtext}`);
+    this.setState({ searchText: searchtext });
+    this.searchSubject.next(searchtext);
+  }
+
+  getResultsSubscription(): Observable<any> {
+    return this.searchSubject.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap(term => (term ? this.props.doSearch(term) : of([]))),
+      catchError(error => {
+        log.error(error);
+        return of([]);
+      })
+    );
+  }
+
+  private getApi() {
+    return {
+      results: this.state.results,
+      onSearchTextChanged: this.onSearchTextChanged
+    };
+  }
+
+  render() {
+    if (hasRender(this.props)) {
+      return this.props.render(this.getApi());
     }
 
-    componentDidMount() {
-        log.debug('SearchExample mounted');
-
-        this.resultsSubscription = this.getResultsSubscription().subscribe((res) => {
-            this.setState({ results: res });
-        });
+    if (hasChildren(this.props)) {
+      return this.props.children(this.getApi());
     }
-
-    componentWillUnmount() {
-        if (this.resultsSubscription) {
-            this.resultsSubscription.unsubscribe();
-        }
-    }
-
-    onSearchTextChanged(event: React.ChangeEvent<HTMLInputElement>) {
-        const searchtext = event.target.value.trim();
-        log.debug(`searchtext: ${searchtext}`);
-        this.setState({ searchText: searchtext });
-        this.searchSubject.next(searchtext);
-    }
-
-    getResultsSubscription(): Observable<any> {
-        return this.searchSubject.pipe(
-            debounceTime(500),
-            distinctUntilChanged(),
-            switchMap(term => (term ? this.props.doSearch(term) : of([]))),
-            catchError((error) => {
-                log.error(error);
-                return of([]);
-            }),
-        );
-    }
-
-    private getApi() {
-        return {
-            results: this.state.results,
-            onSearchTextChanged: this.onSearchTextChanged,
-        };
-    }
-
-    render() {
-        if (hasRender(this.props)) {
-            return this.props.render(this.getApi());
-        }
-
-        if (hasChildren(this.props)) {
-            return this.props.children(this.getApi());
-        }
-    }
+  }
 }
