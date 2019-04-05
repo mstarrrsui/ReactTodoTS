@@ -13,13 +13,20 @@ export default class NavBar extends React.Component<object, State> {
     this.toggle = this.toggle.bind(this);
   }
 
+  private toggle() {
+    this.setState((prevState: State) => ({
+      isOpen: !prevState.isOpen
+    }));
+  }
+
   render() {
+    const { isOpen } = this.state;
     return (
       <div>
         <Navbar color="light" light expand="md">
           <NavbarBrand href="/">React Examples</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
+          <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <NavLink tag={RRNavLink} exact to="/">
@@ -46,11 +53,5 @@ export default class NavBar extends React.Component<object, State> {
         </Navbar>
       </div>
     );
-  }
-
-  private toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
   }
 }

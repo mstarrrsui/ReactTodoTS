@@ -36,23 +36,25 @@ class MapContainer extends Component<Props, State> {
 
   componentDidUpdate() {
     const { location } = this.props;
-    // create or move map
-    if (this.state.map) {
-      this.state.map.panTo({ lat: location.position.lat, lng: location.position.lng });
+    const { map } = this.state;
+
+    if (map) {
+      map.panTo({ lat: location.position.lat, lng: location.position.lng });
     } else if (this.mapRef) {
-      const map = this.createMap();
-      log.debug(map);
+      const newmap = this.createMap();
+      log.debug(newmap);
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState(() => ({
-        map
+        map: newmap
       }));
     }
   }
 
   private createMap(): google.maps.Map | undefined {
-    const { location } = this.props;
+    const { location, googleApi } = this.props;
     try {
       const m = this.mapRef.current;
-      const map: google.maps.Map = new this.props.googleApi.Map(m, {
+      const map: google.maps.Map = new googleApi.Map(m, {
         center: location.position,
         zoom: 16
       });

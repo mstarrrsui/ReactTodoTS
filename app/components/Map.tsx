@@ -13,18 +13,19 @@ export default class Map extends Component<Props> {
   private mapRef = createRef<HTMLDivElement>();
 
   componentDidMount() {
+    const { onMapCreate } = this.props;
     const m = this.createMap();
-    if (this.props.onMapCreate) {
-      this.props.onMapCreate(m);
+    if (onMapCreate) {
+      onMapCreate(m);
     }
   }
 
   private createMap(): google.maps.Map | undefined {
-    const { location } = this.props;
+    const { location, googleApi } = this.props;
 
     try {
       const m = this.mapRef.current;
-      const map: google.maps.Map = new this.props.googleApi.Map(m, {
+      const map: google.maps.Map = new googleApi.Map(m, {
         center: location.position,
         zoom: 16
       });
@@ -42,6 +43,8 @@ export default class Map extends Component<Props> {
   }
 
   render() {
-    return <div style={this.props.style} ref={this.mapRef} />;
+    const { style } = this.props;
+
+    return <div style={style} ref={this.mapRef} />;
   }
 }
