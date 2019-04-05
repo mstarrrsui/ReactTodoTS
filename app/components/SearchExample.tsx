@@ -15,35 +15,31 @@ const doSearch = (term: any): Observable<any> => {
   log.debug(` search api call:${term}`);
   const promise = fetch(`https://www.reddit.com/search.json?q=${term}`)
     .then(response => response.json())
-    .then(json => {
-      return json.data.children;
-    });
+    .then(json => json.data.children);
   return from(promise);
 };
 
-const SearchExample: React.SFC = () => {
-  return (
-    <TypeAhead doSearch={doSearch}>
-      {({ onSearchTextChanged, results }) => (
-        <div className={SearchExampleClasses}>
-          <h4>Reddit Search</h4>
-          <input
-            className="form-control"
-            placeholder="Search Term"
-            type="text"
-            onChange={onSearchTextChanged}
-          />
-          <ul className="list-group">
-            {results.map(res => (
-              <li className="list-group-item" key={res.data.id}>
-                <a href={res.data.url}>{res.data.title}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </TypeAhead>
-  );
-};
+const SearchExample: React.SFC = () => (
+  <TypeAhead doSearch={doSearch}>
+    {({ onSearchTextChanged, results }) => (
+      <div className={SearchExampleClasses}>
+        <h4>Reddit Search</h4>
+        <input
+          className="form-control"
+          placeholder="Search Term"
+          type="text"
+          onChange={onSearchTextChanged}
+        />
+        <ul className="list-group">
+          {results.map(res => (
+            <li className="list-group-item" key={res.data.id}>
+              <a href={res.data.url}>{res.data.title}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </TypeAhead>
+);
 
 export default SearchExample;

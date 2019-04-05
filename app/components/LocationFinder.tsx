@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
+import log from 'loglevel';
 import { houses } from '../data/houses';
 import { Location, House } from '../types/GoogleMaps';
 import HouseList from './HouseList';
 import MapContainer from './MapContainer';
-
-import log from 'loglevel';
 
 interface State {
   location: Location;
@@ -21,7 +20,7 @@ export default class LocationFinder extends Component {
 
   onHouseSelect = (selectedId: number) => {
     const loc = this.getLocationForId(selectedId);
-    log.debug('On house select:' + loc.position.lat);
+    log.debug(`On house select:${loc.position.lat}`);
     this.setState(() => ({
       location: loc,
       selectedId

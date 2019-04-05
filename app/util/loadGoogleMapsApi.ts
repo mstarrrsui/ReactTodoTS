@@ -36,16 +36,16 @@ export const loadGoogleMapsApi = (options: any): Promise<any> => {
       const scriptElement = document.createElement('script');
       scriptElement.defer = true;
       scriptElement.async = true;
-      const params = ['callback=' + CALLBACK_NAME];
+      const params = [`callback=${CALLBACK_NAME}`];
       OPTIONS_KEYS.forEach(key => {
         if (options[key]) {
-          params.push(key + '=' + options[key]);
+          params.push(`${key}=${options[key]}`);
         }
       });
       if (options.libraries && options.libraries.length) {
-        params.push('libraries=' + options.libraries.join(','));
+        params.push(`libraries=${options.libraries.join(',')}`);
       }
-      scriptElement.src = 'https://maps.googleapis.com/maps/api/js?' + params.join('&');
+      scriptElement.src = `https://maps.googleapis.com/maps/api/js?${params.join('&')}`;
 
       // Insert the `script` tag
       document.body.appendChild(scriptElement);

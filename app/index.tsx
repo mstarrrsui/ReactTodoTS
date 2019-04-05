@@ -11,9 +11,9 @@ ReactDOM.render(
   <>
     <App />
   </>,
-  document.getElementById('app')
+  document.getElementById('app'),
 );
 
 if (module.hot) {
-  module.hot.accept();
+    module.hot.accept();
 }
