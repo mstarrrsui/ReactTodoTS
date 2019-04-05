@@ -14,9 +14,9 @@ const initialState: State = {
   isLoading: true
 };
 
-interface IChildProps {
+interface ChildProps {
   googleApi: any;
-  apiIsLoading: boolean;
+  isLoading: boolean;
 }
 
 interface Props {
@@ -24,28 +24,33 @@ interface Props {
   render?: InnerRenderFunction;
 }
 
-type InnerRenderFunction = (args: IChildProps) => ReactNode;
+type InnerRenderFunction = (args: ChildProps) => ReactNode;
 
 export default class GoogleMapsAPIProvider extends Component<Props, State> {
-  state: State = initialState;
+  public state: State = initialState;
 
-  componentDidMount() {
+  public componentDidMount(): void {
     log.debug('GoogleMapsAPIProvider Mounted');
-    loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY }).then(api => {
-      // this.createMap(api);
-      log.debug('GoogleMapsAPIProvider: Maps API loaded');
-      this.setState(() => ({
-        googleApi: api,
-        isLoading: false
-      }));
-    });
+    loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY }).then(
+      (api): any => {
+        // this.createMap(api);
+        log.debug('GoogleMapsAPIProvider: Maps API loaded');
+        this.setState(
+          (): any => ({
+            googleApi: api,
+            isLoading: false
+          })
+        );
+      }
+    );
   }
 
-  render() {
+  public render(): ReactNode {
     const { children, render } = this.props;
+    const { isLoading, googleApi } = this.state;
     const renderProps = {
-      apiIsLoading: this.state.isLoading,
-      googleApi: this.state.googleApi
+      isLoading,
+      googleApi
     };
 
     if (render) {

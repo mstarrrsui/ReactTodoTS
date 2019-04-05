@@ -6,8 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --env.mode development",
     "servedist": "node ./servedist.js",
-    "lint": "eslint app",
-    "lint-fix": "eslint app --fix",
+    "lint": "eslint --ext .ts,.tsx app/",
+    "lint-fix": "eslint --ext .ts,.tsx --fix app/",
     "check": "tsc --noEmit",
     "build": "webpack -p --env.mode production",
     "deploy": "aws s3 cp dist/ s3://starrdev.com/ --recursive",

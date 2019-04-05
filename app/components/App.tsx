@@ -8,14 +8,16 @@ import NavBar from './NavBar';
 import SearchExample from './SearchExample';
 import TodoList from './TodoList';
 
+const returnNotFound = (): React.ReactNode => <p>Not Found</p>;
+
 export default class App extends React.Component {
-  componentDidMount() {
+  public componentDidMount(): void {
     log.setDefaultLevel(3);
     log.setLevel(1, true);
     log.debug('App Mounted');
   }
 
-  render() {
+  public render(): React.ReactNode {
     // log.debug('basename:' + BASENAME);
     const modeName = process.env.NODE_ENV;
     log.debug(`modeName:${modeName}`);
@@ -28,12 +30,10 @@ export default class App extends React.Component {
             <Route exact path="/todo" component={TodoList} />
             <Route exact path="/search" component={SearchExample} />
             <Route exact path="/map" component={LocationFinder} />
-            <Route render={this.returnNotFound} />
+            <Route render={returnNotFound} />
           </Switch>
         </div>
       </Router>
     );
   }
-
-  private returnNotFound = () => <p>Not Found</p>;
 }

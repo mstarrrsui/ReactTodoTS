@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react';
 
 import log from 'loglevel';
 import { Location } from '../types/GoogleMaps';
-import injectGoogleMapsAPI, { IGoogleMapsProps } from './hoc/injectGoogleMapsAPI';
+import injectGoogleMapsAPI, { GoogleMapsProps } from './hoc/injectGoogleMapsAPI';
 
 import Pano from './Pano';
 
@@ -14,7 +14,7 @@ const mapStyle: React.CSSProperties = {
 
 type Props = {
   location: Location;
-} & IGoogleMapsProps;
+} & GoogleMapsProps;
 
 interface State {
   map: google.maps.Map | undefined;

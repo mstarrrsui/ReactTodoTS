@@ -21,6 +21,7 @@ export default class Map extends Component<Props> {
 
   private createMap(): google.maps.Map | undefined {
     const { location } = this.props;
+
     try {
       const m = this.mapRef.current;
       const map: google.maps.Map = new this.props.googleApi.Map(m, {
