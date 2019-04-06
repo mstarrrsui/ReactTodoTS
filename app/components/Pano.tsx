@@ -17,21 +17,19 @@ export default class Pano extends Component<Props> {
   private panoRef = createRef<HTMLDivElement>();
 
   componentDidUpdate() {
-    if (this.props.map) {
+    const { map } = this.props;
+
+    if (map) {
       this.createPano();
     }
   }
 
-  render() {
-    return <div style={panoStyle} ref={this.panoRef} />;
-  }
-
   private createPano() {
     log.debug('Pano - create Pano');
-    const { location, map } = this.props;
+    const { location, map, googleApi } = this.props;
     try {
       const panoDiv = this.panoRef.current;
-      const panorama = new this.props.googleApi.StreetViewPanorama(panoDiv, {
+      const panorama = new googleApi.StreetViewPanorama(panoDiv, {
         position: location.position,
         pov: {
           heading: location.pov.heading,
@@ -44,5 +42,9 @@ export default class Pano extends Component<Props> {
       log.error('Error occurred creating pano');
       log.error(e);
     }
+  }
+
+  render() {
+    return <div style={panoStyle} ref={this.panoRef} />;
   }
 }

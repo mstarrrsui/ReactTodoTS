@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // tslint:disable-next-line
-const loading = require('../images/loading.gif');
+import loading from '../images/loading.gif';
 
 const Spinner: React.SFC = () => {
   const spinnerStyles: React.CSSProperties = {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import log from 'loglevel';
-import { houses } from '../data/houses';
-import { Location, House } from '../types/GoogleMaps';
+import { houses, getLocationForId } from '../data/houses';
+import { Location } from '../types/GoogleMaps';
 import HouseList from './HouseList';
 import MapContainer from './MapContainer';
 
@@ -19,7 +19,7 @@ export default class LocationFinder extends Component {
   state: State = initialState;
 
   onHouseSelect = (selectedId: number) => {
-    const loc = this.getLocationForId(selectedId);
+    const loc = getLocationForId(selectedId);
     log.debug(`On house select:${loc.position.lat}`);
     this.setState(() => ({
       location: loc,
@@ -27,25 +27,18 @@ export default class LocationFinder extends Component {
     }));
   };
 
-  private getLocationForId(id: number): Location {
-    const found = houses.find(h => h.id === id) as House;
-    return found.location;
-  }
-
   render() {
+    const { location, selectedId } = this.state;
+
     return (
       <div className="container">
         <div className="row">
           <div className="col-md-10" style={{ marginTop: '20px' }}>
-            <MapContainer location={this.state.location} />
+            <MapContainer location={location} />
           </div>
           <div className="col-md-2" style={{ marginTop: '35px' }}>
             <h4>Houses</h4>
-            <HouseList
-              houses={houses}
-              selectedId={this.state.selectedId}
-              onSelectHouse={this.onHouseSelect}
-            />
+            <HouseList houses={houses} selectedId={selectedId} onSelectHouse={this.onHouseSelect} />
           </div>
         </div>
       </div>

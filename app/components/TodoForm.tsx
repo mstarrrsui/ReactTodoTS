@@ -19,7 +19,7 @@ export default class TodoForm extends React.Component<ITodoFormProps, ITodoFormS
   state: Readonly<ITodoFormState> = initialState;
 
   handleChange = event => {
-    const value = event.target.value;
+    const { value } = event.target;
     this.setState(() => ({ todoTask: value }));
   };
 
@@ -31,9 +31,11 @@ export default class TodoForm extends React.Component<ITodoFormProps, ITodoFormS
 
   handleSubmit = event => {
     const { onSubmit } = this.props;
+    const { todoTask } = this.state;
+
     log.debug('handleSubmit');
     event.preventDefault();
-    const newtask = this.state.todoTask;
+    const newtask = todoTask;
     if (newtask.trim().length > 0) {
       onSubmit(newtask);
       this.setState(() => ({ todoTask: '' }));

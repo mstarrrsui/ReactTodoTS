@@ -7,40 +7,39 @@ const loadingstyle: React.CSSProperties = {
   textAlign: 'center'
 };
 
-interface ILoadingProps {
+interface Props {
   text?: string;
   speed?: number;
 }
 
-interface ILoadingState {
-  text: string | undefined;
+interface State {
+  currtext: string | undefined;
 }
 
-export default class Loading extends React.Component<ILoadingProps, ILoadingState> {
-  static defaultProps: ILoadingProps = {
+export default class Loading extends React.Component<Props, State> {
+  static defaultProps: Props = {
     speed: 300,
     text: 'Loading'
   };
 
-  private interval!: number;
-
-  constructor(props: ILoadingProps) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
-      text: props.text
+      currtext: props.text
     };
   }
 
   componentDidMount() {
     const { text, speed } = this.props;
+    const { currtext } = this.state;
 
     const stopper = `${text}........`;
     this.interval = setInterval(() => {
-      if (this.state.text === stopper) {
-        this.setState(() => ({ text }));
+      if (currtext === stopper) {
+        this.setState(() => ({ currtext }));
       } else {
-        this.setState((prevState: ILoadingState) => ({ text: `${prevState.text}.` }));
+        this.setState((prevState: State) => ({ currtext: `${prevState.currtext}.` }));
       }
     }, speed);
   }
@@ -49,7 +48,10 @@ export default class Loading extends React.Component<ILoadingProps, ILoadingStat
     clearInterval(this.interval);
   }
 
+  private interval!: number;
+
   render() {
-    return <div style={loadingstyle}>{this.state.text}</div>;
+    const { currtext } = this.state;
+    return <div style={loadingstyle}>{currtext}</div>;
   }
 }
