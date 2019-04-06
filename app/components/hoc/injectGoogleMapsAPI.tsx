@@ -2,7 +2,7 @@ import * as React from 'react';
 // import { Subtract } from 'utility-types';
 
 import log from 'loglevel';
-import { loadGoogleMapsApi } from '../../util/loadGoogleMapsApi';
+import loadGoogleMapsApi from '../../util/loadGoogleMapsApi';
 
 export interface GoogleMapsProps {
   googleApi: any;

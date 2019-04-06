@@ -6,8 +6,6 @@ import { hasChildren, hasRender } from '../util/typeUtil';
 
 type Props = { doSearch: (term: string) => Observable<any> } & RenderProps;
 
-type State = Readonly<typeof initialState>;
-
 // this is the shape of the props we pass to our render prop function. The getAPI function
 // allows us to put construction in one place and use it describe the type here
 type API = ReturnType<TypeAhead['getApi']>;
@@ -19,16 +17,15 @@ type RenderProps =
   | { render: (props: API) => React.ReactNode };
 
 const initialState = {
-  searchText: '',
   results: [] as any[]
 };
+
+type State = Readonly<typeof initialState>;
 
 export default class TypeAhead extends React.Component<Props, State> {
   state: State = initialState;
 
   private searchSubject: Subject<any> = new Subject();
-
-  private resultsSubscription: Subscription | undefined;
 
   constructor(props: Props) {
     super(props);
@@ -51,16 +48,15 @@ export default class TypeAhead extends React.Component<Props, State> {
 
   onSearchTextChanged(event: React.ChangeEvent<HTMLInputElement>) {
     const searchtext = event.target.value.trim();
-    log.debug(`searchtext: ${searchtext}`);
-    this.setState({ searchText: searchtext });
     this.searchSubject.next(searchtext);
   }
 
   getResultsSubscription(): Observable<any> {
+    const { doSearch } = this.props;
     return this.searchSubject.pipe(
       debounceTime(500),
       distinctUntilChanged(),
-      switchMap(term => (term ? this.props.doSearch(term) : of([]))),
+      switchMap(term => (term ? doSearch(term) : of([]))),
       catchError(error => {
         log.error(error);
         return of([]);
@@ -69,19 +65,26 @@ export default class TypeAhead extends React.Component<Props, State> {
   }
 
   private getApi() {
+    const { results } = this.state;
     return {
-      results: this.state.results,
+      results,
       onSearchTextChanged: this.onSearchTextChanged
     };
   }
 
+  private resultsSubscription: Subscription | undefined;
+
   render() {
     if (hasRender(this.props)) {
-      return this.props.render(this.getApi());
+      const { render } = this.props;
+      return render(this.getApi());
     }
 
     if (hasChildren(this.props)) {
-      return this.props.children(this.getApi());
+      const { children } = this.props;
+      return children(this.getApi());
     }
+
+    return <div />;
   }
 }

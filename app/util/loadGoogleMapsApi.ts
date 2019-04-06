@@ -1,19 +1,11 @@
-declare global {
-  // tslint:disable-next-line
-  interface Window {
-    [method: string]: any;
-    google: any;
-  }
-}
-
 const CALLBACK_NAME = '__googleMapsApiOnLoadCallback';
 
 const OPTIONS_KEYS = ['channel', 'client', 'key', 'language', 'region', 'v'];
 
 let promise: Promise<any>;
 
-export const loadGoogleMapsApi = (options: any): Promise<any> => {
-  options = options || {};
+const loadGoogleMapsApi = (opt: any): Promise<any> => {
+  const options = opt || {};
 
   if (!promise) {
     promise = new Promise((resolve, reject) => {
@@ -54,3 +46,5 @@ export const loadGoogleMapsApi = (options: any): Promise<any> => {
 
   return promise;
 };
+
+export default loadGoogleMapsApi;

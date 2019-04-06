@@ -2,21 +2,21 @@ import * as React from 'react';
 
 import log from 'loglevel';
 
-interface ITodoFormProps {
+interface Props {
   onSubmit: (newTask: string) => void;
   onClear: () => void;
 }
 
-interface ITodoFormState {
+interface State {
   todoTask: string;
 }
 
-const initialState: ITodoFormState = {
+const initialState: State = {
   todoTask: ''
 };
 
-export default class TodoForm extends React.Component<ITodoFormProps, ITodoFormState> {
-  state: Readonly<ITodoFormState> = initialState;
+export default class TodoForm extends React.Component<Props, State> {
+  state: Readonly<State> = initialState;
 
   handleChange = event => {
     const { value } = event.target;

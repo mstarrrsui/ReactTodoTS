@@ -1,4 +1,4 @@
-export const propertyForms = [
+const propertyForms = [
     {
         Comment: 'NULL',
         EffectiveDate: '1/1/2009',
@@ -15271,3 +15271,5 @@ export const propertyForms = [
         DocType: 'Notice',
     },
 ];
+
+export default propertyForms;

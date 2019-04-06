@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { css, cx } from 'emotion';
-import { ITask } from '../types/ITask';
+import log from 'loglevel';
+import Task from '../types/Task';
 
 const TodoItemRowClasses = cx('row', [
   css`
@@ -41,13 +42,24 @@ const TodoItemIconNormal = cx('fa fa-check-circle-o', [
   `
 ]);
 
-interface ITodoItemProps {
-  item: ITask;
-  onClick: (item: ITask, e: React.MouseEvent) => void;
+interface Props {
+  item: Task;
+  onClick: (item: Task, e: React.MouseEvent | React.KeyboardEvent) => void;
 }
 
-export default class TodoItem extends React.PureComponent<ITodoItemProps> {
-  onClickHandler = (e: React.MouseEvent) => this.props.onClick(this.props.item, e);
+export default class TodoItem extends React.PureComponent<Props> {
+  onClickHandler = (e: React.MouseEvent) => {
+    const { onClick, item } = this.props;
+    onClick(item, e);
+  };
+
+  onKeypressHandler = (e: React.KeyboardEvent) => {
+    const { onClick, item } = this.props;
+    log.debug(`key:${e.key}`);
+    if (e && e.key === 'x') {
+      onClick(item, e);
+    }
+  };
 
   render() {
     const { item } = this.props;
@@ -59,7 +71,13 @@ export default class TodoItem extends React.PureComponent<ITodoItemProps> {
       <div className={TodoItemRowClasses} key={item.id}>
         <div className={TodoItemBoxClasses}>
           <div className={itemclasses}>{item.description}</div>
-          <i className={iconClasses} onClick={this.onClickHandler} />
+          <i
+            role="button"
+            tabIndex={0}
+            className={iconClasses}
+            onClick={this.onClickHandler}
+            onKeyPress={this.onKeypressHandler}
+          />
         </div>
       </div>
     );

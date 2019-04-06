@@ -13,7 +13,8 @@ const SearchExampleClasses = cx('container', 'form-group', 'col-md-8', [
 
 const doSearch = (term: any): Observable<any> => {
   log.debug(` search api call:${term}`);
-  const promise = fetch(`https://www.reddit.com/search.json?q=${term}`)
+  const promise = window
+    .fetch(`https://www.reddit.com/search.json?q=${term}`)
     .then(response => response.json())
     .then(json => json.data.children);
   return from(promise);

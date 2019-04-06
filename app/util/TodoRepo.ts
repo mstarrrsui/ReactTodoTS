@@ -1,11 +1,11 @@
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { ITask } from '../types/ITask';
+import Task from '../types/Task';
 
 export default class TodoRepo {
-  static loadTasks(): Observable<ITask[]> {
+  static loadTasks(): Observable<Task[]> {
     const itemsJson = localStorage.getItem('todoitems');
-    const itemsFromStorage: ITask[] = (itemsJson ? JSON.parse(itemsJson) : []) as ITask[];
+    const itemsFromStorage: Task[] = (itemsJson ? JSON.parse(itemsJson) : []) as Task[];
 
     const items$ = of(itemsFromStorage).pipe(delay(3000)); // articifical delay to simulate API call
     return items$;

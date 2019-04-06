@@ -13,7 +13,7 @@ const Spinner: React.SFC = () => {
 
   return (
     <div style={spinnerStyles}>
-      <img src={loading} />
+      <img alt="" src={loading} />
     </div>
   );
 };

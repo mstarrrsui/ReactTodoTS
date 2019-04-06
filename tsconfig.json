@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "jsx": "react",
     "module": "esnext",
     "moduleResolution": "node",
@@ -13,7 +13,8 @@
     "strictPropertyInitialization": true,
     "strictNullChecks": true,
     "outDir": "outputjs",
-    "typeRoots": ["node_modules/@types"],
+    "baseUrl": "./",
+    "typeRoots": ["node_modules/@types", "app/custom_typings"],
     "lib": ["dom", "es6"]
   },
   "include": ["app/**/*"],

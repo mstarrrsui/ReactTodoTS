@@ -3,26 +3,24 @@ import { Subscription, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import log from 'loglevel';
 import shortid from 'shortid';
-import { ITask } from '../types/ITask';
+import Task from '../types/Task';
 import TodoRepo from '../util/TodoRepo';
 import Spinner from './Spinner';
 import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
 
-interface ITodoListState {
-  todoItems: ITask[];
+interface State {
+  todoItems: Task[];
   isLoading: boolean;
 }
 
-const initialState: ITodoListState = {
+const initialState: State = {
   isLoading: true,
   todoItems: []
 };
 
-export default class TodoList extends React.Component<object, ITodoListState> {
-  state: Readonly<ITodoListState> = initialState;
-
-  subscription: Subscription | undefined;
+export default class TodoList extends React.Component<object, State> {
+  state: Readonly<State> = initialState;
 
   unsubscribe$ = new Subject();
 
@@ -40,6 +38,12 @@ export default class TodoList extends React.Component<object, ITodoListState> {
       });
   }
 
+  componentDidUpdate() {
+    const { todoItems } = this.state;
+    log.debug('TodoList - component did update');
+    localStorage.setItem('todoitems', JSON.stringify(todoItems));
+  }
+
   componentWillUnmount() {
     log.debug('TodoList Will Unmount');
     // use unsubscribe stream to cancel all subscribers (which are using takeUntil)
@@ -47,14 +51,9 @@ export default class TodoList extends React.Component<object, ITodoListState> {
     this.unsubscribe$.complete();
   }
 
-  componentDidUpdate() {
-    log.debug('TodoList - component did update');
-    localStorage.setItem('todoitems', JSON.stringify(this.state.todoItems));
-  }
-
   handleSubmit = (newtaskdescription: string) => {
     log.debug(`task is ${newtaskdescription}`);
-    const newtask: ITask = {
+    const newtask: Task = {
       completed: false,
       description: newtaskdescription,
       id: shortid.generate()
@@ -66,21 +65,25 @@ export default class TodoList extends React.Component<object, ITodoListState> {
   };
 
   handleClearCompleted = () => {
-    const nonCompletedItems = this.state.todoItems.filter(i => !i.completed);
+    const { todoItems } = this.state;
+
+    const nonCompletedItems = todoItems.filter(i => !i.completed);
     this.setState(() => ({
       todoItems: nonCompletedItems
     }));
   };
 
-  handleClearItem = (item: ITask) => {
+  handleClearItem = (item: Task) => {
+    const { todoItems } = this.state;
+
     log.debug(`task cleared is ${item.description}`);
-    const newitems = this.state.todoItems.map(
-      i => (i.id === item.id ? { ...i, completed: !i.completed } : i)
-    );
+    const newitems = todoItems.map(i => (i.id === item.id ? { ...i, completed: !i.completed } : i));
     this.setState(() => ({
       todoItems: newitems
     }));
   };
+
+  subscription: Subscription | undefined;
 
   render() {
     const { todoItems, isLoading } = this.state;

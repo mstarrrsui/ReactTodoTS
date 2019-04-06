@@ -2,7 +2,7 @@ import { Component, ReactNode } from 'react';
 
 import log from 'loglevel';
 import { isFunction } from 'util';
-import { loadGoogleMapsApi } from '../util/loadGoogleMapsApi';
+import loadGoogleMapsApi from '../util/loadGoogleMapsApi';
 
 interface State {
   googleApi: any;

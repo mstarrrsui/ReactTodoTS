@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { ITask } from '../types/ITask';
+import Task from '../types/Task';
 import TodoItem from './TodoItem';
 
-interface ITodoItemsProps {
-  items: ITask[];
-  onClearItem: (item: ITask, e: React.MouseEvent) => void;
+interface Props {
+  items: Task[];
+  onClearItem: (item: Task, e: React.MouseEvent | React.KeyboardEvent) => void;
 }
 
-export default function TodoItems({ items, onClearItem }: ITodoItemsProps) {
+export default function TodoItems({ items, onClearItem }: Props) {
   return (
     <div className="container todoitems">
       {items.map(item => (
