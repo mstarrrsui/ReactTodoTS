@@ -1,7 +1,4 @@
-'use strict';
-
 const webpack = require('webpack');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = () => {
   return {
@@ -37,13 +34,13 @@ module.exports = () => {
               loader: 'postcss-loader'
             },
             {
-              loader: 'sass-loader' //sass loader
+              loader: 'sass-loader' // sass loader
             }
           ]
         }
       ]
     },
-    plugins: [new webpack.HotModuleReplacementPlugin(), new ForkTsCheckerWebpackPlugin()],
+    plugins: [new webpack.HotModuleReplacementPlugin()],
     devServer: {
       quiet: false,
       noInfo: false,
