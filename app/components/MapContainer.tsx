@@ -16,38 +16,32 @@ type Props = {
   location: Location;
 } & GoogleMapsProps;
 
-interface State {
-  map: google.maps.Map | undefined;
-}
-
-const initialState: State = {
-  map: undefined
-};
-
-class MapContainer extends Component<Props, State> {
-  readonly state: State = initialState;
-
+class MapContainer extends Component<Props> {
   private mapRef = createRef<HTMLDivElement>();
+  private map: any = null;
 
   constructor(props: Props) {
     super(props);
     this.createMap = this.createMap.bind(this);
+    this.setStreetView = this.setStreetView.bind(this);
   }
 
   componentDidUpdate() {
     const { location } = this.props;
-    const { map } = this.state;
 
-    if (map) {
-      map.panTo({ lat: location.position.lat, lng: location.position.lng });
+    if (this.map) {
+      log.debug(`map.panTo...`);
+      this.map.panTo({ lat: location.position.lat, lng: location.position.lng });
     } else if (this.mapRef) {
-      const newmap = this.createMap();
-      log.debug(newmap);
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(() => ({
-        map: newmap
-      }));
+      log.debug(`creating map...`);
+      this.map = this.createMap();
+      log.debug(this.map);
     }
+  }
+
+  private setStreetView(pano: any): void {
+    log.debug(`setting street view.. ${pano}   map:${this.map}`);
+    this.map.setStreetView(pano);
   }
 
   private createMap(): google.maps.Map | undefined {
@@ -73,7 +67,6 @@ class MapContainer extends Component<Props, State> {
 
   render() {
     const { location, googleApi, apiIsLoading } = this.props;
-    const { map } = this.state;
 
     if (apiIsLoading) {
       return <div>Loading...</div>;
@@ -81,7 +74,7 @@ class MapContainer extends Component<Props, State> {
     return (
       <div>
         <div style={mapStyle} ref={this.mapRef} />
-        <Pano googleApi={googleApi} map={map} location={location} />
+        <Pano googleApi={googleApi} location={location} setStreetView={this.setStreetView} />
       </div>
     );
   }

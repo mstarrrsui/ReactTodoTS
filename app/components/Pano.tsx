@@ -10,23 +10,15 @@ const panoStyle: React.CSSProperties = {
 interface Props {
   googleApi: any;
   location: Location;
-  map: any;
+  setStreetView: (pano: any) => void;
 }
 
 export default class Pano extends Component<Props> {
   private panoRef = createRef<HTMLDivElement>();
 
   componentDidUpdate() {
-    const { map } = this.props;
-
-    if (map) {
-      this.createPano();
-    }
-  }
-
-  private createPano() {
     log.debug('Pano - create Pano');
-    const { location, map, googleApi } = this.props;
+    const { location, googleApi, setStreetView } = this.props;
     try {
       const panoDiv = this.panoRef.current;
       const panorama = new googleApi.StreetViewPanorama(panoDiv, {
@@ -37,7 +29,7 @@ export default class Pano extends Component<Props> {
           zoom: 1
         }
       });
-      map.setStreetView(panorama);
+      setStreetView(panorama);
     } catch (e) {
       log.error('Error occurred creating pano');
       log.error(e);
