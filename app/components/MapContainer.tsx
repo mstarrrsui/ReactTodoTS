@@ -27,8 +27,8 @@ const MapContainer: React.FC<Props> = ({ location }: Props) => {
 
   useEffect(() => {
     function setStreetView(pano: any): void {
-      log.debug(`setting street view.. ${pano}   map:${this.map}`);
-      this.map.setStreetView(pano);
+      log.debug(`setting street view.. ${pano}   map:${map}`);
+      if (map) map.setStreetView(pano);
     }
 
     function createMap(api): google.maps.Map | undefined {
@@ -51,7 +51,7 @@ const MapContainer: React.FC<Props> = ({ location }: Props) => {
       log.debug('MapContainer - create Pano');
       try {
         const panoDiv = panoRef.current;
-        const panorama = new StreetViewPanorama(panoDiv, {
+        const panorama = new api.StreetViewPanorama(panoDiv, {
           position: location.position,
           pov: {
             heading: location.pov.heading,
