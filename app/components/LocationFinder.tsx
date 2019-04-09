@@ -29,7 +29,7 @@ export default class LocationFinder extends Component {
 
   render() {
     const { location, selectedId } = this.state;
-
+    log.debug('LocationFinder - render');
     return (
       <div className="container">
         <div className="row">

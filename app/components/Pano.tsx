@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import log from 'loglevel';
 import { Location } from '../types/GoogleMaps';
 
@@ -13,30 +13,32 @@ interface Props {
   setStreetView: (pano: any) => void;
 }
 
-export default class Pano extends Component<Props> {
-  private panoRef = createRef<HTMLDivElement>();
+const Pano: React.FC<Props> = ({ location, googleApi, setStreetView }: Props) => {
+  const panoRef = useRef<HTMLDivElement>(null);
 
-  componentDidUpdate() {
-    log.debug('Pano - create Pano');
-    const { location, googleApi, setStreetView } = this.props;
-    try {
-      const panoDiv = this.panoRef.current;
-      const panorama = new googleApi.StreetViewPanorama(panoDiv, {
-        position: location.position,
-        pov: {
-          heading: location.pov.heading,
-          pitch: location.pov.pitch,
-          zoom: 1
-        }
-      });
-      setStreetView(panorama);
-    } catch (e) {
-      log.error('Error occurred creating pano');
-      log.error(e);
+  useEffect(() => {
+    function createPano() {
+      log.debug('Pano - create Pano');
+      try {
+        const panoDiv = panoRef.current;
+        const panorama = new googleApi.StreetViewPanorama(panoDiv, {
+          position: location.position,
+          pov: {
+            heading: location.pov.heading,
+            pitch: location.pov.pitch,
+            zoom: 1
+          }
+        });
+        setStreetView(panorama);
+      } catch (e) {
+        log.error('Error occurred creating pano');
+        log.error(e);
+      }
     }
-  }
+    createPano();
+  }, [location]);
 
-  render() {
-    return <div style={panoStyle} ref={this.panoRef} />;
-  }
-}
+  return <div style={panoStyle} ref={panoRef} />;
+};
+
+export default Pano;

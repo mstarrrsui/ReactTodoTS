@@ -1,10 +1,8 @@
-import React, { Component, createRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import log from 'loglevel';
+import loadGoogleMapsApi from '../util/loadGoogleMapsApi';
 import { Location } from '../types/GoogleMaps';
-import injectGoogleMapsAPI, { GoogleMapsProps } from './hoc/injectGoogleMapsAPI';
-
-import Pano from './Pano';
 
 const mapStyle: React.CSSProperties = {
   height: '40vh',
@@ -12,72 +10,84 @@ const mapStyle: React.CSSProperties = {
   marginBottom: '20px'
 };
 
-type Props = {
+const panoStyle: React.CSSProperties = {
+  height: '40vh',
+  width: '100%'
+};
+
+interface Props {
   location: Location;
-} & GoogleMapsProps;
-
-class MapContainer extends Component<Props> {
-  private mapRef = createRef<HTMLDivElement>();
-  private map: any = null;
-
-  constructor(props: Props) {
-    super(props);
-    this.createMap = this.createMap.bind(this);
-    this.setStreetView = this.setStreetView.bind(this);
-  }
-
-  componentDidUpdate() {
-    const { location } = this.props;
-
-    if (this.map) {
-      log.debug(`map.panTo...`);
-      this.map.panTo({ lat: location.position.lat, lng: location.position.lng });
-    } else if (this.mapRef) {
-      log.debug(`creating map...`);
-      this.map = this.createMap();
-      log.debug(this.map);
-    }
-  }
-
-  private setStreetView(pano: any): void {
-    log.debug(`setting street view.. ${pano}   map:${this.map}`);
-    this.map.setStreetView(pano);
-  }
-
-  private createMap(): google.maps.Map | undefined {
-    const { location, googleApi } = this.props;
-    try {
-      const m = this.mapRef.current;
-      const map: google.maps.Map = new googleApi.Map(m, {
-        center: location.position,
-        zoom: 16
-      });
-
-      return map;
-      // const coordInfoWindow = new api.InfoWindow();
-      // coordInfoWindow.setContent('MIKE!');
-      // coordInfoWindow.setPosition(mikeHouse);
-      // coordInfoWindow.open(map);
-    } catch (e) {
-      log.error('Error occurred creating map');
-      log.error(e);
-      return undefined;
-    }
-  }
-
-  render() {
-    const { location, googleApi, apiIsLoading } = this.props;
-
-    if (apiIsLoading) {
-      return <div>Loading...</div>;
-    }
-    return (
-      <div>
-        <div style={mapStyle} ref={this.mapRef} />
-        <Pano googleApi={googleApi} location={location} setStreetView={this.setStreetView} />
-      </div>
-    );
-  }
 }
 
-export default injectGoogleMapsAPI(MapContainer);
+const MapContainer: React.FC<Props> = ({ location }: Props) => {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const panoRef = useRef<HTMLDivElement>(null);
+  let map: google.maps.Map | undefined;
+  let googleApi: any;
+
+  useEffect(() => {
+    function setStreetView(pano: any): void {
+      log.debug(`setting street view.. ${pano}   map:${this.map}`);
+      this.map.setStreetView(pano);
+    }
+
+    function createMap(api): google.maps.Map | undefined {
+      try {
+        log.debug(`creating map... mapref:${mapRef}`);
+        const m = mapRef.current;
+        map = new api.Map(m, {
+          center: location.position,
+          zoom: 16
+        });
+        return map;
+      } catch (e) {
+        log.error('Error occurred creating map');
+        log.error(e);
+        return undefined;
+      }
+    }
+
+    function createPano(api) {
+      log.debug('MapContainer - create Pano');
+      try {
+        const panoDiv = panoRef.current;
+        const panorama = new StreetViewPanorama(panoDiv, {
+          position: location.position,
+          pov: {
+            heading: location.pov.heading,
+            pitch: location.pov.pitch,
+            zoom: 1
+          }
+        });
+        setStreetView(panorama);
+      } catch (e) {
+        log.error('Error occurred creating pano');
+        log.error(e);
+      }
+    }
+
+    if (!map && mapRef) {
+      loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY }).then(
+        (api): void => {
+          log.debug('MapContainer: Maps API loaded');
+          googleApi = api;
+          map = createMap(googleApi);
+          createPano(googleApi);
+        }
+      );
+    } else {
+      log.debug(`map.panTo...`);
+      this.map.panTo({ lat: location.position.lat, lng: location.position.lng });
+      createPano(googleApi);
+    }
+  }, [location]);
+
+  return (
+    <div>
+      <div style={mapStyle} ref={mapRef} />
+      <div style={panoStyle} ref={panoRef} />
+    </div>
+  );
+};
+
+export default MapContainer;
