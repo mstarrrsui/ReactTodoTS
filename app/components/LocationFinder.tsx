@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import log from 'loglevel';
 import { houses, getLocationForId } from '../data/houses';
 import { Location } from '../types/GoogleMaps';
@@ -15,33 +15,33 @@ const initialState: State = {
   selectedId: 1
 };
 
-export default class LocationFinder extends Component {
-  state: State = initialState;
+const LocationFinder: React.FC = () => {
+  const [selected, setSelected] = useState(initialState);
 
-  onHouseSelect = (selectedId: number) => {
+  function onHouseSelect(selectedId: number) {
     const loc = getLocationForId(selectedId);
     log.debug(`On house select:${loc.position.lat}`);
-    this.setState(() => ({
-      location: loc,
-      selectedId
-    }));
-  };
+    setSelected({ location: loc, selectedId });
+  }
 
-  render() {
-    const { location, selectedId } = this.state;
-    log.debug('LocationFinder - render');
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-10" style={{ marginTop: '20px' }}>
-            <MapContainer location={location} />
-          </div>
-          <div className="col-md-2" style={{ marginTop: '35px' }}>
-            <h4>Houses</h4>
-            <HouseList houses={houses} selectedId={selectedId} onSelectHouse={this.onHouseSelect} />
-          </div>
+  log.debug('LocationFinder - render');
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-md-10" style={{ marginTop: '20px' }}>
+          <MapContainer location={selected.location} />
+        </div>
+        <div className="col-md-2" style={{ marginTop: '35px' }}>
+          <h4>Houses</h4>
+          <HouseList
+            houses={houses}
+            selectedId={selected.selectedId}
+            onSelectHouse={onHouseSelect}
+          />
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+export default LocationFinder;
