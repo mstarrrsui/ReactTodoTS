@@ -22,28 +22,27 @@ interface Props {
 const MapContainer: React.FC<Props> = ({ location }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const panoRef = useRef<HTMLDivElement>(null);
-  let map: google.maps.Map | undefined;
-  let googleApi: any;
+  const map = useRef<google.maps.Map>();
+  const googleApi = useRef<any>();
 
   useEffect(() => {
     function setStreetView(pano: any): void {
       log.debug(`setting street view.. ${pano}   map:${map}`);
-      if (map) map.setStreetView(pano);
+      if (map.current) map.current.setStreetView(pano);
     }
 
-    function createMap(api): google.maps.Map | undefined {
+    function createMap(api) {
       try {
         log.debug(`creating map... mapref:${mapRef}`);
         const m = mapRef.current;
-        map = new api.Map(m, {
+        return new api.Map(m, {
           center: location.position,
           zoom: 16
         });
-        return map;
       } catch (e) {
         log.error('Error occurred creating map');
         log.error(e);
-        return undefined;
+        return null;
       }
     }
 
@@ -66,12 +65,12 @@ const MapContainer: React.FC<Props> = ({ location }: Props) => {
       }
     }
 
-    if (!map && mapRef) {
+    if (!map.current && mapRef) {
       loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY }).then(
         (api): void => {
           log.debug('MapContainer: Maps API loaded');
-          googleApi = api;
-          map = createMap(googleApi);
+          googleApi.current = api;
+          map.current = createMap(googleApi);
           createPano(googleApi);
         }
       );
