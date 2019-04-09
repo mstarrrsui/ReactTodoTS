@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
@@ -11,10 +11,9 @@ interface Props {
   onSelectHouse(selectedId: number): void;
 }
 
-export default class HouseList extends Component<Props> {
-  onItemClick = (e: React.MouseEvent<HTMLElement>) => {
+const HouseList: React.FC<Props> = ({ houses, selectedId, onSelectHouse }: Props) => {
+  function onItemClick(e: React.MouseEvent<HTMLElement>) {
     if (e && e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.index) {
-      const { houses, onSelectHouse } = this.props;
       const idx = +e.currentTarget.dataset.index;
       const house = houses[idx];
       log.debug('Item clicked');
@@ -22,27 +21,25 @@ export default class HouseList extends Component<Props> {
       log.debug(house.name);
       onSelectHouse(house.id);
     }
-  };
-
-  render() {
-    const { houses, selectedId } = this.props;
-
-    return (
-      <div>
-        <ListGroup>
-          {houses.map((h, idx) => (
-            <ListGroupItem
-              data-index={idx}
-              active={h.id === selectedId}
-              tag="button"
-              action
-              onClick={this.onItemClick}
-            >
-              {h.name}
-            </ListGroupItem>
-          ))}
-        </ListGroup>
-      </div>
-    );
   }
-}
+
+  return (
+    <div>
+      <ListGroup>
+        {houses.map((h, idx) => (
+          <ListGroupItem
+            data-index={idx}
+            active={h.id === selectedId}
+            tag="button"
+            action
+            onClick={onItemClick}
+          >
+            {h.name}
+          </ListGroupItem>
+        ))}
+      </ListGroup>
+    </div>
+  );
+};
+
+export default HouseList;

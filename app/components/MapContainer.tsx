@@ -31,11 +31,11 @@ const MapContainer: React.FC<Props> = ({ location }: Props) => {
       if (map.current) map.current.setStreetView(pano);
     }
 
-    function createMap(api) {
+    function createMap() {
       try {
         log.debug(`creating map... mapref:${mapRef}`);
         const m = mapRef.current;
-        return new api.Map(m, {
+        return new googleApi.current.Map(m, {
           center: location.position,
           zoom: 16
         });
@@ -46,11 +46,11 @@ const MapContainer: React.FC<Props> = ({ location }: Props) => {
       }
     }
 
-    function createPano(api) {
+    function createPano() {
       log.debug('MapContainer - create Pano');
       try {
         const panoDiv = panoRef.current;
-        const panorama = new api.StreetViewPanorama(panoDiv, {
+        const panorama = new googleApi.current.StreetViewPanorama(panoDiv, {
           position: location.position,
           pov: {
             heading: location.pov.heading,
@@ -70,14 +70,15 @@ const MapContainer: React.FC<Props> = ({ location }: Props) => {
         (api): void => {
           log.debug('MapContainer: Maps API loaded');
           googleApi.current = api;
-          map.current = createMap(googleApi);
-          createPano(googleApi);
+          map.current = createMap();
+          createPano();
         }
       );
     } else {
       log.debug(`map.panTo...`);
-      this.map.panTo({ lat: location.position.lat, lng: location.position.lng });
-      createPano(googleApi);
+      if (map.current)
+        map.current.panTo({ lat: location.position.lat, lng: location.position.lng });
+      createPano();
     }
   }, [location]);
 
