@@ -1,7 +1,7 @@
 import { Component, ReactNode } from 'react';
 
 import log from 'loglevel';
-import { isFunction } from 'util';
+import { isFunction } from '../util/typeUtil';
 import loadGoogleMapsApi from '../util/loadGoogleMapsApi';
 
 interface State {

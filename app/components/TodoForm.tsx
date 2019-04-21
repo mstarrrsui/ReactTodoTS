@@ -18,8 +18,8 @@ const initialState: State = {
 export default class TodoForm extends React.Component<Props, State> {
   state: Readonly<State> = initialState;
 
-  handleChange = event => {
-    const { value } = event.target;
+  handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const { value } = event.currentTarget;
     this.setState(() => ({ todoTask: value }));
   };
 
@@ -29,7 +29,7 @@ export default class TodoForm extends React.Component<Props, State> {
     onClear();
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const { onSubmit } = this.props;
     const { todoTask } = this.state;
 
