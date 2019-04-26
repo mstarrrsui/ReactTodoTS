@@ -4,7 +4,6 @@ import log from 'loglevel';
 import loadGoogleMapsApi from '../util/loadGoogleMapsApi';
 import { Location } from '../types/GoogleMaps';
 
-
 const mapStyle: React.CSSProperties = {
   height: '40vh',
   width: '100%',
@@ -21,7 +20,7 @@ interface Props {
 }
 
 interface MapCtor {
-  new Map(m: Element, args: google.maps.MapOptions );
+  new (m: Element, args: google.maps.MapOptions): google.maps.Map;
 }
 
 const MapContainer: React.FC<Props> = ({ location }: Props) => {
