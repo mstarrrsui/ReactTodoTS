@@ -4,11 +4,11 @@ import { catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/
 import log from 'loglevel';
 import { hasChildren, hasRender } from '../util/typeUtil';
 
-type Props = { doSearch: (term: string) => Observable<any> } & RenderProps;
+type Props<T> = { doSearch: (term: string) => Observable<T> } & RenderProps;
 
 // this is the shape of the props we pass to our render prop function. The getAPI function
 // allows us to put construction in one place and use it describe the type here
-type API = ReturnType<TypeAhead['getApi']>;
+type API = ReturnType<TypeAhead<T>['getApi']>;
 
 // render prop concept can either be a property - usually called render - which is a function, or
 // the child - the children prop - is the render function.  This union type supports both
@@ -22,12 +22,12 @@ const initialState = {
 
 type State = Readonly<typeof initialState>;
 
-export default class TypeAhead extends React.Component<Props, State> {
+export default class TypeAhead<T> extends React.Component<Props<T>, State> {
   state: State = initialState;
 
   private searchSubject: Subject<any> = new Subject();
 
-  constructor(props: Props) {
+  constructor(props: Props<T>) {
     super(props);
     this.onSearchTextChanged = this.onSearchTextChanged.bind(this);
   }
