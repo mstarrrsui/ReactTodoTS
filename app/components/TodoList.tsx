@@ -7,7 +7,7 @@ import Spinner from './Spinner';
 import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
 
-const TodoList: React.FC = () => {
+const TodoList = () => {
   const [todoItems, setTodoItems] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const isInitialMount = useRef(true);

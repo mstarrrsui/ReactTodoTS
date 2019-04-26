@@ -1,16 +1,21 @@
 {
-  "plugins": ["@typescript-eslint", "react", "react-hooks"],
+  "plugins": [],
   "env": {
     "browser": true,
     "node": true
   },
-  "parser": "@typescript-eslint/parser", // Specifies the ESLint parser
+  "overrides": {
+    "files": ["**/*.ts", "**/*.tsx"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true,
+      },
+      "project": "./tsconfig.json",
+    },
   "extends": [
-    "airbnb",
-    "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
-    "prettier",
-    "prettier/@typescript-eslint",
-    "prettier/react"
   ],
   "settings": {
     "import/resolver": {
@@ -22,6 +27,9 @@
   "parserOptions": {
     "ecmaVersion": 2018, // Allows for the parsing of modern ECMAScript features
     "sourceType": "module", // Allows for the use of imports
+    "ecmaFeatures": {
+      "jsx": true
+    },
     "project": "./tsconfig.json"
   },
   "rules": {
@@ -30,8 +38,6 @@
     "linebreak-style": 0,
     "lines-between-class-members": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
     "react-hooks/rules-of-hooks": "error",
