@@ -37,10 +37,10 @@ module.exports = {
 
   plugins: [],
 
-// we are using the same rules as the create-react-app
-//   Inspired by https://github.com/airbnb/javascript but less opinionated.
-//    rules they enforce https://github.com/facebook/create-react-app/blob/eee8491d57d67dd76f0806a7512eaba2ce9c36f0/packages/eslint-config-react-app/index.js#L89:L98
-extends: ["react-app"],
+  // we are using the same rules as the create-react-app
+  //   Inspired by https://github.com/airbnb/javascript but less opinionated.
+  //    rules they enforce https://github.com/facebook/create-react-app/blob/eee8491d57d67dd76f0806a7512eaba2ce9c36f0/packages/eslint-config-react-app/index.js#L89:L98
+  extends: ['react-app'],
 
   env: {
     browser: true,
@@ -50,13 +50,9 @@ extends: ["react-app"],
     node: true
   },
 
-
   settings: {
     react: {
       version: 'detect'
     }
   }
-
-
-
 };
