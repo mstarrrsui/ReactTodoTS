@@ -4,7 +4,7 @@ import { catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/
 import log from 'loglevel';
 import { hasChildren, hasRender } from '../util/typeUtil';
 
-type Props<T> = { doSearch: (term: string) => Observable<T> } & RenderProps;
+type Props<T> = { doSearch: (term: string) => Observable<T[]> } & RenderProps;
 
 // this is the shape of the props we pass to our render prop function. The getAPI function
 // allows us to put construction in one place and use it describe the type here
@@ -17,15 +17,15 @@ type RenderProps =
   | { render: (props: API) => React.ReactNode };
 
 const initialState = {
-  results: [] as any[]
+  results: []
 };
 
-type State = Readonly<typeof initialState>;
+type State<T> = { results: T[] };
 
-export default class TypeAhead<T> extends React.Component<Props<T>, State> {
-  state: State = initialState;
+export default class TypeAhead<T> extends React.Component<Props<T>, State<T>> {
+  state: State<T> = initialState;
 
-  private searchSubject: Subject<any> = new Subject();
+  private searchSubject: Subject<string> = new Subject();
 
   constructor(props: Props<T>) {
     super(props);
@@ -51,7 +51,7 @@ export default class TypeAhead<T> extends React.Component<Props<T>, State> {
     this.searchSubject.next(searchtext);
   }
 
-  getResultsSubscription(): Observable<any> {
+  getResultsSubscription(): Observable<T[]> {
     const { doSearch } = this.props;
     return this.searchSubject.pipe(
       debounceTime(500),
