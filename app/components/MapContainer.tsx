@@ -4,6 +4,7 @@ import log from 'loglevel';
 import loadGoogleMapsApi from '../util/loadGoogleMapsApi';
 import { Location } from '../types/GoogleMaps';
 
+
 const mapStyle: React.CSSProperties = {
   height: '40vh',
   width: '100%',
@@ -19,14 +20,18 @@ interface Props {
   location: Location;
 }
 
+interface MapCtor {
+  new Map(m: Element, args: google.maps.MapOptions );
+}
+
 const MapContainer: React.FC<Props> = ({ location }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const panoRef = useRef<HTMLDivElement>(null);
   const map = useRef<google.maps.Map>();
-  const googleApi = useRef<any>();
+  const googleApi = useRef<GoogleMapClient>();
 
   useEffect(() => {
-    function setStreetView(pano: any): void {
+    function setStreetView(pano: google.maps.StreetViewPanorama): void {
       log.debug(`setting street view.. ${pano}   map:${map}`);
       if (map.current) map.current.setStreetView(pano);
     }
