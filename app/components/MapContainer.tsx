@@ -19,15 +19,12 @@ interface Props {
   location: Location;
 }
 
-interface MapCtor {
-  new (m: Element, args: google.maps.MapOptions): google.maps.Map;
-}
-
 const MapContainer: React.FC<Props> = ({ location }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const panoRef = useRef<HTMLDivElement>(null);
   const map = useRef<google.maps.Map>();
-  const googleApi = useRef<GoogleMapClient>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const googleApi = useRef<any>();
 
   useEffect(() => {
     function setStreetView(pano: google.maps.StreetViewPanorama): void {
