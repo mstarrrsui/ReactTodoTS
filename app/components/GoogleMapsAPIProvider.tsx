@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+// old file not used anymore - keeping for reference
+
 import { Component, ReactNode } from 'react';
 
 import log from 'loglevel';

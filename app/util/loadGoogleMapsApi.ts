@@ -2,9 +2,43 @@ const CALLBACK_NAME = '__googleMapsApiOnLoadCallback';
 
 const OPTIONS_KEYS = ['channel', 'client', 'key', 'language', 'region', 'v'];
 
-let promise: Promise<any>;
+interface OptionsDict {
+  [s: string]: string | undefined;
+}
+interface OptionsDict {
+  channel?: string;
+  client?: string;
+  key: string;
+  language?: string;
+  region?: string;
+  v?: string;
+}
+interface OptionsProps {
+  timeout?: number;
+  libraries?: string[];
+}
 
-const loadGoogleMapsApi = (opt: any): Promise<any> => {
+type APIOptions = OptionsDict & OptionsProps;
+
+type MapCtor = {
+  new (m: HTMLDivElement, opt: google.maps.MapOptions): google.maps.Map;
+};
+
+type PanoCtor = {
+  new (
+    m: HTMLDivElement,
+    opt: google.maps.StreetViewPanoramaOptions
+  ): google.maps.StreetViewPanorama;
+};
+
+interface MapsAPI {
+  Map: MapCtor;
+  StreetViewPanorama: PanoCtor;
+}
+
+let promise: Promise<MapsAPI>;
+
+const loadGoogleMapsApi = (opt: APIOptions): Promise<MapsAPI> => {
   const options = opt || {};
 
   if (!promise) {

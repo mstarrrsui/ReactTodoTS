@@ -5,10 +5,10 @@ import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } f
 const initialState = { isOpen: false };
 type State = Readonly<typeof initialState>;
 
-export default class NavBar extends React.Component<object, State> {
+export default class NavBar extends React.Component<{}, State> {
   readonly state: State = initialState;
 
-  constructor(props: any) {
+  constructor(props: {}) {
     super(props);
     this.toggle = this.toggle.bind(this);
   }

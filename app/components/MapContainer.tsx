@@ -19,12 +19,27 @@ interface Props {
   location: Location;
 }
 
+type MapCtor = {
+  new (m: HTMLDivElement, opt: google.maps.MapOptions): google.maps.Map;
+};
+
+type PanoCtor = {
+  new (
+    m: HTMLDivElement,
+    opt: google.maps.StreetViewPanoramaOptions
+  ): google.maps.StreetViewPanorama;
+};
+
+interface MapsAPI {
+  Map: MapCtor;
+  StreetViewPanorama: PanoCtor;
+}
+
 const MapContainer: React.FC<Props> = ({ location }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const panoRef = useRef<HTMLDivElement>(null);
   const map = useRef<google.maps.Map>();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const googleApi = useRef<any>();
+  const googleApi = useRef<MapsAPI>();
 
   useEffect(() => {
     function setStreetView(pano: google.maps.StreetViewPanorama): void {
@@ -36,10 +51,12 @@ const MapContainer: React.FC<Props> = ({ location }: Props) => {
       try {
         log.debug(`creating map... mapref:${mapRef}`);
         const m = mapRef.current;
-        return new googleApi.current.Map(m, {
-          center: location.position,
-          zoom: 16
-        });
+        if (m && googleApi.current) {
+          return new googleApi.current.Map(m, {
+            center: location.position,
+            zoom: 16
+          });
+        }
       } catch (e) {
         log.error('Error occurred creating map');
         log.error(e);
@@ -51,15 +68,18 @@ const MapContainer: React.FC<Props> = ({ location }: Props) => {
       log.debug('MapContainer - create Pano');
       try {
         const panoDiv = panoRef.current;
-        const panorama = new googleApi.current.StreetViewPanorama(panoDiv, {
-          position: location.position,
-          pov: {
-            heading: location.pov.heading,
-            pitch: location.pov.pitch,
+        if (panoDiv && googleApi.current) {
+          const panorama = new googleApi.current.StreetViewPanorama(panoDiv, {
+            position: location.position,
+            pov: {
+              heading: location.pov.heading,
+              pitch: location.pov.pitch
+            },
             zoom: 1
-          }
-        });
-        setStreetView(panorama);
+          });
+
+          setStreetView(panorama);
+        }
       } catch (e) {
         log.error('Error occurred creating pano');
         log.error(e);
@@ -68,10 +88,10 @@ const MapContainer: React.FC<Props> = ({ location }: Props) => {
 
     if (!map.current && mapRef) {
       loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY }).then(
-        (api): void => {
+        (api: MapsAPI): void => {
           log.debug('MapContainer: Maps API loaded');
           googleApi.current = api;
-          map.current = createMap();
+          createMap();
           createPano();
         }
       );
