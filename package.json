@@ -9,6 +9,7 @@
     "lint": "eslint --ext .ts,.tsx app/",
     "lint-fix": "eslint --ext .ts,.tsx --fix app/",
     "check": "tsc --noEmit",
+    "tscversion": "tsc --version",
     "build": "webpack -p --env.mode production",
     "deploy": "aws s3 cp dist/ s3://starrdev.com/ --recursive",
     "clean": "rimraf dist/*",
