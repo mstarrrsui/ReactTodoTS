@@ -10,7 +10,7 @@ type Props<T> = { doSearch: (term: string) => Observable<T[]> } & RenderProps<T>
 // allows us to put construction in one place and use it describe the type here
 type API<T> = {
   results: T[];
-  onSearchTextchanged: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearchTextChanged: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 // render prop concept can either be a property - usually called render - which is a function, or
