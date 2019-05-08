@@ -4,7 +4,6 @@ import { from, Observable } from 'rxjs';
 import { css, cx } from 'emotion';
 import log from 'loglevel';
 import TypeAhead from './TypeAhead';
-import Task from 'app/types/Task';
 
 const SearchExampleClasses = cx('container', 'form-group', 'col-md-8', [
   css`
@@ -12,7 +11,17 @@ const SearchExampleClasses = cx('container', 'form-group', 'col-md-8', [
   `
 ]);
 
-const doSearch = (term: string): Observable<Task[]> => {
+interface RedditArticleFields {
+  id: string;
+  url: string;
+  title: string;
+}
+
+interface RedditData {
+  data: RedditArticleFields;
+}
+
+const doSearch = (term: string): Observable<RedditData[]> => {
   log.debug(` search api call:${term}`);
   const promise = window
     .fetch(`https://www.reddit.com/search.json?q=${term}`)
@@ -20,6 +29,8 @@ const doSearch = (term: string): Observable<Task[]> => {
     .then(json => json.data.children);
   return from(promise);
 };
+
+//class RedditTypeAhead extends TypeAhead<RedditData> {}
 
 const SearchExample: React.SFC = () => (
   <TypeAhead doSearch={doSearch}>
