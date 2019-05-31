@@ -2,6 +2,7 @@ import * as React from 'react';
 import { from, Observable } from 'rxjs';
 
 import { css, cx } from 'emotion';
+import styled from '@emotion/styled';
 import log from 'loglevel';
 import TypeAhead from './TypeAhead';
 
@@ -31,11 +32,14 @@ const doSearch = (term: string): Observable<RedditData[]> => {
 };
 
 //class RedditTypeAhead extends TypeAhead<RedditData> {}
+type Props = {
+  className?: string;
+};
 
-const SearchExample: React.SFC = () => (
+const SearchExampleBase: React.SFC<Props> = ({ className }) => (
   <TypeAhead doSearch={doSearch}>
     {({ onSearchTextChanged, results }) => (
-      <div className={SearchExampleClasses}>
+      <div className={`container form-group col-md-8 ${className}`}>
         <h4>Reddit Search</h4>
         <input
           className="form-control"
@@ -55,4 +59,12 @@ const SearchExample: React.SFC = () => (
   </TypeAhead>
 );
 
+type SearchProps = {
+  padTop: string;
+};
+const SearchExample: React.ComponentType<Props & SearchProps> = styled(SearchExampleBase)<
+  SearchProps
+>`
+  margin-top: ${(props: SearchProps) => props.padTop};
+`;
 export default SearchExample;
