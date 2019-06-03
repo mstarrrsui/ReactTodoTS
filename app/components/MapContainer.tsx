@@ -87,7 +87,7 @@ const MapContainer: React.FC<Props> = ({ location }: Props) => {
     }
 
     if (!map.current && mapRef) {
-      loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY }).then(
+      loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY! }).then(
         (api: MapsAPI): void => {
           log.debug('MapContainer: Maps API loaded');
           googleApi.current = api;

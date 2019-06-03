@@ -30,8 +30,8 @@ export default function injectGoogleMapsAPI<P extends GoogleMapsProps>(
 
     public componentDidMount(): void {
       log.debug('GoogleMapsAPI HOC Mounted');
-      loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY }).then(
-        (api): void => {
+      loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY! }).then(
+        (api: any): void => {
           log.debug('GoogleMapsAPI HOC: Maps API loaded');
           this.setState(
             (): any => ({
