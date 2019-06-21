@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2015",
     "jsx": "react",
-    "module": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": true,
     "strict": true,
@@ -18,6 +18,6 @@
     "typeRoots": ["node_modules/@types", "app/custom_typings"],
     "lib": ["dom", "es6"]
   },
-  "include": ["app/**/*"],
+  "include": ["app/**/*.tsx?"],
   "exclude": ["node_modules"]
 }
