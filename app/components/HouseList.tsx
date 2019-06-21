@@ -12,7 +12,7 @@ interface Props {
 }
 
 const HouseList: React.FC<Props> = ({ houses, selectedId, onSelectHouse }: Props) => {
-  function onItemClick(e: React.MouseEvent<HTMLElement>) {
+  function onItemClick(e: React.MouseEvent<HTMLElement>): void {
     if (e && e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.index) {
       const idx = +e.currentTarget.dataset.index;
       const house = houses[idx];

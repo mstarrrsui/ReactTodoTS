@@ -7,7 +7,7 @@ import Spinner from './Spinner';
 import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
 
-const TodoList = () => {
+const TodoList: React.SFC = () => {
   const [todoItems, setTodoItems] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const isInitialMount = useRef(true);
@@ -24,7 +24,7 @@ const TodoList = () => {
   }, [todoItems]);
 
   useEffect(() => {
-    function loadData() {
+    function loadData(): void {
       log.debug('TodoList - Loading tasks');
       loadTasks().subscribe(tasks => {
         log.debug('Setting todolist state');
@@ -40,7 +40,7 @@ const TodoList = () => {
     };
   }, []);
 
-  function handleSubmit(newtaskdescription: string) {
+  function handleSubmit(newtaskdescription: string): void {
     log.debug(`TodoList - adding tasks.  task is ${newtaskdescription}`);
     const newtask: Task = {
       completed: false,
@@ -50,12 +50,12 @@ const TodoList = () => {
     setTodoItems(prevTasks => [...prevTasks, newtask]);
   }
 
-  function handleClearCompleted() {
+  function handleClearCompleted(): void {
     const nonCompletedItems = todoItems.filter(i => !i.completed);
     setTodoItems(nonCompletedItems);
   }
 
-  function handleClearItem(item: Task) {
+  function handleClearItem(item: Task): void {
     log.debug(`task cleared is ${item.description}`);
     const newitems = todoItems.map(i => (i.id === item.id ? { ...i, completed: !i.completed } : i));
     setTodoItems(newitems);

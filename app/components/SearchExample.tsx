@@ -1,16 +1,9 @@
 import * as React from 'react';
 import { from, Observable } from 'rxjs';
 
-import { css, cx } from 'emotion';
 import styled from '@emotion/styled';
 import log from 'loglevel';
 import TypeAhead from './TypeAhead';
-
-const SearchExampleClasses = cx('container', 'form-group', 'col-md-8', [
-  css`
-    margin-top: 40px;
-  `
-]);
 
 interface RedditArticleFields {
   id: string;
