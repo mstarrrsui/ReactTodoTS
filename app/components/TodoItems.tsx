@@ -7,7 +7,7 @@ interface Props {
   onClearItem: (item: Task, e: React.MouseEvent | React.KeyboardEvent) => void;
 }
 
-export default function TodoItems({ items, onClearItem }: Props) {
+const TodoItems: React.SFC<Props> = ({ items, onClearItem }: Props) => {
   return (
     <div className="container todoitems">
       {items.map(item => (
@@ -15,4 +15,6 @@ export default function TodoItems({ items, onClearItem }: Props) {
       ))}
     </div>
   );
-}
+};
+
+export default TodoItems;

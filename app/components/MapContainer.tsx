@@ -47,7 +47,7 @@ const MapContainer: React.FC<Props> = ({ location }: Props) => {
       if (map.current) map.current.setStreetView(pano);
     }
 
-    function createMap() {
+    function createMap(): google.maps.Map | undefined {
       try {
         log.debug(`creating map... mapref:${mapRef}`);
         const m = mapRef.current;
@@ -60,11 +60,10 @@ const MapContainer: React.FC<Props> = ({ location }: Props) => {
       } catch (e) {
         log.error('Error occurred creating map');
         log.error(e);
-        return null;
       }
     }
 
-    function createPano() {
+    function createPano(): void {
       log.debug('MapContainer - create Pano');
       try {
         const panoDiv = panoRef.current;
@@ -87,14 +86,12 @@ const MapContainer: React.FC<Props> = ({ location }: Props) => {
     }
 
     if (!map.current && mapRef) {
-      loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY! }).then(
-        (api: MapsAPI): void => {
-          log.debug('MapContainer: Maps API loaded');
-          googleApi.current = api;
-          createMap();
-          createPano();
-        }
-      );
+      loadGoogleMapsApi({ key: process.env.GOOGLE_MAPS_API_KEY! }).then((api: MapsAPI): void => {
+        log.debug('MapContainer: Maps API loaded');
+        googleApi.current = api;
+        createMap();
+        createPano();
+      });
     } else {
       log.debug(`map.panTo...`);
       if (map.current)

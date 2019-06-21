@@ -61,7 +61,7 @@ export default class TodoItem extends React.PureComponent<Props> {
     }
   };
 
-  render() {
+  render(): React.ReactNode {
     const { item } = this.props;
 
     const itemclasses = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: item.completed });

@@ -13,13 +13,13 @@ export default class NavBar extends React.Component<{}, State> {
     this.toggle = this.toggle.bind(this);
   }
 
-  private toggle() {
+  private toggle(): void {
     this.setState((prevState: State) => ({
       isOpen: !prevState.isOpen
     }));
   }
 
-  render() {
+  render(): React.ReactNode {
     const { isOpen } = this.state;
     return (
       <div>

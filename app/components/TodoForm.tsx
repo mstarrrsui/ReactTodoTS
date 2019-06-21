@@ -42,7 +42,7 @@ export default class TodoForm extends React.Component<Props, State> {
     }
   };
 
-  render() {
+  render(): React.ReactNode {
     const { todoTask } = this.state;
     return (
       <form className="form-inline form-row" onSubmit={this.handleSubmit}>

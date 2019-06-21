@@ -18,7 +18,7 @@ const initialState: State = {
 const LocationFinder: React.FC = () => {
   const [selected, setSelected] = useState(initialState);
 
-  function onHouseSelect(selectedId: number) {
+  function onHouseSelect(selectedId: number): void {
     const loc = getLocationForId(selectedId);
     log.debug(`On house select:${loc.position.lat}`);
     setSelected({ location: loc, selectedId });
