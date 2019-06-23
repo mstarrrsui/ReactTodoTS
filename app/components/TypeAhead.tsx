@@ -35,7 +35,7 @@ export default class TypeAhead<T> extends React.Component<Props<T>, State<T>> {
     this.onSearchTextChanged = this.onSearchTextChanged.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     log.debug('SearchExample mounted');
 
     this.resultsSubscription = this.getResultsSubscription().subscribe(res => {
@@ -43,13 +43,13 @@ export default class TypeAhead<T> extends React.Component<Props<T>, State<T>> {
     });
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     if (this.resultsSubscription) {
       this.resultsSubscription.unsubscribe();
     }
   }
 
-  onSearchTextChanged(event: React.ChangeEvent<HTMLInputElement>) {
+  onSearchTextChanged(event: React.ChangeEvent<HTMLInputElement>): void {
     const searchtext = event.target.value.trim();
     this.searchSubject.next(searchtext);
   }
@@ -67,7 +67,7 @@ export default class TypeAhead<T> extends React.Component<Props<T>, State<T>> {
     );
   }
 
-  private getApi() {
+  private getApi(): API<T> {
     const { results } = this.state;
     return {
       results,
@@ -77,7 +77,7 @@ export default class TypeAhead<T> extends React.Component<Props<T>, State<T>> {
 
   private resultsSubscription: Subscription | undefined;
 
-  render() {
+  render(): React.ReactNode {
     if (hasRender(this.props)) {
       const { render } = this.props;
       return render(this.getApi());

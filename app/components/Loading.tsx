@@ -30,7 +30,7 @@ export default class Loading extends React.Component<Props, State> {
     };
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     const { text, speed } = this.props;
     const { currtext } = this.state;
 
@@ -44,13 +44,13 @@ export default class Loading extends React.Component<Props, State> {
     }, speed);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     clearInterval(this.interval);
   }
 
   private interval!: number;
 
-  render() {
+  render(): React.ReactNode {
     const { currtext } = this.state;
     return <div style={loadingstyle}>{currtext}</div>;
   }

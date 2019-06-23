@@ -1,4 +1,2 @@
 app/mySW.js
-*.test.js
-jest.config.js
-setupTests.js
+**/__tests__/*
