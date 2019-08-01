@@ -42,6 +42,7 @@ module.exports = () => {
     },
     plugins: [new webpack.HotModuleReplacementPlugin()],
     devServer: {
+      open: 'Chrome',
       quiet: false,
       noInfo: false,
       historyApiFallback: true,
