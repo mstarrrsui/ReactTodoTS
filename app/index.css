@@ -1,7 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Patua+One');
 
-h1, h2, h3, h4 {
-  font-family: 'Patua One'
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Patua One';
 }
 
 .nav-link.active {
@@ -42,4 +45,18 @@ h1, h2, h3, h4 {
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+}
+
+.hnresultrow {
+  font-family: 'Patua One';
+  font-weight: 400;
+  margin-top: 3px;
+}
+
+.hnauthor {
+  color: blue;
+}
+
+.hntitle {
+  color: rgb(74, 134, 79);
 }
