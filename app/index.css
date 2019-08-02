@@ -60,3 +60,8 @@ h4 {
 .hntitle {
   color: rgb(74, 134, 79);
 }
+
+.hntitle a:hover {
+  text-decoration: none;
+  color: rgb(42, 65, 44);
+}

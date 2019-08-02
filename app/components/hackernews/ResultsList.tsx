@@ -2,7 +2,7 @@ import * as React from 'react';
 import HNItem from './HNItem';
 import ItemRow from './ItemRow';
 
-const DATA_URL = 'https://hn.algolia.com/api/v1/search_by_date?page=0&tags=story&hitsPerPage=100';
+const DATA_URL = 'https://hn.algolia.com/api/v1/search_by_date?page=0&tags=story&hitsPerPage=1000';
 
 // interface Props {
 //   stack: string;
@@ -59,7 +59,7 @@ export default class ResultsList extends React.Component<{}, State> {
     return (
       <div>
         {items.map((item, idx) => (
-          <ItemRow key={item.story_id} index={idx} item={item} />
+          <ItemRow key={item.objectID} index={idx} item={item} />
         ))}
       </div>
     );
