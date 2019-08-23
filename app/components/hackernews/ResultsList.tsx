@@ -1,29 +1,18 @@
 import * as React from 'react';
-import HNItem from './HNItem';
+import { HNItem, mapFromJSON } from './HNItem';
 import ItemRow from './ItemRow';
+import { useState, useEffect } from 'react';
 
 const DATA_URL = 'https://hn.algolia.com/api/v1/search_by_date?page=0&tags=story&hitsPerPage=1000';
 
-// interface Props {
-//   stack: string;
-// }
+const ResultsList: React.SFC = function() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [items, setItems] = useState<Array<HNItem>>([]);
 
-interface State {
-  isLoading: boolean;
-  error: Error | null;
-  items: Array<HNItem>;
-}
-
-const initialState: State = {
-  isLoading: false,
-  error: null,
-  items: []
-};
-export default class ResultsList extends React.Component<{}, State> {
-  public state: State = initialState;
-
-  public loadResults(): void {
-    this.setState({ isLoading: true, error: null });
+  useEffect(() => {
+    setIsLoading(true);
+    setError(null);
     fetch(DATA_URL)
       .then(res => {
         if (res.ok) {
@@ -34,34 +23,30 @@ export default class ResultsList extends React.Component<{}, State> {
         }
       })
       .then((items: { hits: [] }) => {
-        this.setState({ items: items.hits, isLoading: false });
+        setIsLoading(false);
+        setItems(items.hits.map(mapFromJSON));
       })
       .catch(error => {
-        this.setState({ isLoading: false, error });
+        setIsLoading(false);
+        setError(error);
       });
+  }, []);
+
+  if (error) {
+    return <p>{error.message}</p>;
   }
 
-  public componentDidMount(): void {
-    this.loadResults();
+  if (isLoading) {
+    return <p>Please wait... loading......</p>;
   }
 
-  public render(): React.ReactNode {
-    const { items, isLoading, error } = this.state;
+  return (
+    <div>
+      {items.map((item, idx) => (
+        <ItemRow key={item.objectId} index={idx} item={item} />
+      ))}
+    </div>
+  );
+};
 
-    if (error) {
-      return <p>{error.message}</p>;
-    }
-
-    if (isLoading) {
-      return <p>Please wait... loading......</p>;
-    }
-
-    return (
-      <div>
-        {items.map((item, idx) => (
-          <ItemRow key={item.objectID} index={idx} item={item} />
-        ))}
-      </div>
-    );
-  }
-}
+export default ResultsList;

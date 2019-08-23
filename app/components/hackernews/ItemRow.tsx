@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import HNItem from './HNItem';
+import { HNItem } from './HNItem';
 
 interface Props {
   item: HNItem;
@@ -16,7 +16,7 @@ const ItemRow: React.SFC<Props> = function({ item, index }) {
           {item.title}
         </a>
       </span>
-      - {item.created_at}
+      - {item.createDate}
     </div>
   );
 };
