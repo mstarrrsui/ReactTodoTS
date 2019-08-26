@@ -6,7 +6,7 @@ interface Props {
   item: HNItem;
   index: number;
 }
-
+// a change
 const ItemRow: React.SFC<Props> = function({ item, index }) {
   return (
     <div className="hnresultrow">
