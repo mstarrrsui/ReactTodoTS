@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Task from '../types/Task';
 import TodoItem from './TodoItem';
+import { observer } from 'mobx-react';
 
 interface Props {
   items: Task[];
@@ -17,4 +18,4 @@ const TodoItems: React.SFC<Props> = ({ items, onClearItem }: Props) => {
   );
 };
 
-export default TodoItems;
+export default observer(TodoItems);
