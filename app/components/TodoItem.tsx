@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { css, cx } from 'emotion';
 import log from 'loglevel';
-import Task from '../types/Task';
 import { observer } from 'mobx-react';
-import { useStore } from '../models/TaskStore';
+import { TTaskItem } from '../models/TaskStore';
 
 const TodoItemRowClasses = cx('row', [
   css`
@@ -45,20 +44,18 @@ const TodoItemIconNormal = cx('fa fa-check-circle-o', [
 ]);
 
 interface Props {
-  item: Task;
+  item: TTaskItem;
 }
 
 const TodoItem: React.SFC<Props> = ({ item }) => {
-  const store = useStore();
-
   function onClickHandler(e: React.MouseEvent): void {
-    store.toggleCompleted(item);
+    item.toggleCompleted();
   }
 
   function onKeypressHandler(e: React.KeyboardEvent): void {
     log.debug(`key:${e.key}`);
     if (e && e.key === 'x') {
-      store.toggleCompleted(item);
+      item.toggleCompleted();
     }
   }
 
