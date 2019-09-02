@@ -7,11 +7,9 @@ import { saveTasks, loadTasks } from '../util/TodoRepo';
 import Spinner from './Spinner';
 import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
-import { useStore } from '../models/TaskStore';
 
 const TodoList: React.SFC = () => {
   //const [todoItems, setTodoItems] = useState<Task[]>([]);
-  const store = useStore();
   const [isLoading, setIsLoading] = useState(false);
   const isInitialMount = useRef(true);
 
@@ -43,32 +41,10 @@ const TodoList: React.SFC = () => {
   //   };
   // }, []);
 
-  function handleSubmit(newtaskdescription: string): void {
-    log.debug(`TodoList - adding tasks.  task is ${newtaskdescription}`);
-    const newtask: Task = {
-      completed: false,
-      description: newtaskdescription,
-      id: shortid.generate()
-    };
-    store.add(newtask);
-    //setTodoItems(prevTasks => [...prevTasks, newtask]);
-  }
-
-  function handleClearCompleted(): void {
-    //const nonCompletedItems = store.todoList.filter(i => !i.completed);
-    //setTodoItems(nonCompletedItems);
-  }
-
-  function handleClearItem(item: Task): void {
-    log.debug(`task cleared is ${item.description}`);
-    //const newitems = todoItems.map(i => (i.id === item.id ? { ...i, completed: !i.completed } : i));
-    //setTodoItems(newitems);
-  }
-
   return (
     <div className="container todolist">
-      <TodoForm onSubmit={handleSubmit} onClear={handleClearCompleted} />
-      {isLoading ? <Spinner /> : <TodoItems items={store.todoList} onClearItem={handleClearItem} />}
+      <TodoForm />
+      {isLoading ? <Spinner /> : <TodoItems />}
     </div>
   );
 };

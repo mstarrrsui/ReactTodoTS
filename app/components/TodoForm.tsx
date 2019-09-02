@@ -1,70 +1,63 @@
 import * as React from 'react';
 
 import log from 'loglevel';
+import { useStore } from '../models/TaskStore';
+import { useState } from 'react';
+import shortid = require('shortid');
 
-interface Props {
-  onSubmit: (newTask: string) => void;
-  onClear: () => void;
-}
+const TodoForm: React.SFC = () => {
+  {
+    const [taskText, setTaskText] = useState<string>('');
+    const store = useStore();
 
-interface State {
-  todoTask: string;
-}
+    const handleClear = (): void => {
+      //const { onClear } = this.props;
+      log.debug('handleClear');
+      //onClear();
+    };
 
-const initialState: State = {
-  todoTask: ''
-};
+    const handleChange = (event: React.FormEvent<HTMLInputElement>): void => {
+      const { value } = event.currentTarget;
+      setTaskText(value);
+    };
 
-export default class TodoForm extends React.Component<Props, State> {
-  state: Readonly<State> = initialState;
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+      log.debug('handleSubmit');
+      event.preventDefault();
+      if (taskText.trim().length > 0) {
+        const taskToAdd: Task = {
+          completed: false,
+          description: taskText,
+          id: shortid.generate()
+        };
+        store.add(taskToAdd);
+        setTaskText('');
+      }
+    };
 
-  handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget;
-    this.setState(() => ({ todoTask: value }));
-  };
-
-  handleClear = () => {
-    const { onClear } = this.props;
-    log.debug('handleClear');
-    onClear();
-  };
-
-  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    const { onSubmit } = this.props;
-    const { todoTask } = this.state;
-
-    log.debug('handleSubmit');
-    event.preventDefault();
-    const newtask = todoTask;
-    if (newtask.trim().length > 0) {
-      onSubmit(newtask);
-      this.setState(() => ({ todoTask: '' }));
-    }
-  };
-
-  render(): React.ReactNode {
-    const { todoTask } = this.state;
     return (
-      <form className="form-inline form-row" onSubmit={this.handleSubmit}>
+      <form className="form-inline form-row" onSubmit={handleSubmit}>
         <div className="col-md-7 offset-md-1">
           <input
             type="text"
             id="todoTask"
             className="form-control-lg w-100"
             placeholder="Enter a task"
-            value={todoTask}
-            onChange={this.handleChange}
+            value={taskText}
+            onChange={handleChange}
           />
         </div>
         <div className="col-md-3">
-          <button type="submit" className="btn btn-primary m-2" disabled={!todoTask}>
+          <button type="submit" className="btn btn-primary m-2" disabled={!taskText}>
             Add
           </button>
-          <button type="button" onClick={this.handleClear} className="btn btn-success m-1">
+          <button type="button" onClick={handleClear} className="btn btn-success m-1">
             Clear Completed
           </button>
         </div>
       </form>
     );
   }
-}
+};
+
+export default TodoForm;

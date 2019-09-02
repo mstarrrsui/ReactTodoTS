@@ -33,7 +33,7 @@ export type TTaskStore = Instance<typeof TaskStore>;
 export const useStore = (): TTaskStore => {
   const store = useContext<TTaskStore | null>(storeContext);
   if (!store) {
-    throw new Error('You forgot to use StoreProvider, shame on you');
+    throw new Error('You forgot to use a Provider, shame on you');
   }
   return store;
 };
