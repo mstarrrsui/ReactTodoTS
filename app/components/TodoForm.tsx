@@ -3,16 +3,16 @@ import * as React from 'react';
 import log from 'loglevel';
 import { useStore } from '../models/TaskStore';
 import { useState } from 'react';
-import shortid = require('shortid');
+import Task from '../types/Task';
+import shortid from 'shortid';
 
 const TodoForm: React.SFC = () => {
   const [taskText, setTaskText] = useState<string>('');
   const store = useStore();
 
   const handleClear = (): void => {
-    //const { onClear } = this.props;
     log.debug('handleClear');
-    //onClear();
+    store.clearAllCompleted();
   };
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>): void => {

@@ -1,4 +1,4 @@
-import { types, Instance, onSnapshot } from 'mobx-state-tree';
+import { types, Instance, onSnapshot, destroy } from 'mobx-state-tree';
 import TaskItem from './TaskItem';
 import Task from '../types/Task';
 import { useContext, createContext } from 'react';
@@ -15,6 +15,14 @@ export const TaskStore = types
   .actions(self => ({
     add(task: Task) {
       self.todoList.push(task);
+    },
+    toggleCompleted(task: Task) {
+      const foundTask = self.todoList.find(t => t.id === task.id);
+      if (foundTask) foundTask.completed = !foundTask.completed;
+    },
+    clearAllCompleted() {
+      const itemsToRemove = self.todoList.filter(i => i.completed);
+      itemsToRemove.forEach(i => destroy(i));
     }
   }));
 

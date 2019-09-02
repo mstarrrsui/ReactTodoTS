@@ -9,7 +9,6 @@ import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
 
 const TodoList: React.SFC = () => {
-  //const [todoItems, setTodoItems] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const isInitialMount = useRef(true);
 
