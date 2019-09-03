@@ -1,10 +1,7 @@
 import { types, Instance, onSnapshot, destroy } from 'mobx-state-tree';
 import { useContext, createContext } from 'react';
 import { autorun } from 'mobx';
-
-export const storeContext = createContext<TTaskStore | null>(null);
-
-export const Provider = storeContext.Provider;
+import shortid from 'shortid';
 
 const TaskItem = types
   .model('Todo', {
@@ -18,15 +15,17 @@ const TaskItem = types
     }
   }));
 
-export type TTaskItem = Instance<typeof TaskItem>;
-
-export const TaskStore = types
+export const TaskListStore = types
   .model('todoList', {
     todoList: types.array(TaskItem)
   })
   .actions(self => ({
-    add(task: TTaskItem): void {
-      self.todoList.push(task);
+    add(description: string): void {
+      self.todoList.push({
+        completed: false,
+        description,
+        id: shortid.generate()
+      });
     },
     clearAllCompleted(): void {
       const itemsToRemove = self.todoList.filter(i => i.completed);
@@ -34,7 +33,7 @@ export const TaskStore = types
     }
   }));
 
-export const rootStore = TaskStore.create({ todoList: [] });
+export const rootStore = TaskListStore.create({ todoList: [] });
 
 autorun(() => {
   console.log(rootStore.todoList.length);
@@ -44,10 +43,15 @@ onSnapshot(rootStore, newSnapshot => {
   console.dir(newSnapshot);
 });
 
-export type TTaskStore = Instance<typeof TaskStore>;
+export type TaskItem = Instance<typeof TaskItem>;
+export type TaskList = Instance<typeof TaskListStore>;
 
-export const useStore = (): TTaskStore => {
-  const store = useContext<TTaskStore | null>(storeContext);
+export const storeContext = createContext<TaskList | null>(null);
+
+export const Provider = storeContext.Provider;
+
+export const useStore = (): TaskList => {
+  const store = useContext<TaskList | null>(storeContext);
   if (!store) {
     throw new Error('You forgot to use a Provider, shame on you');
   }

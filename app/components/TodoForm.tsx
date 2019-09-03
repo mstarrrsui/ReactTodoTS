@@ -3,8 +3,6 @@ import * as React from 'react';
 import log from 'loglevel';
 import { useStore } from '../models/TaskStore';
 import { useState } from 'react';
-import Task from '../types/Task';
-import shortid from 'shortid';
 
 const TodoForm: React.SFC = () => {
   const [taskText, setTaskText] = useState<string>('');
@@ -24,12 +22,7 @@ const TodoForm: React.SFC = () => {
     log.debug('handleSubmit');
     event.preventDefault();
     if (taskText.trim().length > 0) {
-      const taskToAdd: Task = {
-        completed: false,
-        description: taskText,
-        id: shortid.generate()
-      };
-      store.add(taskToAdd);
+      store.add(taskText);
       setTaskText('');
     }
   };

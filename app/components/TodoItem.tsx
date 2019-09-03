@@ -2,7 +2,7 @@ import * as React from 'react';
 import { css, cx } from 'emotion';
 import log from 'loglevel';
 import { observer } from 'mobx-react';
-import { TTaskItem } from '../models/TaskStore';
+import { TaskItem } from '../models/TaskStore';
 
 const TodoItemRowClasses = cx('row', [
   css`
@@ -44,7 +44,7 @@ const TodoItemIconNormal = cx('fa fa-check-circle-o', [
 ]);
 
 interface Props {
-  item: TTaskItem;
+  item: TaskItem;
 }
 
 const TodoItem: React.SFC<Props> = ({ item }) => {
