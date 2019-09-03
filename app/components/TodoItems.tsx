@@ -2,7 +2,7 @@ import * as React from 'react';
 import TodoItem from './TodoItem';
 
 import { observer } from 'mobx-react';
-import { useStore } from '../models/TaskStore';
+import { useStore } from '../stores/TaskListStore';
 
 const TodoItems: React.SFC = () => {
   const store = useStore();

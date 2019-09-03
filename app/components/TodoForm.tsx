@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import log from 'loglevel';
-import { useStore } from '../models/TaskStore';
+import { useStore } from '../stores/TaskListStore';
 import { useState } from 'react';
 
 const TodoForm: React.SFC = () => {

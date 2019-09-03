@@ -2,7 +2,7 @@ import * as React from 'react';
 import { css, cx } from 'emotion';
 import log from 'loglevel';
 import { observer } from 'mobx-react';
-import { TaskItem } from '../models/TaskStore';
+import { TaskItem } from '../stores/TaskListStore';
 
 const TodoItemRowClasses = cx('row', [
   css`

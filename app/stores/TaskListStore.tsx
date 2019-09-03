@@ -1,6 +1,5 @@
-import { types, Instance, onSnapshot, destroy } from 'mobx-state-tree';
+import { types, Instance, destroy } from 'mobx-state-tree';
 import { useContext, createContext } from 'react';
-import { autorun } from 'mobx';
 import shortid from 'shortid';
 
 const TaskItem = types
@@ -16,7 +15,7 @@ const TaskItem = types
   }));
 
 export const TaskListStore = types
-  .model('todoList', {
+  .model('TodoList', {
     todoList: types.array(TaskItem)
   })
   .actions(self => ({
@@ -33,25 +32,13 @@ export const TaskListStore = types
     }
   }));
 
-export const rootStore = TaskListStore.create({ todoList: [] });
-
-autorun(() => {
-  console.log(rootStore.todoList.length);
-});
-
-onSnapshot(rootStore, newSnapshot => {
-  console.dir(newSnapshot);
-});
-
 export type TaskItem = Instance<typeof TaskItem>;
 export type TaskList = Instance<typeof TaskListStore>;
 
-export const storeContext = createContext<TaskList | null>(null);
-
-export const Provider = storeContext.Provider;
+export const taskListContext = createContext<TaskList | null>(null);
 
 export const useStore = (): TaskList => {
-  const store = useContext<TaskList | null>(storeContext);
+  const store = useContext<TaskList | null>(taskListContext);
   if (!store) {
     throw new Error('You forgot to use a Provider, shame on you');
   }

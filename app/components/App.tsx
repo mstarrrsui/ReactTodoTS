@@ -8,9 +8,21 @@ import NavBar from './NavBar';
 import SearchExample from './SearchExample';
 import ResultsList from './hackernews/ResultsList';
 import TodoList from './TodoList';
-import { Provider, rootStore } from '../models/TaskStore';
+import { TaskListStore, taskListContext } from '../stores/TaskListStore';
+import { autorun } from 'mobx';
+import { onSnapshot } from 'mobx-state-tree';
 
 const returnNotFound = (): React.ReactNode => <p>Not Found</p>;
+
+export const taskListStore = TaskListStore.create({ todoList: [] });
+
+autorun(() => {
+  console.log(taskListStore.todoList.length);
+});
+
+onSnapshot(taskListStore, newSnapshot => {
+  console.dir(newSnapshot);
+});
 
 export default class App extends React.Component {
   public componentDidMount(): void {
@@ -24,7 +36,7 @@ export default class App extends React.Component {
     const modeName = process.env.NODE_ENV;
     log.debug(`modeName:${modeName}`);
     return (
-      <Provider value={rootStore}>
+      <taskListContext.Provider value={taskListStore}>
         <Router>
           <div className="container">
             <NavBar />
@@ -42,7 +54,7 @@ export default class App extends React.Component {
             </Switch>
           </div>
         </Router>
-      </Provider>
+      </taskListContext.Provider>
     );
   }
 }
