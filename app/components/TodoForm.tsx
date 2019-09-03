@@ -1,70 +1,54 @@
 import * as React from 'react';
 
 import log from 'loglevel';
+import { useStore } from '../models/TaskStore';
+import { useState } from 'react';
 
-interface Props {
-  onSubmit: (newTask: string) => void;
-  onClear: () => void;
-}
+const TodoForm: React.SFC = () => {
+  const [taskText, setTaskText] = useState<string>('');
+  const store = useStore();
 
-interface State {
-  todoTask: string;
-}
-
-const initialState: State = {
-  todoTask: ''
-};
-
-export default class TodoForm extends React.Component<Props, State> {
-  state: Readonly<State> = initialState;
-
-  handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget;
-    this.setState(() => ({ todoTask: value }));
-  };
-
-  handleClear = () => {
-    const { onClear } = this.props;
+  const handleClear = (): void => {
     log.debug('handleClear');
-    onClear();
+    store.clearAllCompleted();
   };
 
-  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    const { onSubmit } = this.props;
-    const { todoTask } = this.state;
+  const handleChange = (event: React.FormEvent<HTMLInputElement>): void => {
+    const { value } = event.currentTarget;
+    setTaskText(value);
+  };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     log.debug('handleSubmit');
     event.preventDefault();
-    const newtask = todoTask;
-    if (newtask.trim().length > 0) {
-      onSubmit(newtask);
-      this.setState(() => ({ todoTask: '' }));
+    if (taskText.trim().length > 0) {
+      store.add(taskText);
+      setTaskText('');
     }
   };
 
-  render(): React.ReactNode {
-    const { todoTask } = this.state;
-    return (
-      <form className="form-inline form-row" onSubmit={this.handleSubmit}>
-        <div className="col-md-7 offset-md-1">
-          <input
-            type="text"
-            id="todoTask"
-            className="form-control-lg w-100"
-            placeholder="Enter a task"
-            value={todoTask}
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className="col-md-3">
-          <button type="submit" className="btn btn-primary m-2" disabled={!todoTask}>
-            Add
-          </button>
-          <button type="button" onClick={this.handleClear} className="btn btn-success m-1">
-            Clear Completed
-          </button>
-        </div>
-      </form>
-    );
-  }
-}
+  return (
+    <form className="form-inline form-row" onSubmit={handleSubmit}>
+      <div className="col-md-7 offset-md-1">
+        <input
+          type="text"
+          id="todoTask"
+          className="form-control-lg w-100"
+          placeholder="Enter a task"
+          value={taskText}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="col-md-3">
+        <button type="submit" className="btn btn-primary m-2" disabled={!taskText}>
+          Add
+        </button>
+        <button type="button" onClick={handleClear} className="btn btn-success m-1">
+          Clear Completed
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default TodoForm;

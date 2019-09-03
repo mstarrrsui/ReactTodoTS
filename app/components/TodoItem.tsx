@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { css, cx } from 'emotion';
 import log from 'loglevel';
-import Task from '../types/Task';
+import { observer } from 'mobx-react';
+import { TaskItem } from '../models/TaskStore';
 
 const TodoItemRowClasses = cx('row', [
   css`
@@ -43,43 +44,38 @@ const TodoItemIconNormal = cx('fa fa-check-circle-o', [
 ]);
 
 interface Props {
-  item: Task;
-  onClick: (item: Task, e: React.MouseEvent | React.KeyboardEvent) => void;
+  item: TaskItem;
 }
 
-export default class TodoItem extends React.PureComponent<Props> {
-  onClickHandler = (e: React.MouseEvent) => {
-    const { onClick, item } = this.props;
-    onClick(item, e);
-  };
+const TodoItem: React.SFC<Props> = ({ item }) => {
+  function onClickHandler(e: React.MouseEvent): void {
+    item.toggleCompleted();
+  }
 
-  onKeypressHandler = (e: React.KeyboardEvent) => {
-    const { onClick, item } = this.props;
+  function onKeypressHandler(e: React.KeyboardEvent): void {
     log.debug(`key:${e.key}`);
     if (e && e.key === 'x') {
-      onClick(item, e);
+      item.toggleCompleted();
     }
-  };
-
-  render(): React.ReactNode {
-    const { item } = this.props;
-
-    const itemclasses = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: item.completed });
-    const iconClasses = item.completed ? TodoItemIconCompleted : TodoItemIconNormal;
-
-    return (
-      <div className={TodoItemRowClasses} key={item.id}>
-        <div className={TodoItemBoxClasses}>
-          <div className={itemclasses}>{item.description}</div>
-          <i
-            role="button"
-            tabIndex={0}
-            className={iconClasses}
-            onClick={this.onClickHandler}
-            onKeyPress={this.onKeypressHandler}
-          />
-        </div>
-      </div>
-    );
   }
-}
+
+  const itemclasses = cx(TodoItemTextClassBase, { [TodoItemCompletedTextClass]: item.completed });
+  const iconClasses = item.completed ? TodoItemIconCompleted : TodoItemIconNormal;
+
+  return (
+    <div className={TodoItemRowClasses} key={item.id}>
+      <div className={TodoItemBoxClasses}>
+        <div className={itemclasses}>{item.description}</div>
+        <i
+          role="button"
+          tabIndex={0}
+          className={iconClasses}
+          onClick={onClickHandler}
+          onKeyPress={onKeypressHandler}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default observer(TodoItem);

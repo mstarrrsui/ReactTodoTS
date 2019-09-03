@@ -1,20 +1,19 @@
 import * as React from 'react';
-import Task from '../types/Task';
 import TodoItem from './TodoItem';
 
-interface Props {
-  items: Task[];
-  onClearItem: (item: Task, e: React.MouseEvent | React.KeyboardEvent) => void;
-}
+import { observer } from 'mobx-react';
+import { useStore } from '../models/TaskStore';
 
-const TodoItems: React.SFC<Props> = ({ items, onClearItem }: Props) => {
+const TodoItems: React.SFC = () => {
+  const store = useStore();
+
   return (
     <div className="container todoitems">
-      {items.map(item => (
-        <TodoItem item={item} key={item.id} onClick={onClearItem} />
+      {store.todoList.map(item => (
+        <TodoItem item={item} key={item.id} />
       ))}
     </div>
   );
 };
 
-export default TodoItems;
+export default observer(TodoItems);

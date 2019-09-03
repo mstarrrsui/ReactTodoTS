@@ -8,6 +8,7 @@ import NavBar from './NavBar';
 import SearchExample from './SearchExample';
 import ResultsList from './hackernews/ResultsList';
 import TodoList from './TodoList';
+import { Provider, rootStore } from '../models/TaskStore';
 
 const returnNotFound = (): React.ReactNode => <p>Not Found</p>;
 
@@ -23,23 +24,25 @@ export default class App extends React.Component {
     const modeName = process.env.NODE_ENV;
     log.debug(`modeName:${modeName}`);
     return (
-      <Router>
-        <div className="container">
-          <NavBar />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/todo" component={TodoList} />
-            <Route
-              exact
-              path="/search"
-              render={props => <SearchExample {...props} padTop="120px" />}
-            />
-            <Route exact path="/hnsearch" component={ResultsList} />
-            <Route exact path="/map" component={LocationFinder} />
-            <Route render={returnNotFound} />
-          </Switch>
-        </div>
-      </Router>
+      <Provider value={rootStore}>
+        <Router>
+          <div className="container">
+            <NavBar />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/todo" component={TodoList} />
+              <Route
+                exact
+                path="/search"
+                render={props => <SearchExample {...props} padTop="120px" />}
+              />
+              <Route exact path="/hnsearch" component={ResultsList} />
+              <Route exact path="/map" component={LocationFinder} />
+              <Route render={returnNotFound} />
+            </Switch>
+          </div>
+        </Router>
+      </Provider>
     );
   }
 }
