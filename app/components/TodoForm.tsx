@@ -1,12 +1,12 @@
 import * as React from 'react';
 
 import log from 'loglevel';
-import { useStore } from '../stores/TaskListStore';
+import { useTaskListStore } from '../stores/TaskListStore';
 import { useState } from 'react';
 
 const TodoForm: React.SFC = () => {
   const [taskText, setTaskText] = useState<string>('');
-  const store = useStore();
+  const store = useTaskListStore();
 
   const handleClear = (): void => {
     log.debug('handleClear');

@@ -2,10 +2,10 @@ import * as React from 'react';
 import TodoItem from './TodoItem';
 
 import { observer } from 'mobx-react';
-import { useStore } from '../stores/TaskListStore';
+import { useTaskListStore } from '../stores/TaskListStore';
 
 const TodoItems: React.SFC = () => {
-  const store = useStore();
+  const store = useTaskListStore();
 
   return (
     <div className="container todoitems">

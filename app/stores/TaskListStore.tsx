@@ -47,7 +47,7 @@ export type TaskList = Instance<typeof TaskListModel>;
 //
 
 // 🔥 🔥 🔥 hook to use in components
-export const useStore = (): TaskList => {
+export const useTaskListStore = (): TaskList => {
   const store = useContext<TaskList | null>(taskListContext);
   if (!store) {
     throw new Error('taskList store not found in Context. did you forget to use the Provider??');
