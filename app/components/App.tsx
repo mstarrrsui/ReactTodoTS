@@ -8,11 +8,9 @@ import NavBar from './NavBar';
 import SearchExample from './SearchExample';
 import ResultsList from './hackernews/ResultsList';
 import TodoList from './TodoList';
-import { taskListContext, setupTaskListStore } from '../stores/TaskListStore';
+import { taskListContext, taskListStore } from '../stores/TaskListStore';
 
 const returnNotFound = (): React.ReactNode => <p>Not Found</p>;
-
-const taskListStore = setupTaskListStore();
 
 export default class App extends React.Component {
   public componentDidMount(): void {

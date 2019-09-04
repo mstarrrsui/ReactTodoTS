@@ -1,4 +1,4 @@
-import { types, Instance, destroy } from 'mobx-state-tree';
+import { types, Instance, destroy, flow, cast } from 'mobx-state-tree';
 import { useContext, createContext } from 'react';
 import shortid from 'shortid';
 import { onSnapshot } from 'mobx-state-tree';
@@ -22,8 +22,8 @@ const TaskItemModel = types
 
 export const TaskListModel = types
   .model('taskList', {
-    todoList: types.array(TaskItemModel),
-    isLoading: types.boolean
+    todoList: types.optional(types.array(TaskItemModel), []),
+    isLoading: types.optional(types.boolean, false)
   })
   .actions(self => ({
     add(description: string): void {
@@ -36,9 +36,30 @@ export const TaskListModel = types
     clearAllCompleted(): void {
       const itemsToRemove = self.todoList.filter(i => i.completed);
       itemsToRemove.forEach(i => destroy(i));
-    }
+    },
+    fetchTasks: flow(function* fetchTasks(): IterableIterator<Promise<ITaskList>> {
+      console.log('fetchTasks: 0');
+      self.isLoading = true;
+      console.log('fetchTasks: 1');
+      try {
+        // ... yield can be used in async/await style
+        const list = yield loadFromLocalStorage();
+        self.todoList = cast(list);
+        console.log('fetchTasks: 2');
+
+        //self.todoList = list;
+        console.log('fetchTasks: 3');
+
+        self.isLoading = false;
+      } catch (error) {
+        // ... including try/catch error handling
+        console.error('Failed to fetch tasks', error);
+        self.isLoading = false;
+      }
+    })
   }));
 
+interface ITaskList extends Instance<typeof TaskListModel> {}
 export type TaskItem = Instance<typeof TaskItemModel>;
 export type TaskList = Instance<typeof TaskListModel>;
 
@@ -58,33 +79,29 @@ export const useTaskListStore = (): TaskList => {
 export const taskListContext = createContext<TaskList | null>(null);
 export const TaskListProvider = taskListContext.Provider;
 
-// call this in App to setup the store
-export const setupTaskListStore = (): TaskList => {
-  console.log('Loading taskList from localStorage...');
-  const STORAGE_KEY = 'todolist';
-  const data = localStorage.getItem(STORAGE_KEY);
-  // TODO - make this robust by checking shape of data or catching error and clearing old
-  let store: TaskList;
-  if (data) {
-    console.log('Loaded taskList');
-    store = TaskListModel.create(JSON.parse(data));
-  } else {
-    console.log('No data for taskList found in localStorage.  Init with defaults');
-    store = TaskListModel.create({ todoList: [], isLoading: false });
-  }
+export const taskListStore = TaskListModel.create({});
 
-  // save taskList to local storage whenever it updates
-  onSnapshot(store, newSnapshot => {
-    console.log(`Saving taskListStore to local storage...`);
-    console.dir(newSnapshot);
-    const data = JSON.stringify(newSnapshot);
-    localStorage.setItem(STORAGE_KEY, data);
+onSnapshot(taskListStore, newSnapshot => {
+  console.log(`Saving task list to local storage...`);
+  console.dir(newSnapshot.todoList);
+  const data = JSON.stringify(newSnapshot.todoList);
+  console.log(data);
+  localStorage.setItem(STORAGE_KEY, data);
+});
+
+autorun(() => {
+  console.log(`taskListStore now contains ${taskListStore.todoList.length} items`);
+});
+
+const STORAGE_KEY = 'todolist';
+
+function loadFromLocalStorage(): Promise<ITaskList> {
+  console.log('loadFromLocalStorage: Loading taskList from localStorage...');
+  const data = localStorage.getItem(STORAGE_KEY) || '{}';
+  const snapshot = JSON.parse(data);
+  console.log('loadFromLocalStorage: loaded');
+  const p = new Promise<ITaskList>(resolve => {
+    setTimeout(resolve, 3000, snapshot);
   });
-
-  // ⚠️ for debug purposes - should have an "if dev-mode" around this
-  autorun(() => {
-    console.log(`taskListStore now contains ${store.todoList.length} items`);
-  });
-
-  return store;
-};
+  return p;
+}
