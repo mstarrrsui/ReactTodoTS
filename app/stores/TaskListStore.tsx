@@ -1,11 +1,15 @@
-import { types, Instance, destroy, applySnapshot } from 'mobx-state-tree';
+import { types, Instance, destroy, applySnapshot, IStateTreeNode } from 'mobx-state-tree';
 import { useContext, createContext } from 'react';
 import shortid from 'shortid';
 import { onSnapshot } from 'mobx-state-tree';
 import { autorun } from 'mobx';
 
-const TaskItem = types
-  .model('Todo', {
+//
+//  our state model
+//
+
+const TaskItemModel = types
+  .model('taskItem', {
     id: types.string,
     description: types.string,
     completed: false
@@ -16,9 +20,9 @@ const TaskItem = types
     }
   }));
 
-export const TaskListStore = types
-  .model('TodoList', {
-    todoList: types.array(TaskItem),
+export const TaskListModel = types
+  .model('taskList', {
+    todoList: types.array(TaskItemModel),
     isLoading: types.boolean
   })
   .actions(self => ({
@@ -32,47 +36,55 @@ export const TaskListStore = types
     clearAllCompleted(): void {
       const itemsToRemove = self.todoList.filter(i => i.completed);
       itemsToRemove.forEach(i => destroy(i));
-    },
-    load(): void {
-      //self.isLoading = true;
-      const itemsJson = localStorage.getItem('todolist');
-      if (itemsJson) {
-        const snapshot = JSON.parse(itemsJson);
-        // don't apply falsey (which will error), leave store in initial state
-        if (!snapshot) {
-          return;
-        }
-        setTimeout(() => {
-          applySnapshot(self, snapshot);
-          self.isLoading = false;
-        }, 3000);
-      }
     }
   }));
 
-export type TaskItem = Instance<typeof TaskItem>;
-export type TaskList = Instance<typeof TaskListStore>;
+export type TaskItem = Instance<typeof TaskItemModel>;
+export type TaskList = Instance<typeof TaskListModel>;
 
-export const taskListContext = createContext<TaskList | null>(null);
+//
+// ----------------------------------------------------------------
+//
 
+// 🔥 🔥 🔥 hook to use in components
 export const useStore = (): TaskList => {
   const store = useContext<TaskList | null>(taskListContext);
   if (!store) {
-    throw new Error('You forgot to use a Provider, shame on you');
+    throw new Error('taskList store not found in Context. did you forget to use the Provider??');
   }
   return store;
 };
 
-export const taskListStore = TaskListStore.create({ todoList: [], isLoading: true });
-//persist('reacttodo_taskliststore', taskListStore);
+export const taskListContext = createContext<TaskList | null>(null);
+export const TaskListProvider = taskListContext.Provider;
 
-onSnapshot(taskListStore, newSnapshot => {
-  console.dir(newSnapshot);
-  const data = JSON.stringify(newSnapshot);
-  console.log(`Saving to local storage...`);
-  localStorage.setItem('todolist', data);
-});
+// call this in App to setup the store
+export const setupTaskListStore = (): TaskList => {
+  console.log('Loading taskList from localStorage...');
+  const STORAGE_KEY = 'todolist';
+  const data = localStorage.getItem(STORAGE_KEY);
+  // TODO - make this robust by checking shape of data or catching error and clearing old
+  let store: TaskList;
+  if (data) {
+    console.log('Loaded taskList');
+    store = TaskListModel.create(JSON.parse(data));
+  } else {
+    console.log('No data for taskList found in localStorage.  Init with defaults');
+    store = TaskListModel.create({ todoList: [], isLoading: false });
+  }
 
-autorun(() => {
-  console.log(taskListStore.todoList.length);
-});
+  // save taskList to local storage whenever it updates
+  onSnapshot(store, newSnapshot => {
+    console.log(`Saving taskListStore to local storage...`);
+    console.dir(newSnapshot);
+    const data = JSON.stringify(newSnapshot);
+    localStorage.setItem(STORAGE_KEY, data);
+  });
+
+  // ⚠️ for debug purposes - should have an "if dev-mode" around this
+  autorun(() => {
+    console.log(`taskListStore now contains ${store.todoList.length} items`);
+  });
+
+  return store;
+};

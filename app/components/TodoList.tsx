@@ -25,19 +25,6 @@ const TodoList: React.SFC = () => {
   //   }
   // }, [todoItems]);
 
-  useEffect(() => {
-    function loadData(): void {
-      log.debug('TodoList - Loading tasks');
-      taskListStore.load();
-    }
-
-    loadData();
-
-    return function cleanup() {
-      log.debug('TodoList Will Unmount');
-    };
-  }, []);
-
   return (
     <div className="container todolist">
       <TodoForm />
