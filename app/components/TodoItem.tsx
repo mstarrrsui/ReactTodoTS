@@ -48,7 +48,7 @@ interface Props {
 }
 
 const TodoItem: React.SFC<Props> = ({ item }) => {
-  function onClickHandler(e: React.MouseEvent): void {
+  function onClickHandler(): void {
     item.toggleCompleted();
   }
 
