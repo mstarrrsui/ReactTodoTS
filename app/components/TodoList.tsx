@@ -7,10 +7,12 @@ import { saveTasks, loadTasks } from '../util/TodoRepo';
 import Spinner from './Spinner';
 import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
+import { useStore } from '../stores/TaskListStore';
 
 const TodoList: React.SFC = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const isInitialMount = useRef(true);
+  const taskListStore = useStore();
+  //const [isLoading, setIsLoading] = useState(false);
+  //const isInitialMount = useRef(true);
 
   // run this hook to save tasks to local storage everytime state is updated
   // we don't want to rn this on initial mount though, only on updates
@@ -23,27 +25,23 @@ const TodoList: React.SFC = () => {
   //   }
   // }, [todoItems]);
 
-  // useEffect(() => {
-  //   function loadData(): void {
-  //     log.debug('TodoList - Loading tasks');
-  //     loadTasks().subscribe(tasks => {
-  //       log.debug('Setting todolist state');
-  //       setTodoItems(tasks);
-  //       setIsLoading(false);
-  //     });
-  //   }
+  useEffect(() => {
+    function loadData(): void {
+      log.debug('TodoList - Loading tasks');
+      taskListStore.load();
+    }
 
-  //   loadData();
+    loadData();
 
-  //   return function cleanup() {
-  //     log.debug('TodoList Will Unmount');
-  //   };
-  // }, []);
+    return function cleanup() {
+      log.debug('TodoList Will Unmount');
+    };
+  }, []);
 
   return (
     <div className="container todolist">
       <TodoForm />
-      {isLoading ? <Spinner /> : <TodoItems />}
+      {taskListStore.isLoading ? <Spinner /> : <TodoItems />}
     </div>
   );
 };
