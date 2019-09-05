@@ -1,4 +1,4 @@
-import { types, Instance, destroy, flow, cast } from 'mobx-state-tree';
+import { types, Instance, destroy, flow } from 'mobx-state-tree';
 import { useContext, createContext } from 'react';
 import shortid from 'shortid';
 import { onSnapshot } from 'mobx-state-tree';
@@ -38,18 +38,11 @@ export const TaskListModel = types
       itemsToRemove.forEach(i => destroy(i));
     },
     fetchTasks: flow(function* fetchTasks(): IterableIterator<Promise<ITaskList>> {
-      console.log('fetchTasks: 0');
       self.isLoading = true;
-      console.log('fetchTasks: 1');
       try {
         // ... yield can be used in async/await style
         const list = yield loadFromLocalStorage();
-        self.todoList = cast(list);
-        console.log('fetchTasks: 2');
-
-        //self.todoList = list;
-        console.log('fetchTasks: 3');
-
+        self.todoList = list;
         self.isLoading = false;
       } catch (error) {
         // ... including try/catch error handling
