@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { css, cx } from 'emotion';
 import log from 'loglevel';
-import { Task } from '../stores/TaskStore';
+import { Task, taskStore, useObservable } from '../stores/TaskStore';
 
 const TodoItemRowClasses = cx('row', [
   css`
@@ -47,14 +47,17 @@ interface Props {
 }
 
 const TodoItem: React.SFC<Props> = ({ item }) => {
+  const tasks = useObservable(taskStore.tasks, []);
+
   function onClickHandler(e: React.MouseEvent): void {
-    //item.toggleCompleted();
+    log.debug(`toggle completed`);
+    taskStore.toggleTaskCompleted(item.id);
   }
 
   function onKeypressHandler(e: React.KeyboardEvent): void {
     log.debug(`key:${e.key}`);
     if (e && e.key === 'x') {
-      //item.toggleCompleted();
+      taskStore.toggleTaskCompleted(item.id);
     }
   }
 

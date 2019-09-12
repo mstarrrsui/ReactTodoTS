@@ -1,6 +1,9 @@
 import shortid from 'shortid';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { useState, useEffect } from 'react';
+import log from 'loglevel';
+
+const STORAGE_KEY = 'todolist';
 
 export interface Task {
   id: string;
@@ -21,24 +24,41 @@ class TaskStore {
     };
 
     this._tasks = [...this._tasks, newTask];
-    this.tasks.next(this._tasks);
+    this.broadcastUpdatedTasks();
   }
 
   clearAllCompleted(): void {
     this._tasks = this._tasks.filter(i => !i.completed);
+    this.broadcastUpdatedTasks();
+  }
+
+  toggleTaskCompleted(taskId: string): void {
+    this._tasks = this._tasks.map(t => {
+      if (t.id === taskId) {
+        log.debug(`found item to toggle ${taskId}`);
+        t.completed = !t.completed;
+      }
+      return t;
+    });
+    this.broadcastUpdatedTasks();
+  }
+
+  private broadcastUpdatedTasks(): void {
+    console.log('Saving taskList to localStorage...');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(this._tasks));
     this.tasks.next(this._tasks);
   }
 
-  loadDataAsyncLike(): Promise<string | null> {
+  private loadDataAsyncLike(): Promise<string | null> {
     console.log('Loading taskList from localStorage...');
     this.isLoading.next(true);
-    const STORAGE_KEY = 'todolist';
     const data = localStorage.getItem(STORAGE_KEY);
     const p = new Promise<string | null>(resolve => {
       setTimeout(resolve, 3000, data);
     });
     return p;
   }
+
   async loadFromLocalStorage(): Promise<void> {
     const data = await this.loadDataAsyncLike();
     if (data) {
