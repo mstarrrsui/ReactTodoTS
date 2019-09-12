@@ -50,8 +50,6 @@ class TaskStore {
   }
 
   private loadDataAsyncLike(): Promise<string | null> {
-    console.log('Loading taskList from localStorage...');
-    this.isLoading.next(true);
     const data = localStorage.getItem(STORAGE_KEY);
     const p = new Promise<string | null>(resolve => {
       setTimeout(resolve, 3000, data);
@@ -60,6 +58,8 @@ class TaskStore {
   }
 
   async loadFromLocalStorage(): Promise<void> {
+    console.log('Loading taskList from localStorage...');
+    this.isLoading.next(true);
     const data = await this.loadDataAsyncLike();
     if (data) {
       // TODO - make this robust by checking shape of data or catching error and clearing old
@@ -71,6 +71,7 @@ class TaskStore {
       this._tasks = [];
       this.isLoading.next(false);
     }
+    //broadcast without saving to local storage
     this.tasks.next(this._tasks);
   }
 }
