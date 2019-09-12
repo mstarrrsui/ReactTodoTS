@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Spinner from './Spinner';
 import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
-import { todoListState } from '../stores/TaskStore';
+import { todoListState } from '../stores/TodoListState';
 import { useObservable } from '../util/useObservable';
 
 const TodoList: React.SFC = () => {
