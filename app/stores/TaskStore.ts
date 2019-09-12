@@ -12,7 +12,6 @@ export interface Task {
 }
 
 class TaskStore {
-  private _tasks: Array<Task> = [];
   public tasks = new BehaviorSubject<Array<Task>>([]);
   public isLoading = new BehaviorSubject<boolean>(false);
 
@@ -43,20 +42,6 @@ class TaskStore {
     this.broadcastUpdatedTasks();
   }
 
-  private broadcastUpdatedTasks(): void {
-    console.log('Saving taskList to localStorage...');
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(this._tasks));
-    this.tasks.next(this._tasks);
-  }
-
-  private loadDataAsyncLike(): Promise<string | null> {
-    const data = localStorage.getItem(STORAGE_KEY);
-    const p = new Promise<string | null>(resolve => {
-      setTimeout(resolve, 3000, data);
-    });
-    return p;
-  }
-
   async loadFromLocalStorage(): Promise<void> {
     console.log('Loading taskList from localStorage...');
     this.isLoading.next(true);
@@ -74,19 +59,22 @@ class TaskStore {
     //broadcast without saving to local storage
     this.tasks.next(this._tasks);
   }
-}
 
-export function useObservable<T>(observable: Observable<T>, initialValue: T): T {
-  const [value, setValue] = useState<T>(initialValue);
+  private _tasks: Array<Task> = [];
 
-  useEffect(() => {
-    const subscription = observable.subscribe(newValue => {
-      setValue(newValue);
+  private broadcastUpdatedTasks(): void {
+    console.log('Saving taskList to localStorage...');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(this._tasks));
+    this.tasks.next(this._tasks);
+  }
+
+  private loadDataAsyncLike(): Promise<string | null> {
+    const data = localStorage.getItem(STORAGE_KEY);
+    const p = new Promise<string | null>(resolve => {
+      setTimeout(resolve, 3000, data);
     });
-    return () => subscription.unsubscribe();
-  }, [observable]);
-
-  return value;
+    return p;
+  }
 }
 
 export const taskStore = new TaskStore();
