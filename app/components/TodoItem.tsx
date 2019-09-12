@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { css, cx } from 'emotion';
 import log from 'loglevel';
-import { Task, taskStore, useObservable } from '../stores/TaskStore';
+import { Task, taskStore } from '../stores/TaskStore';
 
 const TodoItemRowClasses = cx('row', [
   css`

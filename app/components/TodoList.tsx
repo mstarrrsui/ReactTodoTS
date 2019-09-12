@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import Spinner from './Spinner';
 import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
-import { useObservable, taskStore } from '../stores/TaskStore';
+import { taskStore } from '../stores/TaskStore';
+import { useObservable } from '../util/useObservable';
 
 const TodoList: React.SFC = () => {
   const isLoading = useObservable(taskStore.isLoading, true);

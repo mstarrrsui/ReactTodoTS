@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { taskStore, useObservable } from '../stores/TaskStore';
+import { taskStore } from '../stores/TaskStore';
 
 import TodoItem from './TodoItem';
+import { useObservable } from '../util/useObservable';
 
 //import { observer } from 'mobx-react';
 //import { useTaskListStore } from '../stores/TaskListStore';
