@@ -47,8 +47,6 @@ interface Props {
 }
 
 const TodoItem: React.SFC<Props> = ({ item }) => {
-  const tasks = useObservable(taskStore.tasks, []);
-
   function onClickHandler(e: React.MouseEvent): void {
     log.debug(`toggle completed`);
     taskStore.toggleTaskCompleted(item.id);
