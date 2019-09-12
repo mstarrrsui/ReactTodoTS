@@ -4,12 +4,13 @@ import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
 import log from 'loglevel';
 
-import { todoListState } from '../stores/TodoListState';
+import { todoListState, Task } from '../stores/TodoListState';
 import { useObservable } from '../util/useObservable';
+import { List } from 'immutable';
 
 const TodoList: React.SFC = () => {
   const isLoading = useObservable(todoListState.isLoading, true);
-  const tasks = useObservable(todoListState.tasks, []);
+  const tasks = useObservable(todoListState.tasks, List<Task>());
 
   useEffect(() => {
     todoListState.loadFromLocalStorage();
@@ -18,8 +19,8 @@ const TodoList: React.SFC = () => {
   function handleClick(): void {
     log.debug('button pressed');
     log.debug(JSON.stringify(tasks));
-    tasks.splice(0, 1);
-    log.debug(JSON.stringify(tasks));
+    const newlist = tasks.filter(t => !t.completed);
+    log.debug(JSON.stringify(newlist));
   }
 
   return (

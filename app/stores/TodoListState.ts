@@ -1,6 +1,7 @@
 import shortid from 'shortid';
 import { BehaviorSubject } from 'rxjs';
 import log from 'loglevel';
+import { List } from 'immutable';
 
 export interface Task {
   id: string;
@@ -9,7 +10,7 @@ export interface Task {
 }
 
 class TodoListState {
-  public tasks = new BehaviorSubject<Array<Task>>([]);
+  public tasks = new BehaviorSubject<List<Task>>(List());
   public isLoading = new BehaviorSubject<boolean>(false);
 
   add(description: string): void {
@@ -19,7 +20,7 @@ class TodoListState {
       id: shortid.generate()
     };
 
-    this._tasks = [...this._tasks, newTask];
+    this._tasks = this._tasks.push(newTask);
     this.broadcastUpdatedTasks();
   }
 
@@ -50,14 +51,14 @@ class TodoListState {
       this.isLoading.next(false);
     } else {
       console.log('No data for taskList found in localStorage.  Init with defaults');
-      this._tasks = [];
+      this._tasks = List();
       this.isLoading.next(false);
     }
     //broadcast without saving to local storage
     this.tasks.next(this._tasks);
   }
 
-  private _tasks: Array<Task> = [];
+  private _tasks: List<Task> = List();
 
   private broadcastUpdatedTasks(): void {
     console.log('Saving taskList to localStorage...');

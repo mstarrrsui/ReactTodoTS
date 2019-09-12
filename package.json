@@ -39,6 +39,7 @@
     "es6-promise": "^4.2.8",
     "express": "^4.17.1",
     "font-awesome": "^4.7.0",
+    "immutable": "^4.0.0-rc.12",
     "jquery": "^3.4.1",
     "loglevel": "^1.6.3",
     "mobx": "^5.13.0",

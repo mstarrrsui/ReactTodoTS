@@ -1,11 +1,12 @@
 import * as React from 'react';
 import TodoItem from './TodoItem';
 
-import { todoListState } from '../stores/TodoListState';
+import { todoListState, Task } from '../stores/TodoListState';
 import { useObservable } from '../util/useObservable';
+import { List } from 'immutable';
 
 const TodoItems: React.SFC = () => {
-  const tasks = useObservable(todoListState.tasks, []);
+  const tasks = useObservable(todoListState.tasks, List<Task>());
 
   return (
     <div className="container todoitems">
