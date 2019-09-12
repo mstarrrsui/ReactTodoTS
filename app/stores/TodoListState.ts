@@ -2,8 +2,6 @@ import shortid from 'shortid';
 import { BehaviorSubject } from 'rxjs';
 import log from 'loglevel';
 
-const STORAGE_KEY = 'todolist';
-
 export interface Task {
   id: string;
   description: string;
@@ -75,5 +73,7 @@ class TodoListState {
     return p;
   }
 }
+
+const STORAGE_KEY = 'todolist';
 
 export const todoListState = new TodoListState();
