@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { taskStore } from '../stores/TaskStore';
+import { todoListState } from '../stores/TaskStore';
 
 import TodoItem from './TodoItem';
 import { useObservable } from '../util/useObservable';
@@ -8,7 +8,7 @@ import { useObservable } from '../util/useObservable';
 //import { useTaskListStore } from '../stores/TaskListStore';
 
 const TodoItems: React.SFC = () => {
-  const tasks = useObservable(taskStore.tasks, []);
+  const tasks = useObservable(todoListState.tasks, []);
 
   return (
     <div className="container todoitems">

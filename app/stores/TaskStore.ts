@@ -1,6 +1,5 @@
 import shortid from 'shortid';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { useState, useEffect } from 'react';
+import { BehaviorSubject } from 'rxjs';
 import log from 'loglevel';
 
 const STORAGE_KEY = 'todolist';
@@ -11,7 +10,7 @@ export interface Task {
   completed: boolean;
 }
 
-class TaskStore {
+class TodoListState {
   public tasks = new BehaviorSubject<Array<Task>>([]);
   public isLoading = new BehaviorSubject<boolean>(false);
 
@@ -77,4 +76,4 @@ class TaskStore {
   }
 }
 
-export const taskStore = new TaskStore();
+export const todoListState = new TodoListState();
