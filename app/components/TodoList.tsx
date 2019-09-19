@@ -15,13 +15,6 @@ const TodoList: React.SFC = () => {
     todoListState.loadFromLocalStorage();
   }, []);
 
-  function handleClick(): void {
-    log.debug('button pressed');
-    log.debug(JSON.stringify(tasks));
-    tasks.splice(0, 1);
-    log.debug(JSON.stringify(tasks));
-  }
-
   useEffect(() => {
     function loadData(): void {
       log.debug('TodoList - Loading tasks');
@@ -37,7 +30,6 @@ const TodoList: React.SFC = () => {
 
   return (
     <div className="container todolist">
-      <button onClick={handleClick}>Press Me</button>
       <TodoForm />
       {isLoading ? <Spinner /> : <TodoItems />}
     </div>
