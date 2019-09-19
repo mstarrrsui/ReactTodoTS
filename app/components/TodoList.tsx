@@ -22,6 +22,19 @@ const TodoList: React.SFC = () => {
     log.debug(JSON.stringify(tasks));
   }
 
+  useEffect(() => {
+    function loadData(): void {
+      log.debug('TodoList - Loading tasks');
+      todoListState.loadFromLocalStorage();
+    }
+
+    loadData();
+
+    return function cleanup() {
+      log.debug('TodoList Will Unmount');
+    };
+  }, []);
+
   return (
     <div className="container todolist">
       <button onClick={handleClick}>Press Me</button>
