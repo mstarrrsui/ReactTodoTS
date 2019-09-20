@@ -12,10 +12,6 @@ const TodoList: React.SFC = () => {
   const tasks = useObservable(todoListState.tasks, []);
 
   useEffect(() => {
-    todoListState.loadFromLocalStorage();
-  }, []);
-
-  useEffect(() => {
     function loadData(): void {
       log.debug('TodoList - Loading tasks');
       todoListState.loadFromLocalStorage();

@@ -1,5 +1,6 @@
 import shortid from 'shortid';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import log from 'loglevel';
 
 export interface Task {
@@ -39,22 +40,18 @@ class TodoListState {
     this.broadcastUpdatedTasks();
   }
 
-  async loadFromLocalStorage(): Promise<void> {
-    console.log('Loading taskList from localStorage...');
+  loadFromLocalStorage(): void {
     this.isLoading.next(true);
-    const data = await this.loadDataAsyncLike();
-    if (data) {
-      // TODO - make this robust by checking shape of data or catching error and clearing old
-      console.log('Loaded taskList');
-      this._tasks = JSON.parse(data);
-      this.isLoading.next(false);
-    } else {
-      console.log('No data for taskList found in localStorage.  Init with defaults');
-      this._tasks = [];
-      this.isLoading.next(false);
-    }
-    //broadcast without saving to local storage
-    this.tasks.next(this._tasks);
+    this.loadData()
+      .pipe(
+        tap(() => log.debug('TAP Loaded taskList')),
+        map(data => JSON.parse(data))
+      )
+      .subscribe((tasks: Array<Task>) => {
+        this._tasks = tasks;
+        this.tasks.next(this._tasks);
+        this.isLoading.next(false);
+      });
   }
 
   private _tasks: Array<Task> = [];
@@ -65,12 +62,20 @@ class TodoListState {
     this.tasks.next(this._tasks);
   }
 
-  private loadDataAsyncLike(): Promise<string | null> {
+  private loadData(): Observable<string> {
+    console.log('Loading taskList from localStorage...');
     const data = localStorage.getItem(STORAGE_KEY);
-    const p = new Promise<string | null>(resolve => {
-      setTimeout(resolve, 3000, data);
+    const obs = new Observable<string>(observer => {
+      setTimeout(() => {
+        if (data) {
+          observer.next(data);
+        } else {
+          console.log('No data for taskList found in localStorage.  completing observable');
+        }
+        observer.complete();
+      }, 3000);
     });
-    return p;
+    return obs;
   }
 }
 
