@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Observable } from 'rxjs';
+import { skip } from 'rxjs/operators';
 
 export function useObservable<T>(observable: Observable<T>, initialValue: T): T {
   const [value, setValue] = useState<T>(initialValue);
@@ -11,5 +12,5 @@ export function useObservable<T>(observable: Observable<T>, initialValue: T): T 
     return () => subscription.unsubscribe();
   }, [observable]);
 
-  return value;
+  return value as T;
 }

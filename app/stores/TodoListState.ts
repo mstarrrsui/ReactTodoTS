@@ -1,5 +1,5 @@
 import shortid from 'shortid';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import log from 'loglevel';
 
@@ -11,7 +11,7 @@ export interface Task {
 
 class TodoListState {
   public tasks = new BehaviorSubject<Array<Task>>([]);
-  public isLoading = new BehaviorSubject<boolean>(false);
+  public isLoading = new BehaviorSubject<boolean>(true);
 
   add(description: string): void {
     const newTask = {

@@ -34,10 +34,13 @@ h4 {
 
 .todolist {
   margin-top: 40px;
+  position: relative;
 }
 
 .todoitems {
   margin-top: 40px;
+  position: relative;
+  height: 200px;
 }
 
 .spinner {
