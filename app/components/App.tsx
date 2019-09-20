@@ -6,8 +6,8 @@ import Home from './Home';
 import LocationFinder from './LocationFinder';
 import NavBar from './NavBar';
 import SearchExample from './SearchExample';
-import ResultsList from './hackernews/ResultsList';
 import TodoList from './TodoList';
+import HNSearch from './hackernews/HNSearch';
 
 const returnNotFound = (): React.ReactNode => <p>Not Found</p>;
 
@@ -34,7 +34,7 @@ export default class App extends React.Component {
               path="/search"
               render={props => <SearchExample {...props} padTop="120px" />}
             />
-            <Route exact path="/hnsearch" component={ResultsList} />
+            <Route exact path="/hnsearch" component={HNSearch} />
             <Route exact path="/map" component={LocationFinder} />
             <Route render={returnNotFound} />
           </Switch>
