@@ -1,16 +1,14 @@
 import * as React from 'react';
-
 import log from 'loglevel';
-import { useTaskListStore } from '../stores/TaskListStore';
 import { useState } from 'react';
+import { todoListState } from '../stores/TodoListState';
 
 const TodoForm: React.SFC = () => {
   const [taskText, setTaskText] = useState<string>('');
-  const store = useTaskListStore();
 
   const handleClear = (): void => {
     log.debug('handleClear');
-    store.clearAllCompleted();
+    todoListState.clearAllCompleted();
   };
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>): void => {
@@ -22,7 +20,7 @@ const TodoForm: React.SFC = () => {
     log.debug('handleSubmit');
     event.preventDefault();
     if (taskText.trim().length > 0) {
-      store.add(taskText);
+      todoListState.add(taskText);
       setTaskText('');
     }
   };

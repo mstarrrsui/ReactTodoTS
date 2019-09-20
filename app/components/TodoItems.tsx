@@ -1,19 +1,19 @@
 import * as React from 'react';
 import TodoItem from './TodoItem';
 
-import { observer } from 'mobx-react';
-import { useTaskListStore } from '../stores/TaskListStore';
+import { todoListState } from '../stores/TodoListState';
+import { useObservable } from '../util/useObservable';
 
 const TodoItems: React.SFC = () => {
-  const store = useTaskListStore();
+  const tasks = useObservable(todoListState.tasks, []);
 
   return (
     <div className="container todoitems">
-      {store.todoList.map(item => (
+      {tasks.map(item => (
         <TodoItem item={item} key={item.id} />
       ))}
     </div>
   );
 };
 
-export default observer(TodoItems);
+export default TodoItems;
