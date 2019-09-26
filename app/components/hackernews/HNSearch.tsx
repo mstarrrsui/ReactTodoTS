@@ -1,12 +1,10 @@
 import * as React from 'react';
-import log from 'loglevel';
 
 import HNSearchForm from './HNSearchForm';
 import { useState, useEffect } from 'react';
 import { HNItem, mapFromJSON } from './HNItem';
 import HNResultsList from './HNResultsList';
 
-const DATA_URL = 'https://hn.algolia.com/api/v1/search_by_date?page=0&tags=story&hitsPerPage=1000';
 const SEARCH_URL = 'http://hn.algolia.com/api/v1/search?tags=story&query=';
 
 const HNSearch: React.SFC = function() {

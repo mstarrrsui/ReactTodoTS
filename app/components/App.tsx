@@ -12,10 +12,19 @@ import HNSearch from './hackernews/HNSearch';
 const returnNotFound = (): React.ReactNode => <p>Not Found</p>;
 
 export default class App extends React.Component {
+  private loadAppSettings(): void {
+    log.debug(`LOADING APP SETTINGS`);
+    fetch(`appSettings.json`)
+      .then(response => response.json())
+      .then(json => log.debug(json));
+  }
+
   public componentDidMount(): void {
     log.setDefaultLevel(3);
     log.setLevel(1, true);
     log.debug('App Mounted');
+    this.loadAppSettings();
+    //log.debug(`API URL: ${settings.apiUrl}`);
   }
 
   public render(): React.ReactNode {

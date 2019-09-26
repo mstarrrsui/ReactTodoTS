@@ -1,5 +1,5 @@
 import shortid from 'shortid';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import log from 'loglevel';
 

@@ -1,5 +1,4 @@
-import { BehaviorSubject, Observable } from 'rxjs';
-import log from 'loglevel';
+import { BehaviorSubject } from 'rxjs';
 
 import { HNItem, mapFromJSON } from '../components/hackernews/HNItem';
 

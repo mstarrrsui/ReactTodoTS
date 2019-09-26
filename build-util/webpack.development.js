@@ -1,6 +1,10 @@
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = () => {
+  const appDir = path.normalize(path.join(__dirname, '../app'));
+  console.log(`appDir: ${appDir}`);
+
   return {
     devtool: 'eval-source-map',
     optimization: {
@@ -43,6 +47,9 @@ module.exports = () => {
     plugins: [new webpack.HotModuleReplacementPlugin()],
     devServer: {
       open: 'Chrome',
+      contentBase: appDir,
+      compress: true,
+      port: 8080,
       quiet: false,
       noInfo: false,
       historyApiFallback: true,
