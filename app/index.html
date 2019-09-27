@@ -9,7 +9,7 @@
   </head>
   <body>
     <div id="app"></div>
-
+    <script type="text/javascript" src="appSettings.js"/>
     <script type="text/javascript">
       const isProduction = '<%= process.env.NODE_ENV %>' === 'production'; //HtmlWebpackPlugin replaces the process.env.NODE_ENV value
       if (isProduction && 'serviceWorker' in navigator) {

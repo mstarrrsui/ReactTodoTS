@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { HNItem, mapFromJSON } from './HNItem';
 import HNResultsList from './HNResultsList';
 
-const SEARCH_URL = 'http://hn.algolia.com/api/v1/search?tags=story&query=';
+const SEARCH_URL = window.appSettings.hnSearchUrl;
 
 const HNSearch: React.SFC = function() {
   const [isLoading, setIsLoading] = useState(false);
