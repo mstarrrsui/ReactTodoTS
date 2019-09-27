@@ -1,7 +1,7 @@
 import { HNItem, mapFromJSON } from './HNItem';
 import { useState, useEffect } from 'react';
 
-const DATA_URL = 'https://hn.algolia.com/api/v1/search_by_date?page=0&tags=story&hitsPerPage=1000';
+const DATA_URL = window.appSettings.hnDataUrl;
 
 interface HNSearchResult {
   isLoading: boolean;

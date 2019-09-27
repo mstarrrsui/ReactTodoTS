@@ -2,8 +2,13 @@
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const path = require('path');
 
 module.exports = () => {
+  const appDir = path.normalize(path.join(__dirname, '../app'));
+  console.log(`appDir: ${appDir}`);
+
   return {
     devtool: '',
     module: {
@@ -41,7 +46,14 @@ module.exports = () => {
       new MiniCssExtractPlugin({
         filename: '[name].[hash].css',
         chunkFilename: '[id].[hash].css'
-      })
+      }),
+      new CopyPlugin([
+        {
+          from: path.join(appDir, 'config/**'),
+          to: 'config',
+          flatten: true
+        }
+      ])
     ]
   };
 };
