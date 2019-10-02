@@ -11,6 +11,9 @@ import HNSearch from './hackernews/HNSearch';
 
 const returnNotFound = (): React.ReactNode => <p>Not Found</p>;
 
+/**
+ * this is the main application component
+ */
 export default class App extends React.Component {
   public componentDidMount(): void {
     log.setDefaultLevel(3);

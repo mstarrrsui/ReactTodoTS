@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Observable, of, Subject, Subscription } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import log from 'loglevel';
 import { hasChildren, hasRender } from '../util/typeUtil';
 
@@ -57,8 +57,10 @@ export default class TypeAhead<T> extends React.Component<Props<T>, State<T>> {
   getResultsSubscription(): Observable<T[]> {
     const { doSearch } = this.props;
     return this.searchSubject.pipe(
+      tap(term => log.debug(`redditsearch-changed:${term}`)),
       debounceTime(500),
       distinctUntilChanged(),
+      tap(term => log.debug(`redditsearch-DEBOUNCED:${term}`)),
       switchMap(term => (term ? doSearch(term) : of([]))),
       catchError(error => {
         log.error(error);
