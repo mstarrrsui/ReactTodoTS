@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Observable, of, Subject, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import log from 'loglevel';
-import { hasChildren, hasRender } from '../util/typeUtil';
+import { hasChildren, hasRender } from '../../util/typeUtil';
 
 type Props<T> = { doSearch: (term: string) => Observable<T[]> } & RenderProps<T>;
 
