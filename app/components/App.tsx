@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './Home';
 import LocationFinder from './LocationFinder';
 import NavBar from './NavBar';
-import SearchExample from './SearchExample';
+import SearchExample from './redditsearch/SearchExample';
 import TodoList from './TodoList';
 import HNSearch from './hackernews/HNSearch';
 
