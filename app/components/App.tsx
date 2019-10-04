@@ -34,11 +34,7 @@ export default class App extends React.Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/todo" component={TodoList} />
-            <Route
-              exact
-              path="/search"
-              render={props => <SearchExample {...props} padTop="120px" />}
-            />
+            <Route exact path="/search" component={SearchExample} />
             <Route exact path="/hnsearch" component={HNSearch} />
             <Route exact path="/map" component={LocationFinder} />
             <Route render={returnNotFound} />
