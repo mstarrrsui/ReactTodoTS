@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { from, Observable, of } from 'rxjs';
+import { from, Observable, of, BehaviorSubject, Subscription, Subject } from 'rxjs';
 
 import styled from '@emotion/styled';
 import log from 'loglevel';
 import { useEventCallback } from 'rxjs-hooks';
 import { tap, mapTo, map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { useState, useEffect } from 'react';
 
 interface RedditArticleFields {
   id: string;
@@ -31,21 +32,46 @@ type Props = {
 };
 
 const SearchExampleBase: React.SFC<Props> = () => {
-  const [onSearchTermChanged, results] = useEventCallback<
-    React.SyntheticEvent<HTMLInputElement>,
-    RedditData[]
-  >(
-    (event$: any) =>
-      event$.pipe(
-        map((e: React.SyntheticEvent<HTMLInputElement>) => e.currentTarget.value),
+  //const [searchTerms, setSearchTerms] = useState(new BehaviorSubject<string>(''));
+  const [searchTermSubject$, setSearchTermSubject$] = useState<Subject<string>>(new Subject());
+  const [results, setResults] = useState<RedditData[]>([]);
+
+  const handleSearchTermChange = (event: React.FormEvent<HTMLInputElement>): void => {
+    const { value } = event.currentTarget;
+    log.debug(`handleSearchTermChange: ${value}`);
+    searchTermSubject$.next(value);
+  };
+
+  useEffect(() => {
+    log.debug('useEffect');
+
+    const subscription = searchTermSubject$
+      .pipe(
         tap(data => log.debug(`redditsearch: ${data}`)),
         debounceTime(500),
         distinctUntilChanged(),
         tap(term => log.debug(`redditsearch-DEBOUNCED:${term}`)),
         switchMap((term: string) => (term ? doSearch(term) : of([])))
-      ),
-    []
-  );
+      )
+      .subscribe(
+        d => {
+          log.debug('setresults!');
+          setResults(d);
+        },
+        error => {
+          log.error(error);
+        },
+        () => {
+          log.debug('DONE!');
+        }
+      );
+
+    function cleanup(): void {
+      log.debug('CLEANUP');
+      subscription.unsubscribe();
+    }
+    return cleanup;
+  }, [searchTermSubject$]);
 
   return (
     <div className={`container form-group col-md-8`}>
@@ -54,7 +80,7 @@ const SearchExampleBase: React.SFC<Props> = () => {
         className="form-control"
         placeholder="Search Term"
         type="text"
-        onChange={onSearchTermChanged}
+        onChange={handleSearchTermChange}
       />
       <ul className="list-group">
         {results.map(res => (
