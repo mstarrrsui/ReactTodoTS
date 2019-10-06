@@ -4,6 +4,11 @@ export interface RedditArticleFields {
   title: string;
 }
 
-export interface RedditData {
+export interface RedditArticleData {
   data: RedditArticleFields;
+}
+
+export interface RedditSearchResponse {
+  children: RedditArticleData[];
+  errorMessage?: string;
 }

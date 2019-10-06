@@ -21,7 +21,8 @@ const SearchExample: React.SFC = () => {
         onChange={handleSearchTermChange}
       />
       <ul className="list-group">
-        {searchResults.map(res => (
+        {searchResults.errorMessage ? <li>{searchResults.errorMessage}</li> : ''}
+        {searchResults.children.map(res => (
           <li className="list-group-item" key={res.data.id}>
             <a href={res.data.url}>{res.data.title}</a>
           </li>
