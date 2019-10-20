@@ -83,9 +83,9 @@ class TodoListStore {
         if (data) {
           observer.next(data);
         } else {
-          console.log('No data for taskList found in localStorage.  completing observable');
+          console.log('No data for taskList found in localStorage.');
+          observer.next('[]');
         }
-        observer.complete();
       }, 3000);
     });
     return obs;
