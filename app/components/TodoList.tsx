@@ -4,17 +4,17 @@ import TodoForm from './TodoForm';
 import TodoItems from './TodoItems';
 import log from 'loglevel';
 
-import { todoListState } from '../stores/TodoListState';
+import { todoListStore, INITIAL_STATE } from '../stores/TodoListStore';
 import { useObservable } from '../util/useObservable';
 
 const TodoList: React.SFC = () => {
-  useObservable(todoListState.tasks, []);
-  const isLoading = useObservable(todoListState.isLoading, true);
+  //useObservable(todoListState.tasks, []);
+  const state = useObservable(todoListStore.stateDispatch$, INITIAL_STATE);
 
   useEffect(() => {
     function loadData(): void {
       log.debug('TodoList - Loading tasks');
-      todoListState.loadFromLocalStorage();
+      todoListStore.loadFromLocalStorage();
     }
 
     loadData();
@@ -27,7 +27,7 @@ const TodoList: React.SFC = () => {
   return (
     <div className="container todolist">
       <TodoForm />
-      {isLoading ? <Spinner /> : <TodoItems />}
+      {state.isLoading ? <Spinner /> : <TodoItems />}
     </div>
   );
 };

@@ -46,7 +46,7 @@ module.exports = () => {
     },
     plugins: [new webpack.HotModuleReplacementPlugin()],
     devServer: {
-      open: 'Chrome',
+      open: 'Firefox',
       contentBase: appDir,
       compress: true,
       port: 8080,
