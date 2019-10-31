@@ -64,7 +64,7 @@ class TodoListStore {
   }
 
   private updateState(newState: Partial<TodoListState>): void {
-    console.log(`UPDATE STATE. prevState:${JSON.stringify(this._state)}`);
+    console.log(`UPDATE STATE.  prevState:${JSON.stringify(this._state)}`);
     console.log(`UPDATE STATE. newState:${JSON.stringify(newState)}`);
     this._state = { ...this._state, ...newState };
     this._stateSubject.next(this._state);
