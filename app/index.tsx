@@ -7,6 +7,9 @@ import 'font-awesome/css/font-awesome.min.css'; // tslint:disable-line
 
 import './index.css';
 
+import AppInsights from './util/AppInsights';
+AppInsights.loadAppInsights();
+
 ReactDOM.render(
   <>
     <App />

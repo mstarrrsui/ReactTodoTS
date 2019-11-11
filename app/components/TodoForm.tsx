@@ -2,6 +2,7 @@ import * as React from 'react';
 import log from 'loglevel';
 import { useState } from 'react';
 import { todoListStore } from '../stores/TodoListStore';
+import AppInsights from '../util/AppInsights';
 
 const TodoForm: React.SFC = () => {
   const [taskText, setTaskText] = useState<string>('');
@@ -18,6 +19,7 @@ const TodoForm: React.SFC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     log.debug('handleSubmit');
+    AppInsights.trackEvent({ name: 'AddTodoItem', properties: { itemText: taskText } });
     event.preventDefault();
     if (taskText.trim().length > 0) {
       todoListStore.add(taskText);
