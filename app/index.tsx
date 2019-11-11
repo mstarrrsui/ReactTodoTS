@@ -7,8 +7,8 @@ import 'font-awesome/css/font-awesome.min.css'; // tslint:disable-line
 
 import './index.css';
 
-import AppInsights from './util/AppInsights';
-AppInsights.loadAppInsights();
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { appInsights } from './util/AppInsights';
 
 ReactDOM.render(
   <>
